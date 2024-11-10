@@ -6,6 +6,13 @@
 - Wyatt Anderson, Jellyfish1996
 
 ### Use Cases ###
+
+***- Color coding for UI Sketches:***
+- Blue: Button
+- Green: Text field
+- Yellow: Text
+- Purple: Pop-up screen
+###
 ***Team Use Cases:***
 - As a new user, I want to create an account, so that I can use this application.
   - User is shown to the Login/create account screen 
