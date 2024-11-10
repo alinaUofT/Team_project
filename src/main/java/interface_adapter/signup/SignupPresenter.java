@@ -1,7 +1,9 @@
 package interface_adapter.signup;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginState;
+// TODO
+import interface_adapter.change_password.LoggedInState;
+import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginViewModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
@@ -12,27 +14,30 @@ import use_case.signup.SignupOutputData;
 public class SignupPresenter implements SignupOutputBoundary {
 
     private final SignupViewModel signupViewModel;
-    private final LoginViewModel loginViewModel;
+    private final LoggedInViewModel loggedInViewModel;
+    // TODO
     private final ViewManagerModel viewManagerModel;
 
     public SignupPresenter(ViewManagerModel viewManagerModel,
                            SignupViewModel signupViewModel,
-                           LoginViewModel loginViewModel) {
+                           LoginViewModel loginViewModel, LoggedInViewModel loggedInViewModel) {
+        // TODO
         this.viewManagerModel = viewManagerModel;
         this.signupViewModel = signupViewModel;
-        this.loginViewModel = loginViewModel;
+        this.loggedInViewModel = new LoggedInViewModel();
     }
 
     @Override
     public void prepareSuccessView(SignupOutputData response) {
         // On success, switch to the login view.
-        final LoginState loginState = loginViewModel.getState();
-        loginState.setUsername(response.getUsername());
-        this.loginViewModel.setState(loginState);
-        loginViewModel.firePropertyChanged();
+        final LoggedInState loggedInState = loggedInViewModel.getState();
+        // TODO: change logged in to home
+        loggedInState.setUsername(response.getUsername());
+        this.loggedInViewModel.setState(loggedInState);
+        this.loggedInViewModel.firePropertyChanged();
 
-        viewManagerModel.setState(loginViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        this.viewManagerModel.setState(loggedInViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
@@ -43,8 +48,9 @@ public class SignupPresenter implements SignupOutputBoundary {
     }
 
     @Override
-    public void switchToLoginView() {
-        viewManagerModel.setState(loginViewModel.getViewName());
+    public void switchToLoggedInView() {
+        // TODO
+        viewManagerModel.setState(loggedInViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }
