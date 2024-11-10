@@ -20,6 +20,5 @@ public interface SignupOutputBoundary {
     /**
      * Switches to the Logged In View.
      */
-    void switchToLoggedInView();
-    // TODO
+    void switchToHomeView();
 }

@@ -28,10 +28,9 @@ public class SignupController {
     }
 
     /**
-     * Executes the "switch to LoginView" Use Case.
+     * Executes the "switch to HomeView" Use Case.
      */
-    public void switchToLoginView() {
-        // TODO
-        userSignupUseCaseInteractor.switchToLoggedInView();
+    public void switchToHomeView() {
+        userSignupUseCaseInteractor.switchToHomeView();
     }
 }
