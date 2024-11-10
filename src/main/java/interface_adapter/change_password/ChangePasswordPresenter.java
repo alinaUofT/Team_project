@@ -8,10 +8,10 @@ import use_case.change_password.ChangePasswordOutputData;
  */
 public class ChangePasswordPresenter implements ChangePasswordOutputBoundary {
 
-    private final LoggedInViewModel loggedInViewModel;
+    private final HomeViewModel loggedInViewModel;
 
-    public ChangePasswordPresenter(LoggedInViewModel loggedInViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
+    public ChangePasswordPresenter(HomeViewModel homeViewModel) {
+        this.loggedInViewModel = homeViewModel;
     }
 
     @Override
