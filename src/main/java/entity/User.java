@@ -17,4 +17,9 @@ public interface User {
      */
     String getPassword();
 
+    /**
+     * Returns the login status of the user.
+     * @return the login status of the user.
+     */
+    boolean getLoginStatus();
 }
