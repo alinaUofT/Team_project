@@ -110,7 +110,7 @@ public class AppBuilder {
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel);
+                signupViewModel, loginViewModel, homeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -134,10 +134,10 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Change Password Use Case to the application.
-     * @return this builder
-     */
+//    /**
+//     * Adds the Change Password Use Case to the application.
+//     * @return this builder
+//     */
 //    public AppBuilder addChangePasswordUseCase() {
 //        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
 //                new ChangePasswordPresenter(homeViewModel);

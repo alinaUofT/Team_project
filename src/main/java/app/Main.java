@@ -18,10 +18,10 @@ public class Main {
                                             .addLoggedInView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
-//                                            .addChangePasswordUseCase()
+                                            // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .build();
-
+        
         application.pack();
         application.setVisible(true);
     }
