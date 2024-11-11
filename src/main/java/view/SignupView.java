@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -74,6 +74,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
+        this.setBackground(new Color(255, 255, 255));
 
         toLogin.addActionListener(
                 new ActionListener() {
