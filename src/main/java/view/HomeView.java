@@ -17,6 +17,7 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.HomeViewModel;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.watchlists.WatchlistsController;
 
 /**
  * The Home View for when the user is logged into the program.
@@ -28,6 +29,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
     private LogoutController logoutController;
+    private WatchlistsController watchlistsController;
 
     private final JLabel username;
 
@@ -112,6 +114,19 @@ public class HomeView extends JPanel implements PropertyChangeListener {
                         // 2. Execute the logout Controller.
                         final String uname = homeViewModel.getState().getUsername();
                         this.logoutController.execute(uname);
+                    }
+                }
+        );
+
+        myWatchlists.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(myWatchlists)) {
+                        // 1. get the state out of the loggedInViewModel. It contains the username.
+                        // 2. Execute the watchlist Controller.
+                        final String uname = homeViewModel.getState().getUsername();
+                        // TODO
+                        // this.watchlistsController.execute(uname);
                     }
                 }
         );
