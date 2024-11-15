@@ -1,5 +1,8 @@
 package entity;
 
+import java.awt.*;
+import java.util.List;
+
 /**
  * The representation of a user in our program.
  */
@@ -22,4 +25,10 @@ public interface User {
      * @return the login status of the user.
      */
     boolean getLoginStatus();
+
+    /**
+     * Returns the user created watchlists of the user.
+     * @return list of watchlists of the user.
+     */
+    List<String> getWatchlists();
 }
