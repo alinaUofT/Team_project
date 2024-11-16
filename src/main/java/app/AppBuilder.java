@@ -10,9 +10,9 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.ChangePasswordPresenter;
-import interface_adapter.change_password.HomeViewModel;
+import interface_adapter.home.HomeController;
+import interface_adapter.home.HomePresenter;
+import interface_adapter.home.HomeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -21,9 +21,12 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import use_case.change_password.ChangePasswordInputBoundary;
-import use_case.change_password.ChangePasswordInteractor;
-import use_case.change_password.ChangePasswordOutputBoundary;
+import interface_adapter.watchlists.WatchlistsController;
+import interface_adapter.watchlists.WatchlistsPresenter;
+import interface_adapter.watchlists.WatchlistsViewModel;
+import use_case.home.HomeInputBoundary;
+import use_case.home.HomeInteractor;
+import use_case.home.HomeOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -33,10 +36,10 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.HomeView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import use_case.watchlists.WatchlistsInputBoundary;
+import use_case.watchlists.WatchlistsInteractor;
+import use_case.watchlists.WatchlistsOutputBoundary;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -62,10 +65,12 @@ public class AppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
-    private LoginViewModel loginViewModel;
-    private HomeViewModel homeViewModel;
-    private HomeView loggedInView;
     private LoginView loginView;
+    private LoginViewModel loginViewModel;
+    private HomeView loggedInView;
+    private HomeViewModel homeViewModel;
+    private WatchlistsView watchlistsView;
+    private WatchlistsViewModel watchlistsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -101,6 +106,17 @@ public class AppBuilder {
         homeViewModel = new HomeViewModel();
         loggedInView = new HomeView(homeViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Watchlists View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistsView() {
+        watchlistsViewModel = new WatchlistsViewModel();
+        watchlistsView = new WatchlistsView(watchlistsViewModel);
+        cardPanel.add(watchlistsView, watchlistsView.getViewName());
         return this;
     }
 
@@ -164,6 +180,36 @@ public class AppBuilder {
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    /**
+     * Adds the Signup Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistsUseCase() {
+        final WatchlistsOutputBoundary watchlistsOutputBoundary = new WatchlistsPresenter(viewManagerModel,
+                watchlistsViewModel, homeViewModel);
+        final WatchlistsInputBoundary watchlistsInteractor = new WatchlistsInteractor(
+                userDataAccessObject, watchlistsOutputBoundary, userFactory);
+
+        final WatchlistsController controller = new WatchlistsController(watchlistsInteractor);
+        watchlistsView.setWatchlistsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Home Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addHomeUseCase() {
+        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
+                watchlistsViewModel, homeViewModel);
+        final HomeInputBoundary homeInteractor = new HomeInteractor(
+                userDataAccessObject, homeOutputBoundary, userFactory);
+
+        final HomeController controller = new HomeController(homeInteractor);
+        loggedInView.setHomeController(controller);
         return this;
     }
 
