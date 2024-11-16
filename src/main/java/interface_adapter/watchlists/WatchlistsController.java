@@ -1,6 +1,7 @@
 package interface_adapter.watchlists;
 
 import entity.User;
+import use_case.signup.SignupInputData;
 import use_case.watchlists.WatchlistsInputBoundary;
 
 /**

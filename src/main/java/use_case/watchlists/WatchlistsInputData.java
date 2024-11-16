@@ -7,12 +7,10 @@ public class WatchlistsInputData {
 
     private final String username;
     private final String password;
-    private final String repeatPassword;
 
-    public WatchlistsInputData(String username, String password, String repeatPassword) {
+    public WatchlistsInputData(String username, String password) {
         this.username = username;
         this.password = password;
-        this.repeatPassword = repeatPassword;
     }
 
     String getUsername() {
@@ -23,7 +21,4 @@ public class WatchlistsInputData {
         return password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
 }
