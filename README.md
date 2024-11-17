@@ -42,20 +42,6 @@
   - User is taken to Login/create account screen
 - UI Sketch: https://www.figma.com/board/LA46lp4TAlUzx42Zo1aaRS/Untitled?node-id=0-1&t=30mtHh5VnYnuPXQ3-1
 ###
-- As a new user, I want to take an initial survey to establish my preferences so that I can get generated default recommendations.
-  - User is shown Survey screen 1
-  - User select 3 of their favourite genres by clicking the associated buttons
-    - If the user clicks less than 3 genres, they will not be able to submit (the button will be grey). Once the user selects 3 genres, the Submit button will turn green and is click-able.
-    - When the user clicks on a genre button, borders will appear around it, suggesting that the box had been clicked
-  - Once user is done, user clicks the “Submit” button, and is taken to Survey screen 2
-  - On Survey screen 2, the user searches and selects 3 movies that they’ve previously watched.
-    - If they search for a movie that does not match any titles in our database, an error message will appear (No movie found), and the user is prompted to re-enter a different movie name
-    - If there are no errors, a confirmation message (Movie selected) will appear. 
-    - If the user selects less than 3 movies, they will not be able to submit (the button will be grey). Once the user selects 3 genres, the Submit button will turn green and is click-able.
-  - Once user is done, user clicks the “Submit” button, and is taken to Home screen
-  - User is taken to Home screen and is shown a pop-up window (now you can view your recommendations below)
-- UI Sketch: https://www.figma.com/design/Xb7jVHywI8K1tLwIAfp7dm/Untitled?node-id=0-1&t=BxHCOusQxYNt7SSz-1
-###
 - As a user, I want to get recommendations based on movies that I watched previously so that I can find new movies. User is recommended a movie.
   - User is on the Home screen.
   - User clicks on “Recommendation” button
@@ -97,21 +83,22 @@
   - There will also be a back button to return to the home screen.
 
 - UI Sketches: https://www.figma.com/board/odzhDFeZ9nnXscD8xVAI8O/my-UI?node-id=0-1&t=3caD0awIRqbiKKYf-1
-
 ###
 
 ***Alice's Use Case***
-- As a user, I want to add previously watched movies to my previously watched list (PWL), so that the application doesn’t recommend movies that I’ve already seen and to keep track of the movies I have watched.
-  - User is on the Home Screen
-  - User clicks on the “My Watchlists” button
-  - User is taken to the My Watchlists screen
-  - User is taken to a screen with only the empty “Previously Watched” list generated as default.
-  - User can add watched movies by clicking on the “Previously Watched” screen.
-  - Screen displays an empty list screen with the list name on top and an “Add Movie” button if the user skipped step 2 of the survey when creating their account.
-  - Screen displays 
-  - User add movies to the list as described in Nehir’s use cases.
-  - User clicks on the “Recommendations” button on the home screen and is taken to the Recommendations screen with updated movie recommendations that are not in the “Previously Watched” list.
-- UI Sketch: https://www.figma.com/design/IQVo41Hr9JiNmATohpKy2H/Alice-UI-sketches?node-id=0-1&t=Qwu64L8FEirIUzwV-1
+- As a new user, I want to take an initial survey to establish my preferences so that I can get generated default recommendations.
+  - User is shown Survey screen 1
+  - User select 3 of their favourite genres by clicking the associated buttons
+    - If the user clicks less than 3 genres, they will not be able to submit (the button will be grey). Once the user selects 3 genres, the Submit button will turn green and is click-able.
+    - When the user clicks on a genre button, borders will appear around it, suggesting that the box had been clicked
+  - Once user is done, user clicks the “Submit” button, and is taken to Survey screen 2
+  - On Survey screen 2, the user searches and selects 3 movies that they’ve previously watched.
+    - If they search for a movie that does not match any titles in our database, an error message will appear (No movie found), and the user is prompted to re-enter a different movie name
+    - If there are no errors, a confirmation message (Movie selected) will appear.
+    - If the user selects less than 3 movies, they will not be able to submit (the button will be grey). Once the user selects 3 genres, the Submit button will turn green and is click-able.
+  - Once user is done, user clicks the “Submit” button, and is taken to Home screen
+  - User is taken to Home screen and is shown a pop-up window (now you can view your recommendations below)
+- UI Sketch: https://www.figma.com/design/Xb7jVHywI8K1tLwIAfp7dm/Untitled?node-id=0-1&t=BxHCOusQxYNt7SSz-1
 ###
 ***Nehir's Use Case***
 - As a user, I want to create additional watchlists and add specific movies (e.g. category, to watch, favorites, etc.), so that I can categorize movies to my preferences.
@@ -146,6 +133,18 @@
 - UI Sketch: https://www.canva.com/design/DAGWADUDt98/efepPEZTM00gCa3Ee74mHg/edit?utm_content=DAGWADUDt98&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ###
 ***Alina's Use Case***
+- As a user, I want to add previously watched movies to my previously watched list (PWL), so that the application doesn’t recommend movies that I’ve already seen and to keep track of the movies I have watched.
+  - User is on the Home Screen
+  - User clicks on the “My Watchlists” button
+  - User is taken to the My Watchlists screen
+  - User is taken to a screen with only the empty “Previously Watched” list generated as default.
+  - User can add watched movies by clicking on the “Previously Watched” screen.
+  - Screen displays an empty list screen with the list name on top and an “Add Movie” button if the user skipped step 2 of the survey when creating their account.
+  - Screen displays
+  - User add movies to the list as described in Nehir’s use cases.
+  - User clicks on the “Recommendations” button on the home screen and is taken to the Recommendations screen with updated movie recommendations that are not in the “Previously Watched” list.
+- UI Sketch: https://www.figma.com/design/IQVo41Hr9JiNmATohpKy2H/Alice-UI-sketches?node-id=0-1&t=Qwu64L8FEirIUzwV-1
+###
 - As a user, I want to access and manage  all watchlists (e.g. PWL, to watch, recommended, etc.), so that I can view the movies that I’ve already seen and want to see.
   - On the homescreen user clicks “My watchlists” button
   - User is taken to the watchlists page. The page has a “Home” button top left, “Create a watchlist” button below “Home” in the middle and a list of watchlists below “Create a watchlist”, that starts with the PWL and then has other watchlists in the alphabetic order. Names of the watchlists are buttons. Every playlist, except for PWL, has a “rename” button, followed by the “delete” button to the right of its name.
