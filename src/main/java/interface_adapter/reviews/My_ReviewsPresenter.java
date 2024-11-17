@@ -2,7 +2,7 @@ package interface_adapter.reviews;
 
 import entity.MovieReview;
 import interface_adapter.ViewManagerModel;
-//import interface_adapter.change_password.HomeViewModel;
+import interface_adapter.home.HomeViewModel;
 import interface_adapter.signup.SignupViewModel;
 import use_case.my_reviews.My_ReviewsOutputBoundary;
 import view.HomeView;

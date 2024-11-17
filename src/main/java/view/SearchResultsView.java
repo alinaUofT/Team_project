@@ -1,21 +1,21 @@
-//package view;
-//
-//import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.beans.PropertyChangeEvent;
-//import java.beans.PropertyChangeListener;
-//
-//import javax.swing.JButton;
-//import javax.swing.JLabel;
-//import javax.swing.JPanel;
-//
+package view;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 //import interface_adapter.search_results.SearchResultsController;
 //import interface_adapter.search_results.SearchResultsViewModel;
-//
-///**
-// * The View for when the user views a searches for a movie.
-// */
+
+/**
+ * The View for when the user views a searches for a movie.
+ */
 //public class SearchResultsView extends JPanel implements ActionListener, PropertyChangeListener {
 //    private final String viewName = "Search Results";
 //

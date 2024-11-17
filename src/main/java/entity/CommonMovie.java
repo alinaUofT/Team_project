@@ -15,7 +15,6 @@ public class CommonMovie implements Movie {
 
     public CommonMovie(String title) {
         this.title = title;
-
     }
 
     @Override
