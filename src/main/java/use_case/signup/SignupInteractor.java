@@ -8,11 +8,11 @@ import entity.UserFactory;
  * The Signup Interactor.
  */
 public class SignupInteractor implements SignupInputBoundary {
-    private final DBUserDataAccessObject userDataAccessObject;
+    private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
-    public SignupInteractor(DBUserDataAccessObject signupDataAccessInterface,
+    public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactory userFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
