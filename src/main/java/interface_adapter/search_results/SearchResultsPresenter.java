@@ -7,13 +7,13 @@ import use_case.movie.MovieOutputBoundary;
 /**
  * The Presenter for the Search Results Use Case.
  */
-public class SearchResultsPresenter implements SearchResultsOutputBoundary {
-    private ViewManagerModel viewManagerModel;
-    private SearchResultsViewModel searchResultsViewModel;
-    // TODO add other view models - home and movie?
-
-    public SearchResultsPresenter(SearchResultsViewModel searchResultsViewModel, ViewManagerModel viewManagerModel) {
-        this.searchResultsViewModel = searchResultsViewModel;
-        this.viewManagerModel = viewManagerModel;
-    }
-}
+//public class SearchResultsPresenter implements SearchResultsOutputBoundary {
+//    private ViewManagerModel viewManagerModel;
+//    private SearchResultsViewModel searchResultsViewModel;
+//    // TODO add other view models - home and movie?
+//
+//    public SearchResultsPresenter(SearchResultsViewModel searchResultsViewModel, ViewManagerModel viewManagerModel) {
+//        this.searchResultsViewModel = searchResultsViewModel;
+//        this.viewManagerModel = viewManagerModel;
+//    }
+//}

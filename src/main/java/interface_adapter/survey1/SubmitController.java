@@ -10,7 +10,7 @@ public class SubmitController {
 
     private final Survey1InputBoundary survey1UseCaseInteractor;
 
-    public SubmitController(Survey1InputBoundary loginUseCaseInteractor) {
+    public SubmitController(Survey1InputBoundary survey1UseCaseInteractor) {
         this.survey1UseCaseInteractor = survey1UseCaseInteractor;
     }
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import entity.MovieReview;
 import static com.mongodb.client.model.Filters.eq;
-import app.DataBaseConstructor;
+
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import entity.CommonUserFactory;
@@ -25,6 +25,7 @@ import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
  * The DAO for user data.
@@ -32,7 +33,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface,
-        LogoutUserDataAccessInterface {
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -122,7 +123,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    public List<MovieReview> getReviews(User user) {
+    public List<MovieReview> getReviews(User username) {
         // Initialize the factory to create MovieReview objects
         CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
 
@@ -130,7 +131,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         List<MovieReview> reviews = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
-        Document userDoc = collection.find(new Document("userId", user.getName())).first();
+        Document userDoc = collection.find(new Document("userId", username.getName())).first();
 
         if (userDoc != null) {
             // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
