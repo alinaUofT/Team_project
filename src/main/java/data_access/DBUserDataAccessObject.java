@@ -122,7 +122,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    public List<MovieReview> getReviews(User user) {
+    public List<MovieReview> getReviews(User username) {
         // Initialize the factory to create MovieReview objects
         CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
 
@@ -130,7 +130,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         List<MovieReview> reviews = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
-        Document userDoc = collection.find(new Document("userId", user.getName())).first();
+        Document userDoc = collection.find(new Document("userId", username.getName())).first();
 
         if (userDoc != null) {
             // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
@@ -163,38 +163,38 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         return reviews;
     }
 
-    @Override
-    public void changePassword(User user) {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        // POST METHOD
-        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-        final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
-        requestBody.put(PASSWORD, user.getPassword());
-        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
-        final Request request = new Request.Builder()
-                .url("http://vm003.teach.cs.toronto.edu:20112/user")
-                .method("PUT", body)
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                // success!
-            }
-            else {
-                throw new RuntimeException(responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+//    @Override
+//    public void changePassword(User user) {
+//        final OkHttpClient client = new OkHttpClient().newBuilder()
+//                .build();
+//
+//        // POST METHOD
+//        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
+//        final JSONObject requestBody = new JSONObject();
+//        requestBody.put(USERNAME, user.getName());
+//        requestBody.put(PASSWORD, user.getPassword());
+//        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
+//        final Request request = new Request.Builder()
+//                .url("http://vm003.teach.cs.toronto.edu:20112/user")
+//                .method("PUT", body)
+//                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+//                .build();
+//        try {
+//            final Response response = client.newCall(request).execute();
+//
+//            final JSONObject responseBody = new JSONObject(response.body().string());
+//
+//            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+//                // success!
+//            }
+//            else {
+//                throw new RuntimeException(responseBody.getString(MESSAGE));
+//            }
+//        }
+//        catch (IOException | JSONException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
 
     @Override
     public String getCurrentUsername() {
