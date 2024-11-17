@@ -15,12 +15,12 @@ public class DataBaseConstructor {
     private static final MongoClient mongoClient = MongoClients.create(URI);
 
     // Constructor
-    private DataBaseConstructor() {
+    public DataBaseConstructor() {
         // Prevent instantiation
     }
 
     // Method to create or get a collection
-    public static MongoCollection<Document> CreateCollection(String collectionName) {
+    public static MongoCollection<Document> GetCollection(String collectionName) {
         try {
             // Access the specific database
             MongoDatabase database = mongoClient.getDatabase("Movies4U");

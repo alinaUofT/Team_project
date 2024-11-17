@@ -1,16 +1,20 @@
 package data_access;
 
 import java.io.IOException;
-
+import java.util.List;
+import entity.MovieReview;
 import static com.mongodb.client.model.Filters.eq;
 import app.DataBaseConstructor;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import entity.CommonUserFactory;
+import entity.CommonMovieReviewFactory;
 import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+import java.util.ArrayList;
 import entity.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -37,6 +41,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
     private final CommonUserFactory userFactory;
+    DataBaseConstructor database = new DataBaseConstructor();
+    MongoCollection<Document> collection = database.GetCollection("Users");
 
     public DBUserDataAccessObject(CommonUserFactory userFactory) {
         this.userFactory = userFactory;
@@ -46,9 +52,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public User get(String username) {
         // Get the collection
-        final MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
+        final MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
         // Find the document with the given username
-        final Document userDocument = collection.find(eq("id", username)).first();
+        final Document userDocument = collection.find(eq("userId", username)).first();
 
         if (userDocument != null) {
             // Extract fields from the document
@@ -70,15 +76,15 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public boolean existsByName(String username) {
-        MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
-        FindIterable<Document> findIterable = collection.find(eq("id", username));
+        MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
+        FindIterable<Document> findIterable = collection.find(eq("userId", username));
 
         return findIterable.first() != null;
     }
     @Override
     public void save(User user) {
-        MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
-        Document newAccount = new Document("id", user.getName())
+        MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
+        Document newAccount = new Document("userId", user.getName())
                 .append("username", user.getName())
                 .append("password", user.getPassword());
         try {
@@ -89,6 +95,73 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
+    public boolean addReviewToUser(User user, MovieReview review) {
+        try {
+            // Create a document representing the review
+            Document reviewDoc = new Document()
+                    .append("movieTitle", review.getMovie_Title())
+                    .append("date", review.getDate())
+                    .append("starRating", review.getStarRating());
+
+            // Add optional written review if provided
+            if (review.getContent() != null) {
+                reviewDoc.append("writtenReview", review.getContent());
+            }
+
+            // Add the review to the "reviews" array in the user's document
+            collection.updateOne(
+                    new Document("userId", user.getName()), // Find user by ID
+                    new Document("$push", new Document("reviews", reviewDoc)) // Push the new review
+            );
+
+            return true; // Indicate success
+        } catch (Exception e) {
+            System.err.println("Error adding review to user: " + e.getMessage());
+            return false; // Indicate failure
+        }
+    }
+
+
+    public List<MovieReview> getReviews(User user) {
+        // Initialize the factory to create MovieReview objects
+        CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
+
+        // Prepare the list to hold the user's reviews
+        List<MovieReview> reviews = new ArrayList<>();
+
+        // Query the "Users" collection to find the user and their reviews
+        Document userDoc = collection.find(new Document("userId", user.getName())).first();
+
+        if (userDoc != null) {
+            // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
+            List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
+
+            if (rawReviews != null) {
+                // Iterate over each review and transform it into a MovieReview object
+                for (Document reviewDoc : rawReviews) {
+                    String user = userDoc.getString("userId");
+                    Date date = reviewDoc.getDate("date");
+                    Double starRating = reviewDoc.getDouble("starRating");
+                    String writtenReview = reviewDoc.getString("writtenReview");
+                    String movieTitle = reviewDoc.getString("movieTitle");
+
+                    // Use the factory to create the MovieReview
+                    MovieReview review;
+                    if (writtenReview != null) {
+                        review = reviewFactory.create(user, date, starRating, writtenReview, movieTitle);
+                    } else {
+                        review = reviewFactory.create(user, date, starRating, movieTitle);
+                    }
+
+                    // Add the review to the list
+                    reviews.add(review);
+                }
+            }
+        }
+
+        // Return the list of reviews
+        return reviews;
+    }
 
     @Override
     public void changePassword(User user) {

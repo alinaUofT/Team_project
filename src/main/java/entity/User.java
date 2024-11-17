@@ -1,5 +1,7 @@
 package entity;
 
+import app.DataBaseConstructor;
+
 import java.awt.*;
 import java.util.List;
 
@@ -31,4 +33,5 @@ public interface User {
      * @return list of watchlists of the user.
      */
     List<String> getWatchlists();
+
 }
