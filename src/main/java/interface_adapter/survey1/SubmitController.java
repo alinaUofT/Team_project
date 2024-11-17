@@ -27,8 +27,9 @@ public class SubmitController {
     }
 
     /**
-     * Executes the "switch to Survey2View" Use Case.
+     * Executes the "switch to SurveySecondPageView" Use Case.
      */
-    public void switchToSurvey2View() {
-        survey1UseCaseInteractor.switchToSurvey2View(); }
+    public void switchToSurveySecondPageView() {
+        survey1UseCaseInteractor.switchToSurveySecondPageView();
+    }
 }

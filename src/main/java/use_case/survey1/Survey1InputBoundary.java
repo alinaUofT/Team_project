@@ -12,7 +12,7 @@ public interface Survey1InputBoundary {
     void execute(Survey1InputData survey1InputData);
 
     /**
-     * Executes the switch to survey2 view use case.
+     * Executes the switch to SurveySecondPageView use case.
      */
-    void switchToSurvey2View();
+    void switchToSurveySecondPageView();
 }
