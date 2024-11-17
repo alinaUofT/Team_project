@@ -66,8 +66,8 @@ public class AppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
-    private LoginView loginView;
     private LoginViewModel loginViewModel;
+    private HomeViewModel homeViewModel;
     private HomeView loggedInView;
     private HomeViewModel homeViewModel;
     private WatchlistsView watchlistsView;
