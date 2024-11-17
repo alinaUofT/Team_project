@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entity.User;
-import use_case.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
  * In-memory implementation of the DAO for storing user data. This implementation does
@@ -15,8 +16,9 @@ import use_case.signup.SignupUserDataAccessInterface;
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface {
+        HomeUserDataAccessInterface,
+        LogoutUserDataAccessInterface,
+        WatchlistsUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 

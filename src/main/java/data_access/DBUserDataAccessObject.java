@@ -2,17 +2,22 @@ package data_access;
 
 import java.io.IOException;
 
+import static com.mongodb.client.model.Filters.eq;
+import app.DataBaseConstructor;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import entity.CommonUserFactory;
+import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.User;
-import entity.UserFactory;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import use_case.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -22,7 +27,7 @@ import use_case.signup.SignupUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface,
+        HomeUserDataAccessInterface,
         LogoutUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -31,39 +36,30 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String MESSAGE = "message";
-    private final UserFactory userFactory;
+    private final CommonUserFactory userFactory;
 
-    public DBUserDataAccessObject(UserFactory userFactory) {
+    public DBUserDataAccessObject(CommonUserFactory userFactory) {
         this.userFactory = userFactory;
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
     @Override
     public User get(String username) {
-        // Make an API call to get the user object.
-        final OkHttpClient client = new OkHttpClient().newBuilder().build();
-        final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/user?username=%s", username))
-                .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
+        // Get the collection
+        final MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
+        // Find the document with the given username
+        final Document userDocument = collection.find(eq("id", username)).first();
 
-            final JSONObject responseBody = new JSONObject(response.body().string());
+        if (userDocument != null) {
+            // Extract fields from the document
+            final String name = userDocument.getString("username");
+            final String password = userDocument.getString("password");
 
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                final JSONObject userJSONObject = responseBody.getJSONObject("user");
-                final String name = userJSONObject.getString(USERNAME);
-                final String password = userJSONObject.getString(PASSWORD);
-
-                return userFactory.create(name, password);
-            }
-            else {
-                throw new RuntimeException(responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
+            // Create and return the User object
+            return userFactory.create(name, password);
+        } else {
+            // Handle case where user is not found
+            throw new RuntimeException("User with username '" + username + "' not found.");
         }
     }
 
@@ -74,56 +70,25 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public boolean existsByName(String username) {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        final Request request = new Request.Builder()
-                .url(String.format("http://vm003.teach.cs.toronto.edu:20112/checkIfUserExists?username=%s", username))
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
+        MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
+        FindIterable<Document> findIterable = collection.find(eq("id", username));
 
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            return responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE;
-        }
-        catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
-        }
+        return findIterable.first() != null;
     }
-
     @Override
     public void save(User user) {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        // POST METHOD
-        final MediaType mediaType = MediaType.parse(CONTENT_TYPE_JSON);
-        final JSONObject requestBody = new JSONObject();
-        requestBody.put(USERNAME, user.getName());
-        requestBody.put(PASSWORD, user.getPassword());
-        final RequestBody body = RequestBody.create(requestBody.toString(), mediaType);
-        final Request request = new Request.Builder()
-                .url("http://vm003.teach.cs.toronto.edu:20112/user")
-                .method("POST", body)
-                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
-                .build();
+        MongoCollection<Document> collection = DataBaseConstructor.CreateCollection("Users");
+        Document newAccount = new Document("id", user.getName())
+                .append("username", user.getName())
+                .append("password", user.getPassword());
         try {
-            final Response response = client.newCall(request).execute();
-
-            final JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
-                // success!
-            }
-            else {
-                throw new RuntimeException(responseBody.getString(MESSAGE));
-            }
-        }
-        catch (IOException | JSONException ex) {
-            throw new RuntimeException(ex);
+            collection.insertOne(newAccount);
+            System.out.println("User saved successfully");
+        } catch (Exception e) {
+            System.out.println("User not saved: " + e.getMessage());
         }
     }
+
 
     @Override
     public void changePassword(User user) {

@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DBUserDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.HomeViewModel;
+import interface_adapter.home.HomeController;
+import interface_adapter.home.HomePresenter;
+import interface_adapter.home.HomeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -19,6 +22,12 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.watchlists.WatchlistsController;
+import interface_adapter.watchlists.WatchlistsPresenter;
+import interface_adapter.watchlists.WatchlistsViewModel;
+import use_case.home.HomeInputBoundary;
+import use_case.home.HomeInteractor;
+import use_case.home.HomeOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -28,6 +37,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.watchlists.WatchlistsInputBoundary;
+import use_case.watchlists.WatchlistsInteractor;
+import use_case.watchlists.WatchlistsOutputBoundary;
 import view.*;
 
 /**
@@ -45,19 +57,21 @@ public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
-    private final UserFactory userFactory = new CommonUserFactory();
+    private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final DBUserDataAccessObject accessObject = new DBUserDataAccessObject(userFactory);
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
-    private LoginView loginView;
+    private HomeViewModel homeViewModel;
+    private WatchlistsView watchlistsView;
+    private WatchlistsViewModel watchlistsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -97,6 +111,17 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Watchlists View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistsView() {
+        watchlistsViewModel = new WatchlistsViewModel();
+        watchlistsView = new WatchlistsView(watchlistsViewModel);
+        cardPanel.add(watchlistsView, watchlistsView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
@@ -104,7 +129,7 @@ public class AppBuilder {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, homeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                userDataAccessObject, signupOutputBoundary, userFactory);
+                accessObject, signupOutputBoundary, userFactory);
 
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
@@ -119,7 +144,7 @@ public class AppBuilder {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 homeViewModel, loginViewModel, signupViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                accessObject, loginOutputBoundary);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
@@ -152,10 +177,40 @@ public class AppBuilder {
                 homeViewModel, loginViewModel);
 
         final LogoutInputBoundary logoutInteractor =
-                new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
+                new LogoutInteractor(accessObject, logoutOutputBoundary);
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    /**
+     * Adds the Signup Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistsUseCase() {
+        final WatchlistsOutputBoundary watchlistsOutputBoundary = new WatchlistsPresenter(viewManagerModel,
+                watchlistsViewModel, homeViewModel);
+        final WatchlistsInputBoundary watchlistsInteractor = new WatchlistsInteractor(
+                userDataAccessObject, watchlistsOutputBoundary, userFactory);
+
+        final WatchlistsController controller = new WatchlistsController(watchlistsInteractor);
+        watchlistsView.setWatchlistsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Home Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addHomeUseCase() {
+        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
+                watchlistsViewModel, homeViewModel);
+        final HomeInputBoundary homeInteractor = new HomeInteractor(
+                userDataAccessObject, homeOutputBoundary, userFactory);
+
+        final HomeController controller = new HomeController(homeInteractor);
+        loggedInView.setHomeController(controller);
         return this;
     }
 

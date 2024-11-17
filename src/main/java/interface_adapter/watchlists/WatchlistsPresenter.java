@@ -2,11 +2,7 @@ package interface_adapter.watchlists;
 
 import entity.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.HomeViewModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.login.LoginViewModel;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
+import interface_adapter.home.HomeViewModel;
 import use_case.watchlists.WatchlistsOutputBoundary;
 
 /**
@@ -14,24 +10,22 @@ import use_case.watchlists.WatchlistsOutputBoundary;
  */
 public class WatchlistsPresenter implements WatchlistsOutputBoundary {
 
-    private final WatchlistsViewModel signupViewModel;
+    private final WatchlistsViewModel watchlistsViewModel;
     private final HomeViewModel homeViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final LoginViewModel loginViewModel;
+//    private final WatchlistViewModel watchlistViewModel;
 
     public WatchlistsPresenter(ViewManagerModel viewManagerModel,
-                               WatchlistsViewModel signupViewModel,
-                               LoginViewModel loginViewModel, HomeViewModel homeViewModel) {
+                               WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.signupViewModel = signupViewModel;
-        this.homeViewModel = new HomeViewModel();
-        this.loginViewModel = loginViewModel;
+        this.homeViewModel = homeViewModel;
+        this.watchlistsViewModel = watchlistsViewModel;
 
     }
 
     @Override
     public void switchToHomeView() {
-        viewManagerModel.setState(loginViewModel.getViewName());
+        viewManagerModel.setState(homeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -43,7 +37,8 @@ public class WatchlistsPresenter implements WatchlistsOutputBoundary {
      */
     @Override
     public void switchToWatchlistView(User currentUser, int ind) {
-        viewManagerModel.setState(loginViewModel.getViewName());
+        // should switch to watchlist view which is not implemented
+        viewManagerModel.setState(homeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -54,7 +49,8 @@ public class WatchlistsPresenter implements WatchlistsOutputBoundary {
      */
     @Override
     public void switchToPWLView(User currentUser) {
-        viewManagerModel.setState(loginViewModel.getViewName());
+        // should switch to watchlist view which is not implemented
+        viewManagerModel.setState(homeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

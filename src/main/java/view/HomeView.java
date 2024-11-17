@@ -13,9 +13,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.HomeViewModel;
-import interface_adapter.change_password.LoggedInState;
+import interface_adapter.home.HomeController;
+import interface_adapter.home.HomeViewModel;
+import interface_adapter.home.LoggedInState;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.watchlists.WatchlistsController;
 
@@ -26,8 +26,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "logged in";
     private final HomeViewModel homeViewModel;
-    private final JLabel passwordErrorField = new JLabel();
-    private ChangePasswordController changePasswordController;
+    private HomeController homeController;
     private LogoutController logoutController;
     private WatchlistsController watchlistsController;
 
@@ -61,6 +60,15 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         final JPanel bottomButtons = new JPanel();
         recommendations = new JButton("Recommendations");
         myWatchlists = new JButton("My Watchlists");
+        myWatchlists.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(myWatchlists)) {
+                        final String uname = homeViewModel.getState().getUsername();
+                        this.homeController.switchToWatchlistsView(uname);
+                    }
+                }
+        );
         myReviews = new JButton("My Reviews");
         bottomButtons.add(recommendations);
         bottomButtons.add(myWatchlists);
@@ -154,11 +162,11 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         return viewName;
     }
 
-    public void setChangePasswordController(ChangePasswordController changePasswordController) {
-        this.changePasswordController = changePasswordController;
-    }
-
     public void setLogoutController(LogoutController logoutController) {
         this.logoutController = logoutController;
+    }
+
+    public void setHomeController(HomeController controller) {
+        this.homeController = controller;
     }
 }

@@ -17,7 +17,7 @@ public class QuickStart {
         // Now we try to set mongoClient object to our uri
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             // We access the specific database
-            MongoDatabase database = mongoClient.getDatabase("Movies");
+            MongoDatabase database = mongoClient.getDatabase("Movies4U");
             // Inside the database we have collections, right now we access our movies collection
             MongoCollection<Document> collection = database.getCollection("movies");
             // Create a list to store genre for this specific movie
