@@ -62,14 +62,14 @@ public class AppBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
-    private final DBUserDataAccessObject accessObject = new DBUserDataAccessObject(userFactory);
+    private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
+    private LoginView loginView;
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
-    private HomeViewModel homeViewModel;
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
 
@@ -129,7 +129,7 @@ public class AppBuilder {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, homeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                accessObject, signupOutputBoundary, userFactory);
+                userDataAccessObject, signupOutputBoundary, userFactory);
 
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
@@ -144,7 +144,7 @@ public class AppBuilder {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 homeViewModel, loginViewModel, signupViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                accessObject, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
@@ -177,7 +177,7 @@ public class AppBuilder {
                 homeViewModel, loginViewModel);
 
         final LogoutInputBoundary logoutInteractor =
-                new LogoutInteractor(accessObject, logoutOutputBoundary);
+                new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);

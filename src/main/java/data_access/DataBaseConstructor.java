@@ -1,12 +1,10 @@
-package app;
+package data_access;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-
-import java.util.Collection;
 
 public class DataBaseConstructor {
     private static final String URI = "mongodb+srv://andersonwyatt199:oSJAGafbowj9jeFl@cluster0.j9lgn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";

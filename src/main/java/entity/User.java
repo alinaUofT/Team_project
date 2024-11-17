@@ -1,8 +1,5 @@
 package entity;
 
-import app.DataBaseConstructor;
-
-import java.awt.*;
 import java.util.List;
 
 /**
