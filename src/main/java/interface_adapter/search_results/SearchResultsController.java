@@ -7,6 +7,8 @@ package interface_adapter.search_results;
 /**
  * Controller for the Search Results Use Case.
  */
+
+/**
 public class SearchResultsController {
     private final SearchResultsInputBoundary searchResultsUseCaseInteractor;
 
@@ -17,7 +19,7 @@ public class SearchResultsController {
     /**
      * Executes the search Use Case.
      * @param title the title of the movie
-     */
+
     public void execute(String title) {
         final SearchResultsInputData searchResultsInputData = new SearchResultsInputData(
                 title);
@@ -25,3 +27,4 @@ public class SearchResultsController {
         searchResultsUseCaseInteractor.execute(searchResultsInputData);
     }
 }
+*/
