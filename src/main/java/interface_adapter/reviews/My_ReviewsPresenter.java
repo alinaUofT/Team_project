@@ -17,27 +17,21 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
     private final My_ReviewsNoReviewsView myReviewsNoReviewsView;
     private final My_ReviewsReviewsView myReviewsReviewsView;
     private final ViewManagerModel viewManagerModel;
-    private final HomeViewModel homeViewModel;
 
     public My_ReviewsPresenter(My_ReviewsNoReviewsView myReviewsNoReviewsView, My_ReviewsReviewsView myReviewsReviewsView,
-                               ViewManagerModel viewManagerModel, HomeViewModel homeViewModel) {
+                               ViewManagerModel viewManagerModel) {
         this.myReviewsNoReviewsView = myReviewsNoReviewsView;
         this.myReviewsReviewsView = myReviewsReviewsView;
         this.viewManagerModel = viewManagerModel;
-        this.homeViewModel = homeViewModel;
 
     }
 
-    public void my_ReviewsReviewsView(List<MovieReview> my_reviews) {
+    public void prepareMyReviewsView(List<MovieReview> my_reviews) {
         // If they have at least one review switch to this screen
 
     }
-    public void my_ReviewsNoReviewsView() {
+
+    public void prepareNoReviewsView(String message) {
         // If they do not have any reviews switch to this screen
-    }
-
-    @Override
-    public void switchToHomeView() {
-
     }
 }
