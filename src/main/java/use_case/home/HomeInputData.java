@@ -1,14 +1,14 @@
-package use_case.change_password;
+package use_case.home;
 
 /**
  * The input data for the Change Password Use Case.
  */
-public class ChangePasswordInputData {
+public class HomeInputData {
 
     private final String password;
     private final String username;
 
-    public ChangePasswordInputData(String password, String username) {
+    public HomeInputData(String password, String username) {
         this.password = password;
         this.username = username;
     }

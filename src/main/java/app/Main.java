@@ -16,12 +16,15 @@ public class Main {
                                             .addLoginView()
                                             .addSignupView()
                                             .addLoggedInView()
+                                            .addWatchlistsView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
-                                            .addChangePasswordUseCase()
+                                            // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
+                                            .addWatchlistsUseCase()
+                                            .addHomeUseCase()
                                             .build();
-
+        
         application.pack();
         application.setVisible(true);
     }
