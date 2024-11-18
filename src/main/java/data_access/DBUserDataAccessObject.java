@@ -1,6 +1,4 @@
 package data_access;
-
-import java.io.IOException;
 import java.util.List;
 import entity.MovieReview;
 import static com.mongodb.client.model.Filters.eq;
@@ -10,17 +8,9 @@ import com.mongodb.client.MongoCollection;
 import entity.CommonUserFactory;
 import entity.CommonMovieReviewFactory;
 import org.bson.Document;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Date;
 import java.util.ArrayList;
 import entity.User;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -52,9 +42,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public User get(String username) {
-        // Get the collection
-        final MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
-        // Find the document with the given username
         final Document userDocument = collection.find(eq("userId", username)).first();
 
         if (userDocument != null) {
@@ -84,7 +71,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
     @Override
     public void save(User user) {
-        MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
         Document newAccount = new Document("userId", user.getName())
                 .append("username", user.getName())
                 .append("password", user.getPassword());
