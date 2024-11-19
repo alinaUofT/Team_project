@@ -23,6 +23,7 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.survey1.Survey1ViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -74,6 +75,8 @@ public class AppBuilder {
     private HomeView loggedInView;
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
+    private Survey1View survey1View;
+    private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
     private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
@@ -164,6 +167,17 @@ public class AppBuilder {
         // Return
         return this;
     }
+    /**
+     * Adds the Survey1 View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSurvey1View() {
+        survey1ViewModel = new Survey1ViewModel();
+        survey1View = new Survey1View(survey1ViewModel);
+        cardPanel.add(survey1View, survey1View.getViewName());
+        return this;
+    }
+
     /**
      * Adds the Signup Use Case to the application.
      * @return this builder
