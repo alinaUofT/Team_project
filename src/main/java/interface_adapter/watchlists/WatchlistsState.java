@@ -7,7 +7,10 @@ import entity.User;
  */
 public class WatchlistsState {
     private User currentUser;
-    private String listName;
+
+    public WatchlistsState() {
+
+    }
 
     public User getCurrentUser() {
         return this.currentUser;
@@ -17,19 +20,10 @@ public class WatchlistsState {
         this.currentUser = user;
     }
 
-    public String getListName() {
-        return this.listName;
-    }
-
-    public void setListName(String listName) {
-        this.listName = listName;
-    }
-
     @Override
     public String toString() {
         return "WatchlistsState{"
                 + "currentUser='" + currentUser
-                + "', listName='" + listName
                 + '}';
     }
 }
