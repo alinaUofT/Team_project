@@ -1,13 +1,17 @@
 package data_access;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class APIMovieAccess {
     private static final String API_KEY = "b1f9d6a6a9884c948fd5e17a9a87171c";
     private static final String BASE_URL = "https://api.themoviedb.org/3";
-
 
     // Method to search for a movie
     public static String searchMovie(String query) throws Exception {
@@ -34,12 +38,35 @@ public class APIMovieAccess {
 
     // Main method to test the TMDbClient
     public static void main(String[] args) throws Exception {
-        String response = APIMovieAccess.searchMovie("cars");
+        String response = APIMovieAccess.getMovieGenresAsJson();
         System.out.println(response);
     }
 
+    /**
+     * Retrieves a string of movie genres from the API.
+     *
+     * @return a string where the key is the genre ID and the value is the genre name
+     */
+    public static String getMovieGenresAsJson() {
+        OkHttpClient client = new OkHttpClient();
 
+        // Create the request
+        Request request = new Request.Builder()
+                .url("https://api.themoviedb.org/3/genre/movie/list?language=en")
+                .get()
+                .build();
 
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+            assert response.body() != null;
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // This is how we access specific fields for a movie, it is returned as a"json string" from the db we need
     // to then parse it into a json object using the jsonobject method, then we can access the fields
@@ -63,5 +90,5 @@ public class APIMovieAccess {
 //            System.out.println("Overview: " + overview);
 //        }
 //    }
-    }
+
 
