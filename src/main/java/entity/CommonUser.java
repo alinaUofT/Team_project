@@ -3,10 +3,6 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
-
-
-
 /**
  * A simple implementation of the User interface.
  */
@@ -14,6 +10,7 @@ public class CommonUser implements User {
 
     private final String name;
     private final String password;
+    // TODO update the interface
 
     // TODO I don't think storing login status is useful.
     // We store current user in the view states already
@@ -47,6 +44,15 @@ public class CommonUser implements User {
     }
 
     /**
+     * Get the previously watched list of this User.
+     * @return previously watched list
+     */
+    @Override
+    public PrWatched getPwl() {
+        return this.pwl;
+    }
+
+    /**
      * Returns the user created watchlists of the user.
      *
      * @return list of watchlists of the user.
@@ -56,5 +62,47 @@ public class CommonUser implements User {
         return this.watchlists;
     }
 
+    /**
+     * Adds a genre to the list of preferred genres of this User.
+     * @param genre a genre to add to the list
+     */
+    @Override
+    public void addPreferredGenres(String genre) {
+        if (!this.preferredGenres.contains(genre)) {
+            this.preferredGenres.add(genre);
+        }
+    }
 
+    /**
+     * Adds a list of genres to the list of preferred genres of this User.
+     * @param genres a list of genres
+     */
+    @Override
+    public void addPreferredGenres(List<String> genres) {
+        for (String genre : genres) {
+            if (!this.preferredGenres.contains(genre)) {
+                this.preferredGenres.add(genre);
+            }
+        }
+    }
+
+    /**
+     * Get reviews written by this User.
+     * @return list of reviews
+     */
+    @Override
+    public List<MovieReview> getRatingsAndReviews() {
+        return this.ratingsAndReviews;
+    }
+
+    /**
+     * Check if this User watched the movie before.
+     *
+     * @param movie in question
+     * @return if the user watched this movie
+     */
+    @Override
+    public boolean watchedBefore(Movie movie) {
+        return this.pwl.contains(movie);
+    }
 }
