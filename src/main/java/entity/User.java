@@ -29,6 +29,36 @@ public interface User {
      * Returns the user created watchlists of the user.
      * @return list of watchlists of the user.
      */
-    List<String> getWatchlists();
+    List<UserWatchlist> getWatchlists();
 
+    /**
+     * Get the previously watched list of this User.
+     * @return previously watched list
+     */
+    PrWatched getPwl();
+
+    /**
+     * Adds a genre to the list of preferred genres of this User.
+     * @param genre a genre to add to the list
+     */
+    void addPreferredGenres(String genre);
+
+    /**
+     * Adds a list of genres to the list of preferred genres of this User.
+     * @param genres a list of genres
+     */
+    void addPreferredGenres(List<String> genres);
+
+    /**
+     * Get reviews written by this User.
+     * @return list of reviews
+     */
+    List<MovieReview> getRatingsAndReviews();
+
+    /**
+     * Check if this User watched the movie before.
+     * @param movie in question
+     * @return if the user watched this movie
+     */
+    boolean watchedBefore(Movie movie);
 }
