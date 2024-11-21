@@ -15,18 +15,20 @@ public class CommonUser implements User {
     private final String name;
     private final String password;
 
-    // TODO - updated the lists once the classes are created.
+    // TODO I don't think storing login status is useful.
+    // We store current user in the view states already
+    // because we need to access their instance attributes.
 
     private boolean loginStatus;
-    private List<String> ratingsAndReviews = new ArrayList<>();
-    private List<String> watchlists = new ArrayList<>();
-    private List<String> preferredGenres;
+    private List<String> preferredGenres = new ArrayList<>();
+    private PrWatched pwl = new Watchlist();
+    private List<UserWatchlist> watchlists = new ArrayList<>();
+    private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
     public CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
-        this.preferredGenres = new ArrayList<>();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class CommonUser implements User {
      * @return list of watchlists of the user.
      */
     @Override
-    public List<String> getWatchlists() {
+    public List<UserWatchlist> getWatchlists() {
         return this.watchlists;
     }
 

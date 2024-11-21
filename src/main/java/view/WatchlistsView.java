@@ -1,6 +1,7 @@
 package view;
 
 import entity.User;
+import entity.UserWatchlist;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.signup.SignupState;
 import interface_adapter.watchlists.WatchlistsController;
@@ -80,11 +81,11 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     }
 
     private void updateWatchlists() {
-        final List<String> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
+        final List<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
         this.watchlistButtons = new ArrayList<JPanel>();
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();
-            final JButton watchlist = new JButton(watchlists.get(i));
+            final JButton watchlist = new JButton(watchlists.get(i).getListName());
             final int ind = i;
             watchlist.addActionListener(
                     evt -> {
