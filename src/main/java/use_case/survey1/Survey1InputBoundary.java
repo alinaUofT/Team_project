@@ -6,13 +6,13 @@ package use_case.survey1;
 public interface Survey1InputBoundary {
 
     /**
-     * Executes the login use case.
+     * Executes the Survey1 use case.
      * @param survey1InputData the input data
      */
     void execute(Survey1InputData survey1InputData);
 
     /**
-     * Executes the switch to survey2 view use case.
+     * Executes the switch to SurveySecondPageView use case.
      */
-    void switchToSurvey2View();
+    void switchToSurveySecondPageView();
 }

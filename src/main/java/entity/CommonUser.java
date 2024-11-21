@@ -105,4 +105,9 @@ public class CommonUser implements User {
     public boolean watchedBefore(Movie movie) {
         return this.pwl.contains(movie);
     }
+  
+    public List<String> getPreferredGenres() {
+        return this.preferredGenres;
+    }
+
 }
