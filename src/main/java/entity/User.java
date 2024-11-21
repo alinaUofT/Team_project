@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,4 +32,15 @@ public interface User {
      */
     List<String> getWatchlists();
 
+    /**
+     * Returns the preferred genres of the user.
+     * @return list of preferred genres of the user.
+     */
+    List<String> getPreferredGenres();
+
+    /**
+     * Add genre to user's preferred genres.
+     * @param genre the genre to be added to the user's preferred genres.
+     */
+    void addPreferredGenre(String genre);
 }

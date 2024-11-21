@@ -281,7 +281,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(loginView.getViewName());
+        viewManagerModel.setState(survey1View.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

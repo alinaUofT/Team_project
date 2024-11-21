@@ -54,16 +54,13 @@ public class CommonUser implements User {
         return this.watchlists;
     }
 
+    @Override
     public List<String> getPreferredGenres() {
         return this.preferredGenres;
     }
 
-    /**
-     *  the user selects preferred genre.
-     *
-     * @param genre the genre to be added
-     */
-    public void addPreferredGenres(String genre) {
+    @Override
+    public void addPreferredGenre(String genre) {
         this.preferredGenres.add(genre);
     }
 }
