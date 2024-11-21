@@ -46,13 +46,15 @@ public class APIMovieAccess {
      * Retrieves a string of movie genres from the API.
      *
      * @return a string where the key is the genre ID and the value is the genre name
+     * @throws IOException if an I/O error occurs
+     * @throws AssertionError if the response body is null
      */
-    public static String getMovieGenresAsJson() {
-        OkHttpClient client = new OkHttpClient();
+    public static String getMovieGenresAsJson() throws IOException {
+        final OkHttpClient client = new OkHttpClient();
 
         // Create the request
-        Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/genre/movie/list?language=en")
+        final Request request = new Request.Builder()
+                .url("https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=" + API_KEY)
                 .get()
                 .build();
 
@@ -60,15 +62,19 @@ public class APIMovieAccess {
             if (!response.isSuccessful()) {
                 throw new IOException("Unexpected response code: " + response.code());
             }
-            assert response.body() != null;
+            if (response.body() == null) {
+                throw new AssertionError();
+            }
             return response.body().string();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+}
 
-    // This is how we access specific fields for a movie, it is returned as a"json string" from the db we need
+// This is how we access specific fields for a movie, it is returned as a"json string" from the db we need
     // to then parse it into a json object using the jsonobject method, then we can access the fields
     // like usual key value pairs. (dont forget the import for jsonobject).
     //
