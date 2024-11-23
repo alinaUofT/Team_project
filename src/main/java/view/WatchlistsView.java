@@ -1,5 +1,6 @@
 package view;
 
+import entity.CommonUserWatchlist;
 import entity.User;
 import entity.UserWatchlist;
 import interface_adapter.home.LoggedInState;
@@ -33,6 +34,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     private final JButton pwl;
     private List watchlistButtons;
 
+    private final JTextField listNameField = new JTextField();
+
+    private int x = 0;
+
     public WatchlistsView(WatchlistsViewModel watchlistsViewModel) {
         this.watchlistsViewModel = watchlistsViewModel;
         this.viewName = watchlistsViewModel.getViewName();
@@ -50,9 +55,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         );
         this.add(home);
         this.createWatchlist = new JButton(watchlistsViewModel.CREATE_LIST_LABEL);
-        //        createWatchlist.addActionListener(
-        //                evt -> createWatchlistController.execute()
-        //        );
+
         createWatchlist.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(createWatchlist);
         this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
@@ -69,14 +72,13 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(createWatchlist)) {
-//                            createNewListPopUpView();
-                            // TODO: if (result == JOptionPane.YES_OPTION) add new list to user's existing lists
+                            createNewListPopUpView();
                         }
                     }
                 }
         );
         this.add(pwl);
-//        this.updateWatchlists();
+        // this.updateWatchlists();
 
     }
 
@@ -126,63 +128,66 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
     /**
      * View for Create a New List Pop-Up Window.
-     * @return 0 (yes) or  1 (no) for which button was clicked
      */
-//    private int createNewListPopUpView() {
-//        // final int maxChar = 75;
-//        final JPanel panel = new JPanel();
-//
-//        // Adjusting panel size
-//        panel.setPreferredSize(new Dimension(500, 200));
-//
-//        final JPanel textPanel = new JPanel(new BorderLayout());
-//        // Text field for naming new list
-//        final JLabel enterNameLabel = new JLabel("Enter List Name:");
-//        // final JTextField listNameField = new JTextField(40);
-//
-//        addListNameListener();
-//        // not functioning currently, not a today problem
-//        final int x = listNameField.getText().length();
-//        final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/100");
-//
-//        // Add text field components to panel
-//        textPanel.add(enterNameLabel, BorderLayout.NORTH);
-//        textPanel.add(listNameField, BorderLayout.CENTER);
-//        textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
-//
-//        // Add components to the panel
-//        panel.add(textPanel);
-//
-//        // Create a custom dialog with our panel
-//        return JOptionPane.showOptionDialog(this, panel, "Create a New List",
-//                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-//                null, new Object[]{"Create List", "Cancel"}, null);
-//    }
+    private void createNewListPopUpView() {
+        // final int maxChar = 75;
+        final JPanel panel = new JPanel();
 
-//    private void addListNameListener() {
-//        listNameField.getDocument().addDocumentListener(new DocumentListener() {
-//            private void documentListenerHelper() {
-//                final WatchlistsState currentState = watchlistsViewModel.getState();
-//                currentState.setListName(listNameField.getText());
-//                watchlistsViewModel.setState(currentState);
-//            }
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//        });
-//    }
+        // Adjusting panel size
+        panel.setPreferredSize(new Dimension(500, 200));
+
+        final JPanel textPanel = new JPanel(new BorderLayout());
+        // Text field for naming new list
+        final JLabel enterNameLabel = new JLabel("Enter List Name:");
+        // final JTextField listNameField = new JTextField(40);
+
+        final int maxChar = 100;
+        final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/" + maxChar);
+
+        listNameField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                updateCharacterCount(1);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateCharacterCount(-1);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                /* Not needed for plain text fields */
+            }
+
+            private void updateCharacterCount(int increment) {
+                x += increment;
+                characterLimitLabel.setText("Character Limit: " + x + "/" + maxChar);
+            }
+        });
+
+        // Add text field components to panel
+        textPanel.add(enterNameLabel, BorderLayout.NORTH);
+        textPanel.add(listNameField, BorderLayout.CENTER);
+        textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
+
+        // Add components to the panel
+        panel.add(textPanel);
+
+        // Create a custom dialog with our panel
+        final int option = JOptionPane.showOptionDialog(this, panel, "Create a New List",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, new Object[]{"Create List", "Cancel"}, null);
+
+        if (option == JOptionPane.YES_OPTION) {
+            final String listName = listNameField.getText().trim();
+            if (!listName.isEmpty()) {
+                final WatchlistsState currentState = watchlistsViewModel.getState();
+                // Create a new watchlist entity with the list name
+                final UserWatchlist watchlist = new CommonUserWatchlist(listName);
+                currentState.getCurrentUser().getWatchlists().add(watchlist);
+                updateWatchlists();
+            }
+        }
+        updateWatchlists();
+    }
 
     @Override
     public void actionPerformed(ActionEvent evt) {

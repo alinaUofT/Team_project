@@ -30,7 +30,7 @@ public interface UserWatchlist {
      * @return Movie at a given index
      * @throws IndexOutOfBoundsException if index is out of bounds
      */
-    Movie getMovie(int index) throws IndexOutOfBoundsException;
+    Movie getMovie(int index);
 
     /**
      * Get length of this watchlist.
@@ -41,7 +41,6 @@ public interface UserWatchlist {
     /**
      * Add a movie to this watchlist.
      * @param movie Movie to be added to the list
-     * @throws Exception if movie is already in the list
      */
     void addMovie(Movie movie) throws Exception;
 

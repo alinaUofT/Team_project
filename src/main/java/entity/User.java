@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public interface User {
      * Returns the user created watchlists of the user.
      * @return list of watchlists of the user.
      */
-    List<UserWatchlist> getWatchlists();
+    ArrayList<UserWatchlist> getWatchlists();
 
     /**
      * Get the previously watched list of this User.
