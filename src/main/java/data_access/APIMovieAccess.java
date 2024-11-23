@@ -46,10 +46,9 @@ public class APIMovieAccess {
      * Retrieves a string of movie genres from the API.
      *
      * @return a string where the key is the genre ID and the value is the genre name
-     * @throws IOException if an I/O error occurs
      * @throws AssertionError if the response body is null
      */
-    public static String getMovieGenresAsJson() throws IOException {
+    public static String getMovieGenresAsJson() {
         final OkHttpClient client = new OkHttpClient();
 
         // Create the request
