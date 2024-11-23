@@ -1,6 +1,5 @@
 package entity;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,17 +29,49 @@ public interface User {
      * Returns the user created watchlists of the user.
      * @return list of watchlists of the user.
      */
-    List<String> getWatchlists();
+    List<UserWatchlist> getWatchlists();
 
     /**
-     * Returns the preferred genres of the user.
-     * @return list of preferred genres of the user.
+     * Get the previously watched list of this User.
+     * @return previously watched list
      */
-    List<String> getPreferredGenres();
+    PrWatched getPwl();
 
     /**
-     * Add genre to user's preferred genres.
-     * @param genre the genre to be added to the user's preferred genres.
+     * Adds a genre to the list of preferred genres of this User.
+     * @param genre a genre to add to the list
      */
-    void addPreferredGenre(String genre);
+    void addPreferredGenres(String genre);
+
+    /**
+     * Adds a list of genres to the list of preferred genres of this User.
+     * @param genres a list of genres
+     */
+    void addPreferredGenres(List<String> genres);
+
+    /**
+     * Get reviews written by this User.
+     * @return list of reviews
+     */
+    List<MovieReview> getRatingsAndReviews();
+
+    /**
+     * Check if this User watched the movie before.
+     * @param movie in question
+     * @return if the user watched this movie
+     */
+    boolean watchedBefore(Movie movie);
+}
+
+/**
+ * Returns the preferred genres of the user.
+ * @return list of preferred genres of the user.
+ */
+List<String> getPreferredGenres();
+
+/**
+ * Add genre to user's preferred genres.
+ * @param genre the genre to be added to the user's preferred genres.
+ */
+void addPreferredGenre(String genre);
 }
