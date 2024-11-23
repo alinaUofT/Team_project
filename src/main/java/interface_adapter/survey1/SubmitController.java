@@ -23,9 +23,9 @@ public class SubmitController {
      */
     public void execute(User user, String genre1, String genre2, String genre3) {
         final Survey1InputData survey1InputData = new Survey1InputData(genre1, genre2, genre3);
-        user.addPreferredGenre(genre1);
-        user.addPreferredGenre(genre2);
-        user.addPreferredGenre(genre3);
+        user.addPreferredGenres(genre1);
+        user.addPreferredGenres(genre2);
+        user.addPreferredGenres(genre3);
         survey1UseCaseInteractor.execute(survey1InputData, user);
     }
 

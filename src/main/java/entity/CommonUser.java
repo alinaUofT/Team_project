@@ -72,9 +72,6 @@ public class CommonUser implements User {
         return this.preferredGenres;
     }
 
-    @Override
-    public void addPreferredGenre(String genre) {
-        this.preferredGenres.add(genre);
     /**
      * Adds a genre to the list of preferred genres of this User.
      * @param genre a genre to add to the list
@@ -118,9 +115,4 @@ public class CommonUser implements User {
     public boolean watchedBefore(Movie movie) {
         return this.pwl.contains(movie);
     }
-
-    public List<String> getPreferredGenres() {
-        return this.preferredGenres;
-    }
-
 }

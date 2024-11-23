@@ -3,21 +3,22 @@ package view;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.*;
 
 import javax.swing.*;
 
+import data_access.GenreMap;
 import interface_adapter.survey1.SubmitController;
 import interface_adapter.survey1.Survey1State;
 import interface_adapter.survey1.Survey1ViewModel;
-import use_case.survey1.CreateGenreMap;
 
 /**
  * The Survey View for when the user creates an account.
  * we need to call API to get the list of genres
  */
 public class Survey1View extends JPanel implements PropertyChangeListener {
-    private final CreateGenreMap genreMap = (CreateGenreMap) new CreateGenreMap().getGenreMap();
+    private final GenreMap genreMap = new GenreMap();
 
     private final String viewName = "survey step 1/2";
     private final Survey1ViewModel survey1ViewModel;
@@ -27,7 +28,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
     private final JButton submit;
 
-    public Survey1View(Survey1ViewModel survey1ViewModel) {
+    public Survey1View(Survey1ViewModel survey1ViewModel) throws IOException {
         this.survey1ViewModel = survey1ViewModel;
         this.survey1ViewModel.addPropertyChangeListener(this);
 
@@ -106,9 +107,5 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
     public void setSubmitController(SubmitController submitController) {
         this.submitController = submitController;
-    }
-
-    public CreateGenreMap getGenreMap() {
-        return genreMap;
     }
 }
