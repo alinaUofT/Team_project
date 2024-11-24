@@ -75,7 +75,7 @@ public class AppBuilder {
     private LoginView loginView;
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
-//    private WatchlistsView watchlistsView;
+    private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
     private WatchlistView watchlistView;
     private WatchlistViewModel watchlistViewModel;

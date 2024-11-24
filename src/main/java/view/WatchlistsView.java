@@ -4,9 +4,12 @@ import entity.CommonUserWatchlist;
 import entity.User;
 import entity.UserWatchlist;
 import interface_adapter.watchlists.WatchlistsController;
+import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
