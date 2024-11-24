@@ -1,25 +1,26 @@
-package interface_adapter.watchlists;
+package interface_adapter.watchlist;
 
 import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
+import use_case.watchlist.WatchlistOutputBoundary;
 import use_case.watchlists.WatchlistsOutputBoundary;
 
 /**
  * The Presenter for the Signup Use Case.
  */
-public class WatchlistsPresenter implements WatchlistsOutputBoundary {
+public class WatchlistPresenter implements WatchlistOutputBoundary {
 
-    private final WatchlistsViewModel watchlistsViewModel;
+    private final WatchlistViewModel watchlistViewModel;
     private final HomeViewModel homeViewModel;
     private final ViewManagerModel viewManagerModel;
 //    private final WatchlistViewModel watchlistViewModel;
 
-    public WatchlistsPresenter(ViewManagerModel viewManagerModel,
-                               WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel) {
+    public WatchlistPresenter(ViewManagerModel viewManagerModel,
+                              WatchlistViewModel watchlistViewModel, HomeViewModel homeViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homeViewModel = homeViewModel;
-        this.watchlistsViewModel = watchlistsViewModel;
+        this.watchlistViewModel = watchlistViewModel;
 
     }
 

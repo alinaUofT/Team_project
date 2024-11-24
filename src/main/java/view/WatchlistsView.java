@@ -3,25 +3,19 @@ package view;
 import entity.CommonUserWatchlist;
 import entity.User;
 import entity.UserWatchlist;
-import interface_adapter.home.LoggedInState;
-import interface_adapter.signup.SignupState;
 import interface_adapter.watchlists.WatchlistsController;
-import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The View for the watchlists screen.
+ * The View for the screen showing a list of watchlists.
  */
 public class WatchlistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName;
@@ -29,10 +23,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     private final WatchlistsViewModel watchlistsViewModel;
     private WatchlistsController watchlistsController;
 
-    private final JButton home;
-    private final JButton createWatchlist;
-    private final JButton pwl;
-    private List watchlistButtons;
+    private JPanel topLine;
+    private JButton createWatchlist;
+    private JButton pwl;
+    private JPanel watchlistButtons;
 
     private final JTextField listNameField = new JTextField();
 
@@ -44,29 +38,26 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         watchlistsViewModel.addPropertyChangeListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(title);
+        this.topLine = new JPanel();
+        topLine.setLayout(new BoxLayout(topLine, BoxLayout.X_AXIS));
+        topLine.setPreferredSize(new Dimension(400, 50));
 
-        this.home = new JButton(watchlistsViewModel.HOME_LABEL);
-        home.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        final JButton home = new JButton(watchlistsViewModel.HOME_LABEL);
+        home.setAlignmentX(Component.LEFT_ALIGNMENT);
         home.addActionListener(
                 evt -> watchlistsController.switchToHomeView()
         );
-        this.add(home);
+        topLine.add(home);
+
+        final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        topLine.add(title);
+        this.add(topLine);
+
         this.createWatchlist = new JButton(watchlistsViewModel.CREATE_LIST_LABEL);
 
         createWatchlist.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(createWatchlist);
-        this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
-        pwl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pwl.addActionListener(
-                evt -> {
-                    final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-
-                    watchlistsController.goToPWL(currentUser);
-                }
-        );
         createWatchlist.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
@@ -77,16 +68,31 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                     }
                 }
         );
-        this.add(pwl);
-        // this.updateWatchlists();
+        this.watchlistButtons = new JPanel();
+        this.watchlistButtons.setLayout(new BoxLayout(this.watchlistButtons, BoxLayout.Y_AXIS));
+        this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
+        this.pwl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.pwl.addActionListener(
+                evt -> {
+                    final User currentUser = watchlistsViewModel.getState().getCurrentUser();
+
+                    watchlistsController.goToPWL(currentUser);
+                }
+        );
+        this.watchlistButtons.add(this.pwl);
+        this.add(this.watchlistButtons);
+        this.setPreferredSize(new Dimension(400, 300));
+        final Color backcolor = new Color(255, 255, 255);
+        this.setBackground(backcolor);
+
 
     }
 
     private void updateWatchlists() {
         final List<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
-        this.watchlistButtons = new ArrayList<JPanel>();
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();
+            buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton watchlist = new JButton(watchlists.get(i).getListName());
             final int ind = i;
             watchlist.addActionListener(
@@ -210,6 +216,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        this.updateWatchlists();
     }
 }

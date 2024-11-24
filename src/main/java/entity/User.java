@@ -41,7 +41,7 @@ public interface User {
      *
      * @return previously watched list
      */
-    PrWatched getPwl();
+    Watchlist getPwl();
 
     /**
      * Adds a genre to the list of preferred genres of this User.

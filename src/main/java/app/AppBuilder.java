@@ -25,6 +25,7 @@ import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -76,6 +77,8 @@ public class AppBuilder {
     private HomeView loggedInView;
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
+    private WatchlistView watchlistView;
+    private WatchlistViewModel watchlistViewModel;
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
@@ -119,9 +122,6 @@ public class AppBuilder {
         return this;
     }
 
-
-
-
     /**
      * Adds the Watchlists View to the application.
      * @return this builder
@@ -130,6 +130,17 @@ public class AppBuilder {
         watchlistsViewModel = new WatchlistsViewModel();
         watchlistsView = new WatchlistsView(watchlistsViewModel);
         cardPanel.add(watchlistsView, watchlistsView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Watchlists View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistView() {
+        watchlistViewModel = new WatchlistViewModel();
+        watchlistView = new WatchlistView(watchlistViewModel);
+        cardPanel.add(watchlistView, watchlistView.getViewName());
         return this;
     }
 
@@ -282,7 +293,8 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(survey1View.getViewName());
+        viewManagerModel.setState(loginView.getViewName());
+      
         viewManagerModel.firePropertyChanged();
 
         return application;
