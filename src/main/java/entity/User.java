@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +34,14 @@ public interface User {
      *
      * @return list of watchlists of the user.
      */
-    List<UserWatchlist> getWatchlists();
+    ArrayList<UserWatchlist> getWatchlists();
 
     /**
      * Get the previously watched list of this User.
      *
      * @return previously watched list
      */
-    PrWatched getPwl();
+    Watchlist getPwl();
 
     /**
      * Adds a genre to the list of preferred genres of this User.

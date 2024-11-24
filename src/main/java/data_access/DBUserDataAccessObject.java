@@ -15,6 +15,7 @@ import entity.User;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.my_reviews.My_ReviewsDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
@@ -25,7 +26,11 @@ import use_case.watchlists.WatchlistsUserDataAccessInterface;
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface,
-        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, Survey1UserDataAccessInterface {
+        LogoutUserDataAccessInterface, 
+        WatchlistsUserDataAccessInterface, 
+        Survey1UserDataAccessInterface, 
+        My_ReviewsDataAccessInterface {
+
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -147,7 +152,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
             }
         }
-
         // Return the list of reviews
         return reviews;
     }
