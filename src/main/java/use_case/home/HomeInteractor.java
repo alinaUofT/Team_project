@@ -38,4 +38,9 @@ public class HomeInteractor implements HomeInputBoundary {
         final User curentUser = this.userDataAccessObject.get(username);
         this.userPresenter.switchToRecommendationsView(curentUser);
     }
+
+    @Override
+    public User getUser(String username) {
+        return userDataAccessObject.get(username);
+    }
 }

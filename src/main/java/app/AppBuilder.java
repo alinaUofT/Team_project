@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.CardLayout;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -76,26 +78,20 @@ public class AppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
-
     private LoginViewModel loginViewModel;
     private LoginView loginView;
-
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
-
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
-
+    private WatchlistView watchlistView;
+    private WatchlistViewModel watchlistViewModel;
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
-
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-
-
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
-
     private MovieViewModel movieViewModel;
 
     public AppBuilder() {
@@ -135,9 +131,6 @@ public class AppBuilder {
         return this;
     }
 
-
-
-
     /**
      * Adds the Watchlists View to the application.
      * @return this builder
@@ -146,6 +139,17 @@ public class AppBuilder {
         watchlistsViewModel = new WatchlistsViewModel();
         watchlistsView = new WatchlistsView(watchlistsViewModel);
         cardPanel.add(watchlistsView, watchlistsView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Watchlists View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistView() {
+        watchlistViewModel = new WatchlistViewModel();
+        watchlistView = new WatchlistView(watchlistViewModel);
+        cardPanel.add(watchlistView, watchlistView.getViewName());
         return this;
     }
 
@@ -163,6 +167,17 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Survey1 View to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsView() {
+        recommendationsViewModel = new RecommendationsViewModel();
+        recommendationsView = new RecommendationsView(recommendationsViewModel);
+        cardPanel.add(recommendationsView, recommendationsView.getViewName());
+        return this;
+    }
+
     public AppBuilder addMy_ReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
@@ -177,9 +192,7 @@ public class AppBuilder {
         // Create the Controller
         final My_ReviewsController myReviewsController = new My_ReviewsController(my_ReviewsInteractor);
 
-        // Create the View and link it to the ViewModel and Controller
-        final My_ReviewsView myReviewsView = new My_ReviewsView(my_ReviewsViewModel);
-        myReviewsView.setMyReviewsController(myReviewsController);
+        loggedInView.setMyReviewsController(myReviewsController);
 
         // Return
         return this;
@@ -187,22 +200,12 @@ public class AppBuilder {
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
+     * @throws IOException checkstyle
      */
-    public AppBuilder addSurvey1View() {
+    public AppBuilder addSurvey1View() throws IOException {
         survey1ViewModel = new Survey1ViewModel();
         survey1View = new Survey1View(survey1ViewModel);
         cardPanel.add(survey1View, survey1View.getViewName());
-        return this;
-    }
-
-    /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsView() {
-        recommendationsViewModel = new RecommendationsViewModel();
-        recommendationsView = new RecommendationsView(recommendationsViewModel);
-        cardPanel.add(recommendationsView, recommendationsView.getViewName());
         return this;
     }
 
@@ -290,7 +293,7 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, recommendationsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
