@@ -5,13 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import entity.CommonUserWatchlist;
+import entity.Movie;
+import entity.UserWatchlist;
+import entity.Watchlist;
 import interface_adapter.movie.MovieController;
+import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
+import interface_adapter.watchlists.WatchlistsState;
 
 /**
  * The View for when the user views a movie.
@@ -55,6 +60,68 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         bottomButtons.add(userReviewsButton);
 
         // TODO: add listeners here for the above buttons
+        addToListButton.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(addToListButton)) {
+                            addToListPopUpView();
+                        }
+                    }
+                }
+        );
+    }
+
+    /**
+     * View for Add to List Pop-Up Window.
+     */
+    private void addToListPopUpView() {
+        final JPanel panel = new JPanel(new BorderLayout());
+
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        final MovieState currentState = movieViewModel.getState();
+
+        final ArrayList<UserWatchlist> watchlists = currentState.getCurrentUser().getWatchlists();
+
+        for (UserWatchlist watchlist : watchlists) {
+            final String listName = watchlist.getListName();
+            final JButton listButton = new JButton(listName);
+            final Movie currentMovie = currentState.getCurrentMovie();
+
+            if (watchlist.contains(currentMovie)) {
+                listButton.setEnabled(false);
+            }
+            else {
+                listButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(listButton)) {
+                            if (watchlist.contains(currentMovie)) {
+                                listButton.setEnabled(false);
+                            }
+                            else {
+                                // TODO: figure out exception
+                                // watchlist.addMovie(currentMovie);
+                                listButton.setEnabled(false);
+                            }
+                        }
+                    }
+                });
+            }
+
+            buttonPanel.add(listButton);
+        }
+
+        // create Cancel button
+        final JButton cancelButton = new JButton("Cancel");
+
+        // Add items to panel
+        panel.add(buttonPanel, BorderLayout.CENTER);
+        panel.add(cancelButton, BorderLayout.SOUTH);
+
+        JOptionPane.showOptionDialog(this, panel, "My Lists", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
     }
 
     @Override
