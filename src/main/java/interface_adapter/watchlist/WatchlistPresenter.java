@@ -3,23 +3,25 @@ package interface_adapter.watchlist;
 import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
+import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.watchlist.WatchlistOutputBoundary;
-import use_case.watchlists.WatchlistsOutputBoundary;
 
 /**
  * The Presenter for the Signup Use Case.
  */
 public class WatchlistPresenter implements WatchlistOutputBoundary {
 
-    private final WatchlistViewModel watchlistViewModel;
+    private final WatchlistsViewModel watchlistsViewModel;
     private final HomeViewModel homeViewModel;
     private final ViewManagerModel viewManagerModel;
-//    private final WatchlistViewModel watchlistViewModel;
+    private final WatchlistViewModel watchlistViewModel;
 
     public WatchlistPresenter(ViewManagerModel viewManagerModel,
-                              WatchlistViewModel watchlistViewModel, HomeViewModel homeViewModel) {
+                              WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel,
+                              WatchlistViewModel watchlistViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homeViewModel = homeViewModel;
+        this.watchlistsViewModel = watchlistsViewModel;
         this.watchlistViewModel = watchlistViewModel;
 
     }
@@ -34,12 +36,11 @@ public class WatchlistPresenter implements WatchlistOutputBoundary {
      * Switches to the Watchlist View.
      *
      * @param currentUser user that is currently logged in
-     * @param ind         index that corresponds to the watchlist to switch to
      */
     @Override
-    public void switchToWatchlistView(User currentUser, int ind) {
-        // should switch to watchlist view which is not implemented
-        viewManagerModel.setState(homeViewModel.getViewName());
+    public void switchToWatchlistsView(User currentUser) {
+
+        viewManagerModel.setState(watchlistsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
