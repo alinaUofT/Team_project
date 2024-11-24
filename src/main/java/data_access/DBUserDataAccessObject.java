@@ -37,12 +37,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
-        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface {
-        HomeUserDataAccessInterface,
-        LogoutUserDataAccessInterface, 
-        WatchlistsUserDataAccessInterface, 
-        Survey1UserDataAccessInterface, 
-        My_ReviewsDataAccessInterface {
+        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface, Survey1UserDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
