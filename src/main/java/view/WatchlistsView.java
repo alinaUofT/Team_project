@@ -186,7 +186,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                 updateWatchlists();
             }
         }
-        updateWatchlists();
+        // updateWatchlists();
     }
 
     @Override

@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.movie.MovieViewModel;
+import interface_adapter.recommendations.RecommendationsController;
+import interface_adapter.recommendations.RecommendationsPresenter;
+import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.reviews.My_ReviewsController;
 import interface_adapter.reviews.My_ReviewsPresenter;
 import interface_adapter.reviews.My_ReviewsViewModel;
@@ -37,6 +41,9 @@ import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.my_reviews.*;
+import use_case.recommendations.RecommendationsInputBoundary;
+import use_case.recommendations.RecommendationsInteractor;
+import use_case.recommendations.RecommendationsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -69,17 +76,27 @@ public class AppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
+
     private LoginViewModel loginViewModel;
     private LoginView loginView;
+
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
+
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
+
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
+
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
     private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+
+    private RecommendationsViewModel recommendationsViewModel;
+    private RecommendationsView recommendationsView;
+
+    private MovieViewModel movieViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -117,9 +134,6 @@ public class AppBuilder {
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
-
-
-
 
     /**
      * Adds the Watchlists View to the application.
@@ -175,6 +189,17 @@ public class AppBuilder {
         survey1ViewModel = new Survey1ViewModel();
         survey1View = new Survey1View(survey1ViewModel);
         cardPanel.add(survey1View, survey1View.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Survey1 View to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsView() {
+        recommendationsViewModel = new RecommendationsViewModel();
+        recommendationsView = new RecommendationsView(recommendationsViewModel);
+        cardPanel.add(recommendationsView, recommendationsView.getViewName());
         return this;
     }
 
@@ -262,12 +287,27 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, recommendationsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
         final HomeController controller = new HomeController(homeInteractor);
         loggedInView.setHomeController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Recommendations Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsUseCase() {
+        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
+                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
+        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
+                userDataAccessObject, recommendationsOutputBoundary, userFactory);
+
+        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
+        recommendationsView.setRecommendationsController(controller);
         return this;
     }
 
