@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.CardLayout;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -171,7 +172,7 @@ public class AppBuilder {
      * Adds the Survey1 View to the application.
      * @return this builder
      */
-    public AppBuilder addSurvey1View() {
+    public AppBuilder addSurvey1View() throws IOException {
         survey1ViewModel = new Survey1ViewModel();
         survey1View = new Survey1View(survey1ViewModel);
         cardPanel.add(survey1View, survey1View.getViewName());
@@ -281,7 +282,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(loginView.getViewName());
+        viewManagerModel.setState(survey1View.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
