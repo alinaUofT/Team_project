@@ -35,4 +35,8 @@ public class My_ReviewsInteractor implements My_ReviewsInputBoundary{
             myReviewsPresenter.prepareMyReviewsView(my_ReviewsOutputData);
         }
     }
+    // implement the "go back" use case on the "my_ReviewsView" page
+    public void goBack(){
+        myReviewsPresenter.goBack();
+    }
 }
