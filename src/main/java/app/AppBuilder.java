@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.movie.MovieViewModel;
+import interface_adapter.recommendations.RecommendationsController;
+import interface_adapter.recommendations.RecommendationsPresenter;
+import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.reviews.My_ReviewsController;
 import interface_adapter.reviews.My_ReviewsPresenter;
 import interface_adapter.reviews.My_ReviewsViewModel;
@@ -39,6 +43,9 @@ import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.my_reviews.*;
+import use_case.recommendations.RecommendationsInputBoundary;
+import use_case.recommendations.RecommendationsInteractor;
+import use_case.recommendations.RecommendationsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -83,7 +90,9 @@ public class AppBuilder {
     private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+    private RecommendationsViewModel recommendationsViewModel;
+    private RecommendationsView recommendationsView;
+    private MovieViewModel movieViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -158,6 +167,17 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Survey1 View to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsView() {
+        recommendationsViewModel = new RecommendationsViewModel();
+        recommendationsView = new RecommendationsView(recommendationsViewModel);
+        cardPanel.add(recommendationsView, recommendationsView.getViewName());
+        return this;
+    }
+
     public AppBuilder addMy_ReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
@@ -165,16 +185,14 @@ public class AppBuilder {
 
         //  Create the Interactor
         final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                my_ReviewsDataAccessObject,
+                userDataAccessObject,
                 my_ReviewsOutputBoundary
         );
 
         // Create the Controller
         final My_ReviewsController myReviewsController = new My_ReviewsController(my_ReviewsInteractor);
 
-        // Create the View and link it to the ViewModel and Controller
-        final My_ReviewsView myReviewsView = new My_ReviewsView(my_ReviewsViewModel);
-        myReviewsView.setMyReviewsController(myReviewsController);
+        loggedInView.setMyReviewsController(myReviewsController);
 
         // Return
         return this;
@@ -182,6 +200,7 @@ public class AppBuilder {
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
+     * @throws IOException checkstyle
      */
     public AppBuilder addSurvey1View() throws IOException {
         survey1ViewModel = new Survey1ViewModel();
@@ -274,12 +293,27 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, recommendationsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
         final HomeController controller = new HomeController(homeInteractor);
         loggedInView.setHomeController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Recommendations Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsUseCase() {
+        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
+                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
+        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
+                userDataAccessObject, recommendationsOutputBoundary, userFactory);
+
+        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
+        recommendationsView.setRecommendationsController(controller);
         return this;
     }
 
@@ -294,7 +328,7 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
-      
+
         viewManagerModel.firePropertyChanged();
 
         return application;

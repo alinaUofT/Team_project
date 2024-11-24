@@ -1,7 +1,8 @@
 package app;
 
-import javax.swing.JFrame;
 import java.io.IOException;
+
+import javax.swing.JFrame;
 
 /**
  * The Main class of our application.
@@ -22,6 +23,7 @@ public class Main {
                                             .addWatchlistView()
                                             .addSurvey1View()
                                             .addMyReviewsView()
+                                            .addRecommendationsView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
@@ -29,6 +31,7 @@ public class Main {
                                             .addWatchlistsUseCase()
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
+                                            .addRecommendationsUseCase()
                                             .build();
         
         application.pack();

@@ -3,6 +3,8 @@ package use_case.survey1;
 import entity.User;
 import entity.UserFactory;
 
+import java.util.List;
+
 /**
  * The Survey1 Interactor.
  */
@@ -20,22 +22,25 @@ public class Survey1Interactor implements Survey1InputBoundary {
     }
 
     @Override
-    public void execute(Survey1InputData survey1InputData, User user) {
-        final String genre1 = survey1InputData.getGenre1();
-        final String genre2 = survey1InputData.getGenre2();
-        final String genre3 = survey1InputData.getGenre3();
+    public void execute(Survey1InputData survey1InputData, String username) {
+        final List<String> selectedGenres = survey1InputData.getSelectedGenres();
+        final String genre1 = selectedGenres.get(0);
+        final String genre2 = selectedGenres.get(1);
+        final String genre3 = selectedGenres.get(2);
 
-        if (user.getPreferredGenres().isEmpty()) {
+        if (genre1.isEmpty()) {
             survey1Presenter.prepareFailView("You must select three more genre.");
         }
-        else if (user.getPreferredGenres().size() == 1) {
+        else if (genre2.isEmpty()) {
             survey1Presenter.prepareFailView("You must select two more genres.");
         }
-        else if (user.getPreferredGenres().size() == 2) {
+        else if (genre3.isEmpty()) {
             survey1Presenter.prepareFailView("You must select one more genre.");
         }
-        else if (user.getPreferredGenres().size() == 3) {
+        else {
             final Survey1OutputData survey1OutputData = new Survey1OutputData(genre1, genre2, genre3);
+            final User user = this.userDataAccessObject.get(username);
+            user.addPreferredGenres(selectedGenres);
             survey1Presenter.prepareSuccessView(survey1OutputData);
         }
     }
