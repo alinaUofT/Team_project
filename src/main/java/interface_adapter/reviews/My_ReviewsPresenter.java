@@ -1,9 +1,11 @@
 package interface_adapter.reviews;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewModel;
 import use_case.my_reviews.My_ReviewsOutputBoundary;
 import use_case.my_reviews.My_ReviewsOutputData;
 import view.My_ReviewsView;
+import view.ViewManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +37,19 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
                 })
                 .collect(Collectors.toList());
 
-        // Update the ViewModel
-        viewModel.setReviews(formattedReviews);
-    }
 
+        // Update the ViewModel with formatted reviews
+        // Update the view manager to switch to the reviews view
+        viewModel.setState(formattedReviews);
+        viewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(viewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged(); // Notify the ViewModel of changes
+
+
+
+
+    }
     //// Switch the screen to the reviews screen
 //        viewManagerModel.setState("m")(myReviewsReviewsView);
 //    }

@@ -79,7 +79,7 @@ public class AppBuilder {
     private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -153,16 +153,14 @@ public class AppBuilder {
 
         //  Create the Interactor
         final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                my_ReviewsDataAccessObject,
+                userDataAccessObject,
                 my_ReviewsOutputBoundary
         );
 
         // Create the Controller
         final My_ReviewsController myReviewsController = new My_ReviewsController(my_ReviewsInteractor);
 
-        // Create the View and link it to the ViewModel and Controller
-        final My_ReviewsView myReviewsView = new My_ReviewsView(my_ReviewsViewModel);
-        myReviewsView.setMyReviewsController(myReviewsController);
+        loggedInView.setMyReviewsController(myReviewsController);
 
         // Return
         return this;
