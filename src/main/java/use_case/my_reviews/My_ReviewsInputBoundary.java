@@ -7,5 +7,5 @@ public interface My_ReviewsInputBoundary {
 
     // Find the reviews corresponding to this user
     void execute(User user);
-
+    void goBack();
 }
