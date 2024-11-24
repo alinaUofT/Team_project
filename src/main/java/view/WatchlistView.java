@@ -1,9 +1,8 @@
 package view;
 
-import entity.User;
-import entity.UserWatchlist;
-import interface_adapter.watchlists.WatchlistsController;
-import interface_adapter.watchlists.WatchlistsViewModel;
+import entity.Watchlist;
+import interface_adapter.watchlist.WatchlistController;
+import interface_adapter.watchlist.WatchlistViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,122 +10,108 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 /**
- * The View for the screen showing a list of watchlists.
+ * The View for the screen showing a content of a watchlist.
  */
-public class WatchlistsView extends JPanel implements ActionListener, PropertyChangeListener {
+public class WatchlistView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName;
 
-    private final WatchlistsViewModel watchlistsViewModel;
-    private WatchlistsController watchlistsController;
+    private final WatchlistViewModel watchlistViewModel;
+    private WatchlistController watchlistController;
 
+    private JLabel title;
     private JPanel topLine;
-    private JButton createWatchlist;
-    private JButton pwl;
-    private JPanel watchlistButtons;
+    private JButton addMovie;
+    private JPanel movieButtons;
 
-    public WatchlistsView(WatchlistsViewModel watchlistsViewModel) {
-        this.watchlistsViewModel = watchlistsViewModel;
-        this.viewName = watchlistsViewModel.getViewName();
-        watchlistsViewModel.addPropertyChangeListener(this);
+    public WatchlistView(WatchlistViewModel watchlistViewModel) {
+        this.watchlistViewModel = watchlistViewModel;
+        this.viewName = watchlistViewModel.getViewName();
+        watchlistViewModel.addPropertyChangeListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.topLine = new JPanel();
         topLine.setLayout(new BoxLayout(topLine, BoxLayout.X_AXIS));
         topLine.setPreferredSize(new Dimension(400, 50));
 
-        final JButton home = new JButton(watchlistsViewModel.HOME_LABEL);
-        home.setAlignmentX(Component.LEFT_ALIGNMENT);
-        home.addActionListener(
-                evt -> watchlistsController.switchToHomeView()
+        final JButton back = new JButton(watchlistViewModel.BACK_LABEL);
+        back.setAlignmentX(Component.LEFT_ALIGNMENT);
+        back.addActionListener(
+                // TODO Not what is actually supposed to happen
+                evt -> watchlistController.switchToHomeView()
         );
-        topLine.add(home);
+        topLine.add(back);
 
-        final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL);
+        this.title = new JLabel(watchlistViewModel.getState().getWatchlistName());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         topLine.add(title);
         this.add(topLine);
 
-        this.createWatchlist = new JButton(watchlistsViewModel.CREATE_LIST_LABEL);
+        final JButton home = new JButton(watchlistViewModel.HOME_LABEL);
+        home.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        home.addActionListener(
+                evt -> watchlistController.switchToHomeView()
+        );
+        topLine.add(home);
+
+        this.addMovie = new JButton(watchlistViewModel.ADD_MOVIE_LABEL);
         // TODO create the createWatchlistController
         //        createWatchlist.addActionListener(
         //                evt -> createWatchlistController.execute()
         //        );
-        createWatchlist.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(createWatchlist);
-        createWatchlist.addActionListener(
+        addMovie.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(addMovie);
+        addMovie.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(createWatchlist)) {
+                        if (evt.getSource().equals(addMovie)) {
 //                            createNewListPopUpView();
                             // TODO: if (result == JOptionPane.YES_OPTION) add new list to user's existing lists
                         }
                     }
                 }
         );
-        this.watchlistButtons = new JPanel();
-        this.watchlistButtons.setLayout(new BoxLayout(this.watchlistButtons, BoxLayout.Y_AXIS));
-        this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
-        this.pwl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.pwl.addActionListener(
-                evt -> {
-                    final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-
-                    watchlistsController.goToPWL(currentUser);
-                }
-        );
-        this.watchlistButtons.add(this.pwl);
-        this.add(this.watchlistButtons);
+        this.movieButtons = new JPanel();
+        this.movieButtons.setLayout(new BoxLayout(this.movieButtons, BoxLayout.Y_AXIS));
+        this.add(this.movieButtons);
         this.setPreferredSize(new Dimension(400, 300));
         final Color backcolor = new Color(255, 255, 255);
         this.setBackground(backcolor);
 
     }
 
-    private void updateWatchlists() {
-        final List<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
-        for (int i = 0; i < watchlists.size(); i++) {
+    private void updateWatchlist() {
+        this.title.setText(this.watchlistViewModel.getState().getWatchlistName());
+        final Watchlist movies = watchlistViewModel.getState().getWatchlist();
+        for (int i = 0; i < movies.size(); i++) {
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-            final JButton watchlist = new JButton(watchlists.get(i).getListName());
+            final JButton movie = new JButton(movies.getMovie(i).getTitle());
             final int ind = i;
-            watchlist.addActionListener(
+            movie.addActionListener(
                     evt -> {
-                        if (evt.getSource().equals(watchlist)) {
-                            final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-
-                            watchlistsController.goToWatchlist(currentUser,
-                                    ind);
+                        if (evt.getSource().equals(movie)) {
+//                            TODO: ask Rhea if she already has controller that can do this
                         }
                     }
             );
-            buttons.add(watchlist);
-            final JButton rename = new JButton(watchlistsViewModel.RENAME_LABEL);
-            //            rename.addActionListener(
-            //                    evt -> {
-            //                        if (evt.getSource().equals(rename)) {
-            //                            final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-            //
-            //                            renameWatchlistController.execute(currentUser, ind);
-            //                        }
-            //                    }
-            //            );
-            buttons.add(rename);
-            final JButton delete = new JButton(watchlistsViewModel.DELETE_LABEL);
-            //            delete.addActionListener(
-            //                    evt -> {
-            //                        if (evt.getSource().equals(delete)) {
-            //                            final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-            //
-            //                            deleteWatchlistController.execute(currentUser, ind);
-            //                        }
-            //                    }
-            //            );
-            buttons.add(delete);
-            this.watchlistButtons.add(buttons);
+            buttons.add(movie);
+            final JButton remove = new JButton(watchlistViewModel.REMOVE_LABEL);
+            remove.addActionListener(
+                    evt -> {
+                        if (evt.getSource().equals(remove)) {
+//                            TODO: write controller
+//                            final String currentUser = watchlistViewModel.getState().getCurrentUser();
+//                            final int watchlistIndex = watchlistViewModel.getState().getWatchlistIndex();
+//
+//                            removeMovieController.execute(currentUser, watchlistIndex, ind);
+                        }
+                    }
+            );
+            buttons.add(remove);
+            this.movieButtons.add(buttons);
         }
     }
 
@@ -199,8 +184,8 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         return viewName;
     }
 
-    public void setWatchlistsController(WatchlistsController controller) {
-        this.watchlistsController = controller;
+    public void setWatchlistController(WatchlistController controller) {
+        this.watchlistController = controller;
     }
 
     /**
@@ -211,6 +196,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        this.updateWatchlists();
+        this.updateWatchlist();
     }
 }

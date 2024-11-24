@@ -18,7 +18,7 @@ public class CommonUser implements User {
 
     private boolean loginStatus;
     private List<String> preferredGenres = new ArrayList<>();
-    private PrWatched pwl = new Watchlist();
+    private Watchlist pwl = new CommonWatchlist();
     private List<UserWatchlist> watchlists = new ArrayList<>();
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class CommonUser implements User {
      * @return previously watched list
      */
     @Override
-    public PrWatched getPwl() {
+    public Watchlist getPwl() {
         return this.pwl;
     }
 

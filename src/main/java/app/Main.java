@@ -17,6 +17,7 @@ public class Main {
                                             .addSignupView()
                                             .addLoggedInView()
                                             .addWatchlistsView()
+                                            .addWatchlistView()
                                             .addSurvey1View()
                                             .addMyReviewsView()
                                             .addSignupUseCase()

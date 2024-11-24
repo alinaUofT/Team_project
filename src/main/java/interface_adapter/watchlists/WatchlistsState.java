@@ -8,10 +8,6 @@ import entity.User;
 public class WatchlistsState {
     private User currentUser;
 
-    public WatchlistsState() {
-
-    }
-
     public User getCurrentUser() {
         return this.currentUser;
     }
@@ -23,7 +19,7 @@ public class WatchlistsState {
     @Override
     public String toString() {
         return "WatchlistsState{"
-                + "currentUser='" + currentUser
+                + "currentUser='" + currentUser.getName()
                 + '}';
     }
 }
