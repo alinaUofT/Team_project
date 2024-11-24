@@ -11,5 +11,6 @@ public interface UserWatchlist extends Watchlist {
      * @param listname new name of the watchlist
      */
     void changeListName(String listname);
+
 }
 

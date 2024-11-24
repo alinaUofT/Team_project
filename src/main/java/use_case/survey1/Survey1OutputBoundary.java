@@ -1,5 +1,7 @@
 package use_case.survey1;
 
+import entity.User;
+
 /**
  * The output boundary for the Survey1 Use Case.
  */
@@ -8,7 +10,7 @@ public interface Survey1OutputBoundary {
     /**
      * Switches to the SurveySecondPage View.
      */
-    void switchToSurveySecondPageView();
+    void switchToSurveySecondPageView(User curentUser);
 
     /**
      * Prepares the failure view for the Login Use Case.
