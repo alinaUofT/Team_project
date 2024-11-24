@@ -292,7 +292,6 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
-      
         viewManagerModel.firePropertyChanged();
 
         return application;

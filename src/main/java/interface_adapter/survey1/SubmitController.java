@@ -1,6 +1,8 @@
 package interface_adapter.survey1;
 
-import entity.User;
+import java.util.ArrayList;
+import java.util.List;
+
 import use_case.survey1.Survey1InputBoundary;
 import use_case.survey1.Survey1InputData;
 
@@ -11,22 +13,18 @@ public class SubmitController {
     private final Survey1InputBoundary survey1UseCaseInteractor;
 
     public SubmitController(Survey1InputBoundary survey1UseCaseInteractor) {
+
         this.survey1UseCaseInteractor = survey1UseCaseInteractor;
     }
 
     /**
      * Executes the Survey1 Use Case.
-     * @param user the user who is taking the survey
-     * @param genre1 the first movie genre that the user selects
-     * @param genre2 the second movie genre that the user selects
-     * @param genre3 the third movie genre that the user selects
+     * @param username the user who is taking the survey
+     * @param selectedGenres the selected genres
      */
-    public void execute(User user, String genre1, String genre2, String genre3) {
-        final Survey1InputData survey1InputData = new Survey1InputData(genre1, genre2, genre3);
-        user.addPreferredGenres(genre1);
-        user.addPreferredGenres(genre2);
-        user.addPreferredGenres(genre3);
-        survey1UseCaseInteractor.execute(survey1InputData, user);
+    public void execute(String username, List<String> selectedGenres) {
+        final Survey1InputData survey1InputData = new Survey1InputData((ArrayList<String>) selectedGenres);
+        survey1UseCaseInteractor.execute(survey1InputData, username);
     }
 
     /**
