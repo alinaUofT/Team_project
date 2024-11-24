@@ -21,6 +21,14 @@ public class HomeController {
         this.homeInteractor.switchToWatchlistsView(username);
     }
 
+    /**
+     * Executes the "switch to RecommendationsView" Use Case.
+     * @param username of the currently logged in user
+     */
+    public void switchToRecommendationsView(String username) {
+        this.homeInteractor.switchToRecommendationsView(username);
+    }
+
     public User getUser(String username){
         return homeInteractor.getUser(username);
     }

@@ -23,7 +23,7 @@ public class CommonUser implements User {
     private boolean loginStatus;
     private List<String> preferredGenres = new ArrayList<>();
     private Watchlist pwl = new CommonWatchlist();
-    private List<UserWatchlist> watchlists = new ArrayList<>();
+    private ArrayList<UserWatchlist> watchlists = new ArrayList<>();
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
