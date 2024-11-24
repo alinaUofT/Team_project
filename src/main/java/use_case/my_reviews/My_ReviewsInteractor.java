@@ -24,7 +24,7 @@ public class My_ReviewsInteractor implements My_ReviewsInputBoundary{
 
         // Retrieve the list of reviews for the user
         List<MovieReview> reviews = myReviewsDataAccessObject.getReviews(user);
-        // turn this into a peice of My_ReviewsOutputDate
+        // turn this into a piece of My_ReviewsOutputData
         final My_ReviewsOutputData my_ReviewsOutputData = new My_ReviewsOutputData(reviews);
 
         if (reviews.isEmpty()) {

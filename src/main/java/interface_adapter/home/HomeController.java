@@ -1,5 +1,6 @@
 package interface_adapter.home;
 
+import entity.User;
 import use_case.home.HomeInputBoundary;
 
 /**
@@ -20,4 +21,7 @@ public class HomeController {
         this.homeInteractor.switchToWatchlistsView(username);
     }
 
+    public User getUser(String username){
+        return homeInteractor.getUser(username);
+    }
 }
