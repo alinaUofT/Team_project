@@ -12,10 +12,4 @@ public interface HomeOutputBoundary {
      * @param user currently logged in user
      */
     void switchToWatchlistsView(User user);
-
-    /**
-     * Switches to the Recommendations View.
-     * @param user currently logged in user
-     */
-    void switchToRecommendationsView(User user);
 }

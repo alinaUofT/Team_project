@@ -87,6 +87,8 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         this.setPreferredSize(new Dimension(400, 300));
         final Color backcolor = new Color(255, 255, 255);
         this.setBackground(backcolor);
+
+
     }
 
     private void updateWatchlists() {
@@ -193,7 +195,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                 updateWatchlists();
             }
         }
-        // updateWatchlists();
+        updateWatchlists();
     }
 
     @Override

@@ -60,16 +60,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
         final JPanel bottomButtons = new JPanel();
         recommendations = new JButton("Recommendations");
-        recommendations.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(recommendations)) {
-                        final String uname = homeViewModel.getState().getUsername();
-                        this.homeController.switchToRecommendationsView(uname);
-                    }
-                }
-        );
-
         myWatchlists = new JButton("My Watchlists");
         myWatchlists.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
