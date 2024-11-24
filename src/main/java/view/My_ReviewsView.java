@@ -15,14 +15,14 @@ import javax.swing.JPanel;
 import interface_adapter.ViewModel;
 
 public class My_ReviewsView extends JPanel implements PropertyChangeListener {
-    private final String viewName = "MyReviewsView";
+    private final String viewName = "My_ReviewsView";
     private final My_ReviewsViewModel viewModel;
     private final JPanel reviewsPanel;
     private My_ReviewsController controller; // Add a reference to the Controller
 
     public My_ReviewsView(My_ReviewsViewModel viewModel) {
         this.viewModel = viewModel;
-
+        List<String> reviews = viewModel.getReviews();
         // Register as an observer
         this.viewModel.addPropertyChangeListener(this);
 
@@ -62,17 +62,16 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
         this.add(scrollPane, BorderLayout.CENTER);
 
         // Initial render
-        updateView(viewModel);
+        updateView(reviews);
     }
 
     public void setMyReviewsController(My_ReviewsController controller) {
         this.controller = controller;
     }
 
-    public void updateView(My_ReviewsViewModel viewModel) {
+    public void updateView(List<String> formattedReviews) {
         reviewsPanel.removeAll();
 
-        List<String> formattedReviews = viewModel.getReviews();
         if (formattedReviews == null || formattedReviews.isEmpty()) {
             reviewsPanel.add(new JLabel("No reviews available."));
         } else {
@@ -96,12 +95,12 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
         reviewsPanel.revalidate();
         reviewsPanel.repaint();
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
-            My_ReviewsViewModel newViewModel = (My_ReviewsViewModel) evt.getNewValue();
-            updateView(newViewModel);
+            // Cast the new value to a List<String>, since that's the state being sent
+            List<String> formattedReviews = (List<String>) evt.getNewValue();
+            updateView(formattedReviews); // Pass the list of reviews to update the view
         }
     }
 

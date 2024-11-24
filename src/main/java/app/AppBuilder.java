@@ -91,7 +91,7 @@ public class AppBuilder {
 
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+
 
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
@@ -135,6 +135,9 @@ public class AppBuilder {
         return this;
     }
 
+
+
+
     /**
      * Adds the Watchlists View to the application.
      * @return this builder
@@ -167,7 +170,7 @@ public class AppBuilder {
 
         //  Create the Interactor
         final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                my_ReviewsDataAccessObject,
+                userDataAccessObject,
                 my_ReviewsOutputBoundary
         );
 
@@ -287,7 +290,7 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, recommendationsViewModel, homeViewModel);
+                watchlistsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
@@ -322,6 +325,7 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
+
         viewManagerModel.firePropertyChanged();
 
         return application;

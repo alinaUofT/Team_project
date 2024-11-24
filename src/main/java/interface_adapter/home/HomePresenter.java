@@ -34,6 +34,7 @@ public class HomePresenter implements HomeOutputBoundary {
         watchlistsViewModel.getState().setCurrentUser(user);
         viewManagerModel.setState(watchlistsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+        watchlistsViewModel.firePropertyChanged();
     }
 
     /**

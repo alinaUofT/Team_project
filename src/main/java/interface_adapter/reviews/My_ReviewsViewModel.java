@@ -8,7 +8,7 @@ public class My_ReviewsViewModel extends ViewModel<List<String>> {
     private List<String> reviews;
 
     public My_ReviewsViewModel() {
-        super("MyReviewsView");
+        super("My_ReviewsView");
         setState(List.of());
     }
 
@@ -23,4 +23,5 @@ public class My_ReviewsViewModel extends ViewModel<List<String>> {
     public boolean hasReviews() {
         return reviews != null && !reviews.isEmpty();
     }
+
 }

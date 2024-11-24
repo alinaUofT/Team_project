@@ -1,11 +1,11 @@
-package use_case.watchlists;
+package use_case.watchlist;
 
 import entity.User;
 
 /**
  * The output boundary for the Signup Use Case.
  */
-public interface WatchlistsOutputBoundary {
+public interface WatchlistOutputBoundary {
 
     /**
      * Switches to the Logged In View.

@@ -3,6 +3,10 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
+
+
+
 /**
  * A simple implementation of the User interface.
  */
@@ -18,14 +22,16 @@ public class CommonUser implements User {
 
     private boolean loginStatus;
     private List<String> preferredGenres = new ArrayList<>();
-    private PrWatched pwl = new Watchlist();
-    private ArrayList<UserWatchlist> watchlists = new ArrayList<>();
+    private Watchlist pwl = new CommonWatchlist();
+    private List<UserWatchlist> watchlists = new ArrayList<>();
+
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
     public CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
+        this.preferredGenres = new ArrayList<>();
     }
 
     @Override
@@ -48,7 +54,7 @@ public class CommonUser implements User {
      * @return previously watched list
      */
     @Override
-    public PrWatched getPwl() {
+    public Watchlist getPwl() {
         return this.pwl;
     }
 
@@ -60,6 +66,11 @@ public class CommonUser implements User {
     @Override
     public ArrayList<UserWatchlist> getWatchlists() {
         return this.watchlists;
+    }
+
+    @Override
+    public List<String> getPreferredGenres() {
+        return this.preferredGenres;
     }
 
     /**
@@ -105,9 +116,4 @@ public class CommonUser implements User {
     public boolean watchedBefore(Movie movie) {
         return this.pwl.contains(movie);
     }
-  
-    public List<String> getPreferredGenres() {
-        return this.preferredGenres;
-    }
-
 }
