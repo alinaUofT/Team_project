@@ -193,7 +193,7 @@ public class AppBuilder {
         final My_ReviewsController myReviewsController = new My_ReviewsController(my_ReviewsInteractor);
 
         loggedInView.setMyReviewsController(myReviewsController);
-
+        my_ReviewsView.setMyReviewsController(myReviewsController);
         // Return
         return this;
     }
