@@ -19,4 +19,11 @@ public interface WatchlistUserDataAccessInterface {
      * @param user the user to save
      */
     void save(User user);
+
+    /**
+     * Returns a User with this username.
+     * @param username username of the user
+     * @return User with this username
+     */
+    User get(String username);
 }

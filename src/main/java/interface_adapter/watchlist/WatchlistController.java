@@ -22,12 +22,12 @@ public class WatchlistController {
     }
 
     /**
-     * Executes the "switch to WatchlistView" Use Case.
+     * Executes the "switch to WatchlistsView" Use Case.
      * @param currentUser user that is currently logged in
-     * @param ind index that corresponds to the watchlist to switch to
      */
-    public void goToWatchlist(User currentUser, int ind) {
-        watchlistInteractor.switchToWatchlistView(currentUser, ind);
+    public void backToWatchlistsView(String currentUser) {
+
+        watchlistInteractor.switchToWatchlistsView(currentUser);
     }
 
     /**
