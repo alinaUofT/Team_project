@@ -1,7 +1,8 @@
 package app;
 
-import javax.swing.JFrame;
 import java.io.IOException;
+
+import javax.swing.JFrame;
 
 /**
  * The Main class of our application.

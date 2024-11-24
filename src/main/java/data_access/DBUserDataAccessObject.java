@@ -11,8 +11,14 @@ import org.bson.Document;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import entity.CommonMovieReviewFactory;
+
 import entity.CommonUserFactory;
 import entity.MovieReview;
+
+import org.bson.Document;
+import java.util.Date;
+import java.util.ArrayList;
+
 import entity.User;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -21,6 +27,7 @@ import use_case.my_reviews.My_ReviewsDataAccessInterface;
 import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
+import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
@@ -31,6 +38,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
         WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface {
+        HomeUserDataAccessInterface,
+        LogoutUserDataAccessInterface, 
+        WatchlistsUserDataAccessInterface, 
+        Survey1UserDataAccessInterface, 
+        My_ReviewsDataAccessInterface {
+
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";

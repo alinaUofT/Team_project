@@ -65,7 +65,7 @@ public class CommonUser implements User {
      */
     @Override
     public ArrayList<UserWatchlist> getWatchlists() {
-        return this.watchlists;
+        return (ArrayList<UserWatchlist>) this.watchlists;
     }
 
     @Override

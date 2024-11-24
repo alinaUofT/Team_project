@@ -1,7 +1,5 @@
 package interface_adapter.survey1;
 
-import interface_adapter.home.LoggedInState;
-
 /**
  * The state for the Survey1 View Model.
  */
