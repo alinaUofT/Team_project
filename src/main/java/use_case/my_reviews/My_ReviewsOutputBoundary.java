@@ -6,5 +6,6 @@ import java.util.List;
 
     public interface My_ReviewsOutputBoundary {
         void prepareMyReviewsView(My_ReviewsOutputData my_reviewsOutputData);
-        void prepareNoReviewsView(String message);
+        void goBack();
+        void prepareNoReviewsView(String no_reviews_msg);
     }

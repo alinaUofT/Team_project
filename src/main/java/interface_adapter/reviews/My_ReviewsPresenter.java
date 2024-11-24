@@ -2,6 +2,7 @@ package interface_adapter.reviews;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewModel;
+import interface_adapter.home.HomeViewModel;
 import use_case.my_reviews.My_ReviewsOutputBoundary;
 import use_case.my_reviews.My_ReviewsOutputData;
 import view.My_ReviewsView;
@@ -47,21 +48,18 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
         this.viewManagerModel.firePropertyChanged(); // Notify the ViewModel of changes
 
 
+    }
 
+    public void goBack() {
+        viewManagerModel.setState("logged in");
+        viewManagerModel.firePropertyChanged();
 
     }
-    //// Switch the screen to the reviews screen
-//        viewManagerModel.setState("m")(myReviewsReviewsView);
-//    }
-//
     @Override
     public void prepareNoReviewsView(String message) {
-//        // Pass the message to the no-reviews view
-//        myReviewsNoReviewsView.displayMessage(message);
-//
-//        // Switch the screen to the no-reviews screen
-//        viewManagerModel.switchView(myReviewsNoReviewsView);
-//    }
+        viewModel.setState(null);
+        viewModel.firePropertyChanged();
+        this.viewManagerModel.setState(viewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 }
-

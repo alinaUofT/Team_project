@@ -13,4 +13,8 @@ public class My_ReviewsController {
     public void getReviews(User user) {
         interactor.execute(user);
     }
+
+    public void goBack() {
+        interactor.goBack();
+    }
 }

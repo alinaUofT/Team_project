@@ -39,11 +39,7 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
 
         // Action listener for back button
         backButton.addActionListener(e -> {
-            if (controller != null) {
-                controller.getReviews(/* Pass appropriate user object */ null);
-            } else {
-                JOptionPane.showMessageDialog(this, "Controller is not set!");
-            }
+                controller.goBack();
         });
 
         // Reviews panel
