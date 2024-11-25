@@ -31,9 +31,14 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey1.SubmitController;
 import interface_adapter.survey1.Survey1Presenter;
 import interface_adapter.survey1.Survey1ViewModel;
+
 import interface_adapter.survey_second_page.SurveySecondPageController;
 import interface_adapter.survey_second_page.SurveySecondPagePresenter;
 import interface_adapter.survey_second_page.SurveySecondPageViewModel;
+
+import interface_adapter.watchlist.WatchlistController;
+import interface_adapter.watchlist.WatchlistPresenter;
+
 import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
@@ -54,12 +59,18 @@ import use_case.recommendations.RecommendationsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+
 import use_case.survey1.Survey1InputBoundary;
 import use_case.survey1.Survey1Interactor;
 import use_case.survey1.Survey1OutputBoundary;
 import use_case.survey_second_page.SurveySecondPageInputBoundary;
 import use_case.survey_second_page.SurveySecondPageInteractor;
 import use_case.survey_second_page.SurveySecondPageOutputBoundary;
+
+import use_case.watchlist.WatchlistInputBoundary;
+import use_case.watchlist.WatchlistInteractor;
+import use_case.watchlist.WatchlistOutputBoundary;
+
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
@@ -308,7 +319,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Signup Use Case to the application.
+     * Adds the Watchlists Use Case to the application.
      * @return this builder
      */
     public AppBuilder addWatchlistsUseCase() {
@@ -319,6 +330,21 @@ public class AppBuilder {
 
         final WatchlistsController controller = new WatchlistsController(watchlistsInteractor);
         watchlistsView.setWatchlistsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addWatchlistUseCase() {
+        final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
+                watchlistsViewModel, homeViewModel, watchlistViewModel);
+        final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
+                userDataAccessObject, watchlistOutputBoundary, userFactory);
+
+        final WatchlistController controller = new WatchlistController(watchlistInteractor);
+        watchlistView.setWatchlistController(controller);
         return this;
     }
 
@@ -398,7 +424,6 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
-
         viewManagerModel.firePropertyChanged();
 
         return application;
