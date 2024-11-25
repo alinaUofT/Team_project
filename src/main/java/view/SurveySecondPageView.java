@@ -19,7 +19,7 @@ import interface_adapter.survey_second_page.SurveySecondPageViewModel;
  */
 public class SurveySecondPageView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private  String viewName = "";
+    private final String viewName = "survey page 2/2";
     private final SurveySecondPageViewModel surveySecondPageViewModel;
 
     private final JTextField firstMovie = new JTextField(15);
@@ -40,7 +40,6 @@ public class SurveySecondPageView extends JPanel implements ActionListener, Prop
     public SurveySecondPageView(SurveySecondPageViewModel surveySecondPageViewModel) {
         this.surveySecondPageViewModel = surveySecondPageViewModel;
         this.surveySecondPageViewModel.addPropertyChangeListener(this);
-        this.viewName = surveySecondPageViewModel.getViewName();
 
         this.enter1 = new JButton(surveySecondPageViewModel.ENTER_LABEL);
         this.enter2 = new JButton(surveySecondPageViewModel.ENTER_LABEL);

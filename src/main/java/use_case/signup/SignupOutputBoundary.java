@@ -19,9 +19,8 @@ public interface SignupOutputBoundary {
 
     /**
      * Switches to the Survey1 View.
-     * @param uname newly created user
      */
-    void switchToSurvey1View(String uname);
+    void switchToSurvey1View();
 
     /**
      * Switches to the Login View.

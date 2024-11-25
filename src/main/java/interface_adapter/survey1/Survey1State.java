@@ -45,10 +45,6 @@ public class Survey1State {
         this.genre3 = genre3;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getUsername() {
         return username;
     }
