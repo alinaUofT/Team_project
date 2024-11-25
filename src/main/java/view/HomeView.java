@@ -18,8 +18,7 @@ import interface_adapter.home.HomeController;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.logout.LogoutController;
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.watchlists.WatchlistsController;
+import interface_adapter.my_reviews.My_ReviewsController;
 
 /**
  * The Home View for when the user is logged into the program.

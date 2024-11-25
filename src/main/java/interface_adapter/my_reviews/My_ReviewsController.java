@@ -1,4 +1,4 @@
-package interface_adapter.reviews;
+package interface_adapter.my_reviews;
 
 import entity.User;
 import use_case.my_reviews.My_ReviewsInputBoundary;

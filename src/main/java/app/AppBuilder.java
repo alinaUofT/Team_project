@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.reviews.My_ReviewsPresenter;
-import interface_adapter.reviews.My_ReviewsViewModel;
+import interface_adapter.my_reviews.My_ReviewsController;
+import interface_adapter.my_reviews.My_ReviewsPresenter;
+import interface_adapter.my_reviews.My_ReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import entity.User;
 import use_case.home.HomeUserDataAccessInterface;
+import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.My_ReviewsDataAccessInterface;
@@ -25,6 +26,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface,
         My_ReviewsDataAccessInterface,
+        LeaveReviewDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -84,7 +86,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    public boolean addReviewToUser(User user, MovieReview review) {
+    public boolean leaveReview(MovieReview review) {
         try {
             // Create a document representing the review
             Document reviewDoc = new Document()
@@ -99,7 +101,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             // Add the review to the "reviews" array in the user's document
             collection.updateOne(
-                    new Document("userId", user.getName()), // Find user by ID
+                    new Document("userId", review.getUserID()), // Find user by ID
                     new Document("$push", new Document("reviews", reviewDoc)) // Push the new review
             );
 
@@ -111,7 +113,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    public List<MovieReview> getReviews(User username) {
+    public List<MovieReview> getReviews(User user) {
         // Initialize the factory to create MovieReview objects
         CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
 
@@ -119,7 +121,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         List<MovieReview> reviews = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
-        Document userDoc = collection.find(new Document("userId", username.getName())).first();
+        Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
         if (userDoc != null) {
             // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
@@ -128,7 +130,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             if (rawReviews != null) {
                 // Iterate over each review and transform it into a MovieReview object
                 for (Document reviewDoc : rawReviews) {
-                    String user = userDoc.getString("userId");
+                    String username = userDoc.getString("userId");
                     Date date = reviewDoc.getDate("date");
                     Double starRating = reviewDoc.getDouble("starRating");
                     String writtenReview = reviewDoc.getString("writtenReview");
@@ -137,9 +139,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     // Use the factory to create the MovieReview
                     MovieReview review;
                     if (writtenReview != null) {
-                        review = reviewFactory.create(user, date, starRating, writtenReview, movieTitle);
+                        review = reviewFactory.create(username, date, starRating, writtenReview, movieTitle);
                     } else {
-                        review = reviewFactory.create(user, date, starRating, movieTitle);
+                        review = reviewFactory.create(username, date, starRating, movieTitle);
                     }
 
                     // Add the review to the list
