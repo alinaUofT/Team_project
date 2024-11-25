@@ -230,7 +230,6 @@ public class AppBuilder {
         // Return
         return this;
     }
-
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
@@ -319,7 +318,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Watchlists Use Case to the application.
+     * Adds the Signup Use Case to the application.
      * @return this builder
      */
     public AppBuilder addWatchlistsUseCase() {
