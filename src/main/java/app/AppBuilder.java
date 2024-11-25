@@ -7,13 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import interface_adapter.movie.MovieViewModel;
-import interface_adapter.recommendations.RecommendationsController;
-import interface_adapter.recommendations.RecommendationsPresenter;
-import interface_adapter.recommendations.RecommendationsViewModel;
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.reviews.My_ReviewsPresenter;
-import interface_adapter.reviews.My_ReviewsViewModel;
+import interface_adapter.my_reviews.My_ReviewsController;
+import interface_adapter.my_reviews.My_ReviewsPresenter;
+import interface_adapter.my_reviews.My_ReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
@@ -28,17 +24,7 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.survey1.SubmitController;
-import interface_adapter.survey1.Survey1Presenter;
 import interface_adapter.survey1.Survey1ViewModel;
-
-import interface_adapter.survey_second_page.SurveySecondPageController;
-import interface_adapter.survey_second_page.SurveySecondPagePresenter;
-import interface_adapter.survey_second_page.SurveySecondPageViewModel;
-
-import interface_adapter.watchlist.WatchlistController;
-import interface_adapter.watchlist.WatchlistPresenter;
-
 import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
@@ -53,24 +39,9 @@ import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.my_reviews.*;
-import use_case.recommendations.RecommendationsInputBoundary;
-import use_case.recommendations.RecommendationsInteractor;
-import use_case.recommendations.RecommendationsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-
-import use_case.survey1.Survey1InputBoundary;
-import use_case.survey1.Survey1Interactor;
-import use_case.survey1.Survey1OutputBoundary;
-import use_case.survey_second_page.SurveySecondPageInputBoundary;
-import use_case.survey_second_page.SurveySecondPageInteractor;
-import use_case.survey_second_page.SurveySecondPageOutputBoundary;
-
-import use_case.watchlist.WatchlistInputBoundary;
-import use_case.watchlist.WatchlistInteractor;
-import use_case.watchlist.WatchlistOutputBoundary;
-
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
@@ -112,11 +83,7 @@ public class AppBuilder {
     private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-    private RecommendationsViewModel recommendationsViewModel;
-    private RecommendationsView recommendationsView;
-    private MovieViewModel movieViewModel;
-    private SurveySecondPageViewModel surveySecondPageViewModel;
-    private SurveySecondPageView surveySecondPageView;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -177,10 +144,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the MyReviews View to the application.
-     * @return this builder
-     */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
         my_ReviewsViewModel = new My_ReviewsViewModel();
@@ -195,26 +158,10 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsView() {
-        recommendationsViewModel = new RecommendationsViewModel();
-        recommendationsView = new RecommendationsView(recommendationsViewModel);
-        cardPanel.add(recommendationsView, recommendationsView.getViewName());
-        return this;
-    }
-
-    /**
-     * Adds the My_Reviews Use Case to the application.
-     * @return this builder
-     */
     public AppBuilder addMy_ReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new My_ReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
+        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary = new My_ReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
         final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
@@ -230,11 +177,9 @@ public class AppBuilder {
         // Return
         return this;
     }
-
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
-     * @throws IOException checkstyle
      */
     public AppBuilder addSurvey1View() throws IOException {
         survey1ViewModel = new Survey1ViewModel();
@@ -244,24 +189,12 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     * @throws IOException checkstyle
-     */
-    public AppBuilder addSurveySecondPageView() throws IOException {
-        surveySecondPageViewModel = new SurveySecondPageViewModel();
-        surveySecondPageView = new SurveySecondPageView(surveySecondPageViewModel);
-        cardPanel.add(surveySecondPageView, surveySecondPageView.getViewName());
-        return this;
-    }
-
-    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, homeViewModel, survey1ViewModel);
+                signupViewModel, loginViewModel, homeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -319,12 +252,12 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Watchlists Use Case to the application.
+     * Adds the Signup Use Case to the application.
      * @return this builder
      */
     public AppBuilder addWatchlistsUseCase() {
         final WatchlistsOutputBoundary watchlistsOutputBoundary = new WatchlistsPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel, watchlistViewModel);
+                watchlistsViewModel, homeViewModel);
         final WatchlistsInputBoundary watchlistsInteractor = new WatchlistsInteractor(
                 userDataAccessObject, watchlistsOutputBoundary, userFactory);
 
@@ -334,82 +267,17 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Watchlist Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addWatchlistUseCase() {
-        final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel, watchlistViewModel);
-        final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
-                userDataAccessObject, watchlistOutputBoundary, userFactory);
-
-        final WatchlistController controller = new WatchlistController(watchlistInteractor);
-        watchlistView.setWatchlistController(controller);
-        return this;
-    }
-
-    /**
      * Adds the Home Use Case to the application.
      * @return this builder
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, recommendationsViewModel, homeViewModel);
+                watchlistsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
         final HomeController controller = new HomeController(homeInteractor);
         loggedInView.setHomeController(controller);
-        return this;
-    }
-
-    /**
-     * Adds the Recommendations Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsUseCase() {
-        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
-                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
-        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
-                userDataAccessObject, recommendationsOutputBoundary, userFactory);
-
-        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
-        recommendationsView.setRecommendationsController(controller);
-        return this;
-    }
-
-    /**
-     * Adds the Survey1 Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurvey1UseCase() {
-        final Survey1OutputBoundary survey1OutputBoundary = new Survey1Presenter(
-                survey1ViewModel, surveySecondPageViewModel, viewManagerModel);
-        final Survey1InputBoundary survey1Interactor = new Survey1Interactor(
-                userDataAccessObject, survey1OutputBoundary, userFactory);
-
-        // Create the Controller
-        final SubmitController submitController = new SubmitController(survey1Interactor);
-
-        // Link the Controller to the View
-        survey1View.setSubmitController(submitController);
-
-        // Return the AppBuilder for chaining
-        return this;
-    }
-
-    /**
-     * Adds the Survey Second Page Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurveySecondPageUseCase() {
-        final SurveySecondPageOutputBoundary surveySecondPageOutputBoundary = new SurveySecondPagePresenter(
-                viewManagerModel, surveySecondPageViewModel, homeViewModel);
-        final SurveySecondPageInputBoundary surveySecondPageInteractor = new SurveySecondPageInteractor(
-                userDataAccessObject, surveySecondPageOutputBoundary, userFactory);
-        final SurveySecondPageController surveySecondPageController =
-                new SurveySecondPageController(surveySecondPageInteractor);
-        surveySecondPageView.setSurveySecondPageController(surveySecondPageController);
         return this;
     }
 
@@ -424,6 +292,7 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
+      
         viewManagerModel.firePropertyChanged();
 
         return application;
