@@ -1,5 +1,6 @@
 package use_case.watchlist;
 
+import data_access.DBUserDataAccessObject;
 import entity.User;
 import entity.UserFactory;
 
@@ -7,11 +8,11 @@ import entity.UserFactory;
  * The Watchlists Interactor.
  */
 public class WatchlistInteractor implements WatchlistInputBoundary {
-    private final WatchlistUserDataAccessInterface userDataAccessObject;
+    private final DBUserDataAccessObject userDataAccessObject;
     private final WatchlistOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
-    public WatchlistInteractor(WatchlistUserDataAccessInterface watchlistDataAccessInterface,
+    public WatchlistInteractor(DBUserDataAccessObject watchlistDataAccessInterface,
                                WatchlistOutputBoundary watchlistOutputBoundary,
                                UserFactory userFactory) {
         this.userDataAccessObject = watchlistDataAccessInterface;

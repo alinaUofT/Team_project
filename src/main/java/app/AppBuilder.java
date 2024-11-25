@@ -25,12 +25,17 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.recommendations.RecommendationsController;
+import interface_adapter.recommendations.RecommendationsPresenter;
+import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey1.SubmitController;
 import interface_adapter.survey1.Survey1Presenter;
 import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.watchlist.WatchlistController;
+import interface_adapter.watchlist.WatchlistPresenter;
 
 import interface_adapter.survey_second_page.SurveySecondPageController;
 import interface_adapter.survey_second_page.SurveySecondPagePresenter;
@@ -59,6 +64,9 @@ import use_case.recommendations.RecommendationsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.watchlist.WatchlistInputBoundary;
+import use_case.watchlist.WatchlistInteractor;
+import use_case.watchlist.WatchlistOutputBoundary;
 
 import use_case.survey1.Survey1InputBoundary;
 import use_case.survey1.Survey1Interactor;
@@ -389,6 +397,7 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
+      
         viewManagerModel.firePropertyChanged();
 
         return application;

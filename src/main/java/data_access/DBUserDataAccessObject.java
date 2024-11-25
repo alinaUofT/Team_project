@@ -16,6 +16,7 @@ import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.My_ReviewsDataAccessInterface;
+import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
@@ -26,6 +27,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface,
         My_ReviewsDataAccessInterface,
+        RecommendationsUserDataAccessInterface,
         LeaveReviewDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
