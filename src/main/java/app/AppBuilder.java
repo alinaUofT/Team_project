@@ -230,6 +230,7 @@ public class AppBuilder {
         // Return
         return this;
     }
+
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
@@ -318,7 +319,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Signup Use Case to the application.
+     * Adds the Watchlists Use Case to the application.
      * @return this builder
      */
     public AppBuilder addWatchlistsUseCase() {
@@ -374,41 +375,6 @@ public class AppBuilder {
 
         final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
         recommendationsView.setRecommendationsController(controller);
-        return this;
-    }
-
-    /**
-     * Adds the Survey1 Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurvey1UseCase() {
-        final Survey1OutputBoundary survey1OutputBoundary = new Survey1Presenter(
-                survey1ViewModel, surveySecondPageViewModel, viewManagerModel);
-        final Survey1InputBoundary survey1Interactor = new Survey1Interactor(
-                userDataAccessObject, survey1OutputBoundary, userFactory);
-
-        // Create the Controller
-        final SubmitController submitController = new SubmitController(survey1Interactor);
-
-        // Link the Controller to the View
-        survey1View.setSubmitController(submitController);
-
-        // Return the AppBuilder for chaining
-        return this;
-    }
-
-    /**
-     * Adds the Survey Second Page Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurveySecondPageUseCase() {
-        final SurveySecondPageOutputBoundary surveySecondPageOutputBoundary = new SurveySecondPagePresenter(
-                viewManagerModel, surveySecondPageViewModel, homeViewModel);
-        final SurveySecondPageInputBoundary surveySecondPageInteractor = new SurveySecondPageInteractor(
-                userDataAccessObject, surveySecondPageOutputBoundary, userFactory);
-        final SurveySecondPageController surveySecondPageController =
-                new SurveySecondPageController(surveySecondPageInteractor);
-        surveySecondPageView.setSurveySecondPageController(surveySecondPageController);
         return this;
     }
 
