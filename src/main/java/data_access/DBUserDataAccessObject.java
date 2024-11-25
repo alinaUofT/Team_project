@@ -1,4 +1,9 @@
 package data_access;
+
+import static com.mongodb.client.model.Filters.eq;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import entity.MovieReview;
 import static com.mongodb.client.model.Filters.eq;
@@ -18,6 +23,8 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.My_ReviewsDataAccessInterface;
 import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.watchlist.WatchlistUserDataAccessInterface;
+import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
@@ -117,26 +124,26 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     public List<MovieReview> getReviews(User user) {
         // Initialize the factory to create MovieReview objects
-        CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
+        final CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
 
         // Prepare the list to hold the user's reviews
-        List<MovieReview> reviews = new ArrayList<>();
+        final List<MovieReview> reviews = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
         Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
         if (userDoc != null) {
             // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
-            List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
+            final List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
 
             if (rawReviews != null) {
                 // Iterate over each review and transform it into a MovieReview object
                 for (Document reviewDoc : rawReviews) {
-                    String username = userDoc.getString("userId");
-                    Date date = reviewDoc.getDate("date");
-                    Double starRating = reviewDoc.getDouble("starRating");
-                    String writtenReview = reviewDoc.getString("writtenReview");
-                    String movieTitle = reviewDoc.getString("movieTitle");
+                    final String username = userDoc.getString("userId");
+                    final Date date = reviewDoc.getDate("date");
+                    final Double starRating = reviewDoc.getDouble("starRating");
+                    final String writtenReview = reviewDoc.getString("writtenReview");
+                    final String movieTitle = reviewDoc.getString("movieTitle");
 
                     // Use the factory to create the MovieReview
                     MovieReview review;
@@ -151,6 +158,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 }
             }
         }
+
         // Return the list of reviews
         return reviews;
     }
