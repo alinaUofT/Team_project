@@ -52,7 +52,8 @@ public class SignupPresenter implements SignupOutputBoundary {
     }
 
     @Override
-    public void switchToSurvey1View() {
+    public void switchToSurvey1View(String uname) {
+        survey1ViewModel.getState().setUsername(uname);
         viewManagerModel.setState(survey1ViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

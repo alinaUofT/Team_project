@@ -36,8 +36,8 @@ public class SignupInteractor implements SignupInputBoundary {
     }
 
     @Override
-    public void switchToSurvey1View() {
-        userPresenter.switchToSurvey1View();
+    public void switchToSurvey1View(String uname) {
+        userPresenter.switchToSurvey1View(uname);
     }
 
     @Override
