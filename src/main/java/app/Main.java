@@ -24,15 +24,19 @@ public class Main {
                                             .addSurvey1View()
                                             .addMyReviewsView()
                                             .addRecommendationsView()
+                                            .addSurveySecondPageView()
+
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
-                                            .addWatchlistUseCase()
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
+                                            .addSurveySecondPageUseCase()
+                                            .addSurvey1UseCase()
+
                                             .build();
         
         application.pack();

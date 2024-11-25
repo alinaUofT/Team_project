@@ -9,8 +9,9 @@ public interface Survey1OutputBoundary {
 
     /**
      * Switches to the SurveySecondPage View.
+     * @param currentUser the current user
      */
-    void switchToSurveySecondPageView(User curentUser);
+    void switchToSurveySecondPageView(User currentUser);
 
     /**
      * Prepares the failure view for the Login Use Case.

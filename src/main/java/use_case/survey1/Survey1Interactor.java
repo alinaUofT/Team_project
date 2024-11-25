@@ -1,9 +1,9 @@
 package use_case.survey1;
 
+import java.util.List;
+
 import entity.User;
 import entity.UserFactory;
-
-import java.util.List;
 
 /**
  * The Survey1 Interactor.
