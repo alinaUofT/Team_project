@@ -1,5 +1,7 @@
 package interface_adapter.survey_second_page;
 
+import entity.User;
+
 /**
  * Adds a selected movie to the favoriteMovies list if less than three movies are selected.
  */
@@ -82,5 +84,9 @@ public class SurveySecondPageState {
                 + ", thirdMovie='" + thirdMovie + '\''
                 + ", movieEntryError='" + movieEntryError + '\''
                 + '}';
+    }
+
+    public void setCurrentUser(User user) {
+
     }
 }

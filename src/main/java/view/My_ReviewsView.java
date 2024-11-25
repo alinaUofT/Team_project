@@ -1,6 +1,6 @@
 package view;
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.reviews.My_ReviewsViewModel;
+import interface_adapter.my_reviews.My_ReviewsController;
+import interface_adapter.my_reviews.My_ReviewsViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +10,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import interface_adapter.ViewModel;
 
 public class My_ReviewsView extends JPanel implements PropertyChangeListener {
     private final String viewName = "My_ReviewsView";

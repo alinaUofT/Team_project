@@ -28,6 +28,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
     private final List<String> selectedGenres = new ArrayList<>();
     private SubmitController submitController;
 
+
     private final JButton submit;
 
     public Survey1View(Survey1ViewModel survey1ViewModel) throws IOException {
@@ -59,7 +60,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
         submit.setPreferredSize(new Dimension(100, 40));
 
         // Disable submit initially
-        submit.setEnabled(true);
+        submit.setEnabled(false);
         final JPanel submitPanel = new JPanel();
         submitPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         submitPanel.add(submit);
@@ -74,7 +75,6 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
                         // 1. get the state out of the survey1ViewModel.
                         // 2. Execute the submit Controller.
                         final String uname = survey1ViewModel.getState().getUsername();
-                        submitController.execute(uname, selectedGenres);
                         this.submitController.switchToSurveySecondPageView(uname);
                     }
                 }
@@ -107,14 +107,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final Survey1State state = (Survey1State) evt.getNewValue();
-        if (state.getGenre1() != null) {
-            // Set the selected genres in the view
-            selectedGenres.clear();
-            selectedGenres.add(state.getGenre1());
-            selectedGenres.add(state.getGenre2());
-            selectedGenres.add(state.getGenre3());
-
+        if (evt.getPropertyName().equals("state")) {
             // Enable the submit button only if exactly 3 genres are selected
             submit.setEnabled(selectedGenres.size() == 3);
         }

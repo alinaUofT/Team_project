@@ -138,7 +138,7 @@ public class SurveySecondPageView extends JPanel implements ActionListener, Prop
         return viewName;
     }
 
-    public void setSignupController(SurveySecondPageController controller) {
+    public void setSurveySecondPageController(SurveySecondPageController controller) {
         this.surveySecondPageController = controller;
     }
 }
