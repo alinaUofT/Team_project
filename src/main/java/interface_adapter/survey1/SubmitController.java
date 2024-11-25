@@ -18,6 +18,11 @@ public class SubmitController {
      * @param username username of the currently logged-in user
      */
     public void switchToSurveySecondPageView(String username) {
-        this.survey1UseCaseInteractor.switchToSurveySecondPageView(username);
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty.");
+        }
+        else {
+            this.survey1UseCaseInteractor.switchToSurveySecondPageView(username);
+        }
     }
 }

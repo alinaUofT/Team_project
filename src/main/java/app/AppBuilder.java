@@ -224,6 +224,7 @@ public class AppBuilder {
         // Return
         return this;
     }
+
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
@@ -254,7 +255,7 @@ public class AppBuilder {
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, homeViewModel);
+                signupViewModel, loginViewModel, homeViewModel, survey1ViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 

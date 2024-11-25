@@ -31,12 +31,11 @@ public class Main {
                                             // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
-                                            .addWatchlistUseCase()
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
-                                            .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
+                                            .addSurvey1UseCase()
 
                                             .build();
         

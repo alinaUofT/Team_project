@@ -28,9 +28,16 @@ public class SignupController {
     }
 
     /**
-     * Executes the "switch to HomeView" Use Case.
+     * Executes the "switch to Survey1" Use Case.
+     */
+    public void switchToSurvey1View() {
+        this.userSignupUseCaseInteractor.switchToSurvey1View();
+    }
+
+    /**
+     * Executes the "switch to Login" Use Case.
      */
     public void switchToLoginView() {
-        userSignupUseCaseInteractor.switchToLoginView();
+        this.userSignupUseCaseInteractor.switchToLoginView();
     }
 }
