@@ -27,12 +27,12 @@ public class WatchlistInteractor implements WatchlistInputBoundary {
     /**
      * Executes the switch to watchlist view use case.
      *
-     * @param currentUser user that is currently logged in
-     * @param ind         index that corresponds to the watchlist to switch to
+     * @param username name of the user that is currently logged in
      */
     @Override
-    public void switchToWatchlistView(User currentUser, int ind) {
-        userPresenter.switchToWatchlistView(currentUser, ind);
+    public void switchToWatchlistsView(String username) {
+        final User currentUser = this.userDataAccessObject.get(username);
+        userPresenter.switchToWatchlistsView(currentUser);
     }
 
     /**

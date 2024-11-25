@@ -104,8 +104,6 @@ public class AppBuilder {
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
     private MovieViewModel movieViewModel;
-    private SurveySecondPageViewModel surveySecondPageViewModel;
-    private SurveySecondPageView surveySecondPageView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -166,10 +164,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the MyReviews View to the application.
-     * @return this builder
-     */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
         my_ReviewsViewModel = new My_ReviewsViewModel();
@@ -195,15 +189,10 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the My_Reviews Use Case to the application.
-     * @return this builder
-     */
     public AppBuilder addMy_ReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new My_ReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
+        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary = new My_ReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
         final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
@@ -219,7 +208,6 @@ public class AppBuilder {
         // Return
         return this;
     }
-
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
@@ -229,18 +217,6 @@ public class AppBuilder {
         survey1ViewModel = new Survey1ViewModel();
         survey1View = new Survey1View(survey1ViewModel);
         cardPanel.add(survey1View, survey1View.getViewName());
-        return this;
-    }
-
-    /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     * @throws IOException checkstyle
-     */
-    public AppBuilder addSurveySecondPageView() throws IOException {
-        surveySecondPageViewModel = new SurveySecondPageViewModel();
-        surveySecondPageView = new SurveySecondPageView(surveySecondPageViewModel);
-        cardPanel.add(surveySecondPageView, surveySecondPageView.getViewName());
         return this;
     }
 
@@ -353,41 +329,6 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Survey1 Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurvey1UseCase() {
-        final Survey1OutputBoundary survey1OutputBoundary = new Survey1Presenter(
-                survey1ViewModel, surveySecondPageViewModel, viewManagerModel);
-        final Survey1InputBoundary survey1Interactor = new Survey1Interactor(
-                userDataAccessObject, survey1OutputBoundary, userFactory);
-
-        // Create the Controller
-        final SubmitController submitController = new SubmitController(survey1Interactor);
-
-        // Link the Controller to the View
-        survey1View.setSubmitController(submitController);
-
-        // Return the AppBuilder for chaining
-        return this;
-    }
-
-    /**
-     * Adds the Survey Second Page Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSurveySecondPageUseCase() {
-        final SurveySecondPageOutputBoundary surveySecondPageOutputBoundary = new SurveySecondPagePresenter(
-                viewManagerModel, surveySecondPageViewModel, homeViewModel);
-        final SurveySecondPageInputBoundary surveySecondPageInteractor = new SurveySecondPageInteractor(
-                userDataAccessObject, surveySecondPageOutputBoundary, userFactory);
-        final SurveySecondPageController surveySecondPageController =
-                new SurveySecondPageController(surveySecondPageInteractor);
-        surveySecondPageView.setSurveySecondPageController(surveySecondPageController);
-        return this;
-    }
-
-    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
@@ -398,6 +339,7 @@ public class AppBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(loginView.getViewName());
+
         viewManagerModel.firePropertyChanged();
 
         return application;

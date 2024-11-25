@@ -38,8 +38,8 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
         final JButton back = new JButton(watchlistViewModel.BACK_LABEL);
         back.setAlignmentX(Component.LEFT_ALIGNMENT);
         back.addActionListener(
-                // TODO Not what is actually supposed to happen
-                evt -> watchlistController.switchToHomeView()
+
+                evt -> watchlistController.backToWatchlistsView(this.watchlistViewModel.getState().getCurrentUser())
         );
         topLine.add(back);
 

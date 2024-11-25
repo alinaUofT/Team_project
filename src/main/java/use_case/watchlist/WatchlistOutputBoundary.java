@@ -15,9 +15,8 @@ public interface WatchlistOutputBoundary {
     /**
      * Switches to the Watchlist View.
      * @param currentUser user that is currently logged in
-     * @param ind         index that corresponds to the watchlist to switch to
      */
-    void switchToWatchlistView(User currentUser, int ind);
+    void switchToWatchlistsView(User currentUser);
 
     /**
      * Switches to the PWL View.
