@@ -26,6 +26,7 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.My_ReviewsDataAccessInterface;
 import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
@@ -37,7 +38,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
-        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface, Survey1UserDataAccessInterface {
+        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface,
+        Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -84,6 +86,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
         return findIterable.first() != null;
     }
+
+    @Override
+    public boolean movieExists(String movie) {
+        return false;
+    }
+
     @Override
     public void save(User user) {
         Document newAccount = new Document("userId", user.getName())
