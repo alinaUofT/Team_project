@@ -18,6 +18,18 @@ public class WatchlistState {
     }
 
     /**
+     * Updates the state of the previously watched list that is displayed.
+     * watchedlistIndex is set to -1.
+     * @param user currently logged-in User
+     */
+    public void updateState(User user) {
+        this.currentUser = user.getName();
+        this.watchlistIndex = -1;
+        this.watchlist = user.getPwl();
+        this.watchlistName = "Previously watched list";
+    }
+
+    /**
      * Updates the state of the watchlist that is displayed.
      * @param user currently logged-in User
      * @param watchlistInd the index of this watchlist in the list
