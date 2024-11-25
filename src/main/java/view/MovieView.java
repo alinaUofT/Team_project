@@ -21,7 +21,7 @@ import interface_adapter.watchlists.WatchlistsState;
 /**
  * The View for when the user views a movie.
  */
-public class MovieView extends JPanel implements ActionListener, PropertyChangeListener {
+public class    MovieView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "Movie Information";
 
     private final MovieViewModel movieViewModel;

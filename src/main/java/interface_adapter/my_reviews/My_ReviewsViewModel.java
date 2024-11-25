@@ -1,4 +1,4 @@
-package interface_adapter.reviews;
+package interface_adapter.my_reviews;
 
 import interface_adapter.ViewModel;
 
@@ -9,7 +9,6 @@ public class My_ReviewsViewModel extends ViewModel<List<String>> {
 
     public My_ReviewsViewModel() {
         super("My_ReviewsView");
-        setState(List.of());
     }
 
     public List<String> getReviews() {
@@ -20,8 +19,5 @@ public class My_ReviewsViewModel extends ViewModel<List<String>> {
         this.reviews = reviews;
     }
 
-    public boolean hasReviews() {
-        return reviews != null && !reviews.isEmpty();
-    }
 
 }
