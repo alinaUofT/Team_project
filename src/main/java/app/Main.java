@@ -35,6 +35,7 @@ public class Main {
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
+                                            .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
 
                                             .build();
