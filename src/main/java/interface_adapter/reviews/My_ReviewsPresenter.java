@@ -1,8 +1,12 @@
-package interface_adapter.my_reviews;
+package interface_adapter.reviews;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewModel;
+import interface_adapter.home.HomeViewModel;
 import use_case.my_reviews.My_ReviewsOutputBoundary;
 import use_case.my_reviews.My_ReviewsOutputData;
+import view.My_ReviewsView;
+import view.ViewManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +45,7 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
         viewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(viewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        this.viewManagerModel.firePropertyChanged(); // Notify the ViewModel of changes
 
 
     }

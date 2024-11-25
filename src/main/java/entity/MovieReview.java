@@ -11,7 +11,7 @@ public interface MovieReview {
     Date getDate();
 
     // Method to get the user who made the review
-    String getUserID();
+    String getUser();
 
     // Method to get the content of the review, may return no comments if none exist.
     String getContent();
