@@ -48,4 +48,8 @@ public class Survey1State {
     public String getUsername() {
         return username;
     }
+
+    public void setSurvey1Error(String message) {
+        // Set the error message.
+    }
 }

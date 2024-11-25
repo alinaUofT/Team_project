@@ -24,6 +24,8 @@ public class Main {
                                             .addSurvey1View()
                                             .addMyReviewsView()
                                             .addRecommendationsView()
+                                            .addSurveySecondPageView()
+
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
@@ -32,6 +34,8 @@ public class Main {
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
+                                            .addSurveySecondPageUseCase()
+
                                             .build();
         
         application.pack();
