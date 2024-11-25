@@ -24,7 +24,7 @@ public class Main {
                                             .addSurvey1View()
                                             .addMyReviewsView()
                                             .addRecommendationsView()
-                                            .addSurveySecondPageView()
+
 
                                             .addSignupUseCase()
                                             .addLoginUseCase()
@@ -34,8 +34,8 @@ public class Main {
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
-                                            .addSurveySecondPageUseCase()
-                                            .addSurvey1UseCase()
+
+
 
                                             .build();
         
