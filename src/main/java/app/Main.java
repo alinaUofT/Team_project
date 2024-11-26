@@ -23,6 +23,7 @@ public class Main {
                                             .addWatchlistView()
                                             .addSurvey1View()
                                             .addMyReviewsView()
+                                            .addSurveySecondPageView()
                                             .addRecommendationsView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
@@ -33,6 +34,8 @@ public class Main {
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
+                                            .addSurvey1UseCase()
+                                            .addSurveySecondPageUseCase()
                                             .build();
         
         application.pack();
