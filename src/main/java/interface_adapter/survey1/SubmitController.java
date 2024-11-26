@@ -16,6 +16,7 @@ public class SubmitController {
     /**
      * Executes the "switch to SurveySecondPageView" Use Case.
      * @param username username of the currently logged-in user
+     * @throws IllegalArgumentException if username is null or empty
      */
     public void switchToSurveySecondPageView(String username) {
         if (username == null || username.isEmpty()) {

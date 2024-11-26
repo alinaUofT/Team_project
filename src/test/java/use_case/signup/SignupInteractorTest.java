@@ -32,7 +32,7 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToSurvey1View() {
+            public void switchToSurvey1View(String uname) {
                 // This is expected
             }
 
@@ -65,7 +65,7 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToSurvey1View() {
+            public void switchToSurvey1View(String uname) {
                 // This is expected
             }
 
@@ -103,7 +103,7 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToSurvey1View() {
+            public void switchToSurvey1View(String uname) {
                 // This is expected
             }
 

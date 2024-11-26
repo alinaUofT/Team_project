@@ -25,4 +25,5 @@ public class Survey1OutputData {
     public String getGenre3() {
         return genre3;
     }
+
 }

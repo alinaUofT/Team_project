@@ -7,8 +7,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
-// import javax.swing.event.DocumentEvent;
-// import javax.swing.event.DocumentListener;
 
 import interface_adapter.survey_second_page.SurveySecondPageController;
 import interface_adapter.survey_second_page.SurveySecondPageState;
@@ -19,7 +17,7 @@ import interface_adapter.survey_second_page.SurveySecondPageViewModel;
  */
 public class SurveySecondPageView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private  String viewName = "";
+    private String viewName = "";
     private final SurveySecondPageViewModel surveySecondPageViewModel;
 
     private final JTextField firstMovie = new JTextField(15);
