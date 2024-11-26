@@ -7,9 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import interface_adapter.my_reviews.My_ReviewsController;
-import interface_adapter.my_reviews.My_ReviewsPresenter;
-import interface_adapter.my_reviews.My_ReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
@@ -21,10 +18,20 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.movie.MovieViewModel;
+import interface_adapter.my_reviews.My_ReviewsController;
+import interface_adapter.my_reviews.My_ReviewsPresenter;
+import interface_adapter.my_reviews.My_ReviewsViewModel;
+import interface_adapter.recommendations.RecommendationsController;
+import interface_adapter.recommendations.RecommendationsPresenter;
+import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.survey_second_page.SurveySecondPageController;
+import interface_adapter.survey_second_page.SurveySecondPagePresenter;
+import interface_adapter.survey_second_page.SurveySecondPageViewModel;
 import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
@@ -39,9 +46,14 @@ import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.my_reviews.*;
+import use_case.recommendations.RecommendationsInputBoundary;
+import use_case.recommendations.RecommendationsInteractor;
+import use_case.recommendations.RecommendationsOutputBoundary;
+import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.survey_second_page.SurveySecondPageOutputBoundary;
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
@@ -83,7 +95,11 @@ public class AppBuilder {
     private Survey1ViewModel survey1ViewModel;
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
-
+    private SurveySecondPageView surveySecondPageView;
+    private SurveySecondPageViewModel surveySecondPageViewModel;
+    private RecommendationsView recommendationsView;
+    private RecommendationsViewModel recommendationsViewModel;
+    private MovieViewModel movieViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -144,6 +160,28 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Recommendations View to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsView() {
+        // Step 1: Initialize the ViewModel
+        final RecommendationsViewModel recommendationsViewModel = new RecommendationsViewModel();
+
+        // Step 2: Initialize the View and link it to the ViewModel
+        final RecommendationsView recommendationsView = new RecommendationsView(recommendationsViewModel);
+
+        // Step 3: Add the View to the CardPanel with its unique name
+        cardPanel.add(recommendationsView, recommendationsView.getViewName());
+
+        // Step 4: Return the AppBuilder for chaining
+        return this;
+    }
+
+    /**
+     * Adds the My Reviews View to the application.
+     * @return this builder
+     */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
         my_ReviewsViewModel = new My_ReviewsViewModel();
@@ -177,9 +215,11 @@ public class AppBuilder {
         // Return
         return this;
     }
+
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
+     * @throws IOException if an error occurs while reading the file
      */
     public AppBuilder addSurvey1View() throws IOException {
         survey1ViewModel = new Survey1ViewModel();
@@ -189,12 +229,23 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the SurveySecondPage View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSurveySecondPageView() {
+        surveySecondPageViewModel = new SurveySecondPageViewModel();
+        surveySecondPageView = new SurveySecondPageView(surveySecondPageViewModel);
+        cardPanel.add(surveySecondPageView, surveySecondPageView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, homeViewModel);
+                signupViewModel, loginViewModel, homeViewModel, survey1ViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -257,7 +308,7 @@ public class AppBuilder {
      */
     public AppBuilder addWatchlistsUseCase() {
         final WatchlistsOutputBoundary watchlistsOutputBoundary = new WatchlistsPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, homeViewModel, watchlistViewModel);
         final WatchlistsInputBoundary watchlistsInteractor = new WatchlistsInteractor(
                 userDataAccessObject, watchlistsOutputBoundary, userFactory);
 
@@ -272,12 +323,52 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, recommendationsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
         final HomeController controller = new HomeController(homeInteractor);
         loggedInView.setHomeController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Recommendations Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationsUseCase() {
+        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(viewManagerModel,
+                recommendationsViewModel, movieViewModel, homeViewModel);
+        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
+                userDataAccessObject, recommendationsOutputBoundary, userFactory);
+        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
+        recommendationsView.setRecommendationsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the SurveySecondPage Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addSurveySecondPageUseCase() {
+        final SurveySecondPageOutputBoundary surveySecondPageOutputBoundary = new SurveySecondPagePresenter(viewManagerModel,
+                surveySecondPageViewModel, homeViewModel);
+        final SurveySecondPageIn
+        final SurveySecondPageController = new SurveySecondPageController(surveySecondPageInteractor);
+        );
+        return this;
+    }
+
+    /**
+     * Adds the Survey1 Use Case to the application.
+     * @return this builder
+     * @throws IOException if an error occurs while reading the file
+     */
+    public AppBuilder addSurvey1UseCase() throws IOException {
+        // Step 1: Create the Presenter and link it to the ViewModel
+        survey1ViewModel = new Survey1ViewModel();
+        survey1View = new Survey1View(survey1ViewModel);
+        cardPanel.add(survey1View, survey1View.getViewName());
         return this;
     }
 
