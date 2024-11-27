@@ -38,6 +38,12 @@ public interface User {
     ArrayList<UserWatchlist> getWatchlists();
 
     /**
+     * Adds new watchlist to user.
+     * @param  watchlist watchlist to add
+     */
+    void addWatchlist(UserWatchlist watchlist);
+
+    /**
      * Get the previously watched list of this User.
      *
      * @return previously watched list

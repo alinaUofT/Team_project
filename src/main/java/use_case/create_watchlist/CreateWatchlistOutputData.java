@@ -1,17 +1,14 @@
-package use_case.watchlist;
+package use_case.create_watchlist;
 
 /**
- * Output Data for the Signup Use Case.
+ * Output Data for the create watchlist use case.
  */
-public class WatchlistOutputData {
+public class CreateWatchlistOutputData {
 
     private final String username;
-
-
-
     private final boolean useCaseFailed;
 
-    public WatchlistOutputData(String username, boolean useCaseFailed) {
+    public CreateWatchlistOutputData(String username, String watchlistName, boolean useCaseFailed) {
         this.username = username;
         this.useCaseFailed = useCaseFailed;
     }
