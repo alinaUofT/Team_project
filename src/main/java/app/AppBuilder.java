@@ -372,6 +372,36 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Survey1 Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addSurvey1UseCase() {
+        final Survey1OutputBoundary survey1OutputBoundary = new Survey1Presenter(
+                survey1ViewModel, surveySecondPageViewModel, viewManagerModel);
+        final Survey1InputBoundary survey1Interactor = new Survey1Interactor(
+                userDataAccessObject, survey1OutputBoundary, userFactory);
+
+        final SubmitController controller = new SubmitController(survey1Interactor);
+        survey1View.setSubmitController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Survey Second Page Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addSurveySecondPageUseCase() {
+        final SurveySecondPageOutputBoundary surveySecondPageOutputBoundary = new SurveySecondPagePresenter(
+                viewManagerModel, surveySecondPageViewModel, homeViewModel);
+        final SurveySecondPageInputBoundary surveySecondPageInteractor = new SurveySecondPageInteractor(
+                userDataAccessObject, surveySecondPageOutputBoundary, userFactory);
+
+        final SurveySecondPageController controller = new SurveySecondPageController(surveySecondPageInteractor);
+        surveySecondPageView.setSurveySecondPageController(controller);
+        return this;
+    }
+
+    /**
      * Adds the Recommendations Use Case to the application.
      * @return this builder
      */
