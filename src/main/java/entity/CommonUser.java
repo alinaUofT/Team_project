@@ -1,7 +1,5 @@
 package entity;
 
-import data_access.GenreMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,7 @@ public class CommonUser implements User {
     private boolean loginStatus;
     private Map<String, Integer> preferredGenres = new HashMap<>();
     private Watchlist pwl = new CommonWatchlist();
-    private ArrayList<UserWatchlist> watchlists = new ArrayList<>();
+    private ArrayList<UserWatchlist> watchlists = new ArrayList<UserWatchlist>();
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
@@ -79,6 +77,11 @@ public class CommonUser implements User {
     @Override
     public ArrayList<UserWatchlist> getWatchlists() {
         return this.watchlists;
+    }
+
+    @Override
+    public void addWatchlist(UserWatchlist watchlist) {
+        this.watchlists.add(watchlist);
     }
 
     @Override

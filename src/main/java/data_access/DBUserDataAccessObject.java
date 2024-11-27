@@ -16,6 +16,8 @@ import org.bson.Document;
 import java.util.Date;
 import java.util.ArrayList;
 import entity.User;
+
+import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -33,14 +35,10 @@ import use_case.watchlists.WatchlistsUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
-        HomeUserDataAccessInterface,
-        My_ReviewsDataAccessInterface,
-        RecommendationsUserDataAccessInterface,
-        LeaveReviewDataAccessInterface,
-        LogoutUserDataAccessInterface,
-        WatchlistsUserDataAccessInterface,
-        Survey1UserDataAccessInterface,
-        SurveySecondPageDataAccessInterface {
+        HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
+        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface,
+        Survey1UserDataAccessInterface, CreateWatchlistDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";

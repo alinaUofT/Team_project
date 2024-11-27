@@ -7,6 +7,8 @@ import entity.User;
  */
 public class WatchlistsState {
     private User currentUser;
+    private String username;
+    private String listError;
 
     public User getCurrentUser() {
         return this.currentUser;
@@ -14,6 +16,14 @@ public class WatchlistsState {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
+    }
+
+    public String getListError() {
+        return listError;
+    }
+
+    public void setListError(String listError) {
+        this.listError = listError;
     }
 
     @Override

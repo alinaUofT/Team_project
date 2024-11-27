@@ -42,8 +42,6 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
 
         this.viewManagerModel.setState(viewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-
-
     }
 
     public void goBack() {
@@ -59,3 +57,4 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
         this.viewManagerModel.firePropertyChanged();
     }
 }
+
