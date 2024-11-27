@@ -1,7 +1,11 @@
 package entity;
 
+import data_access.GenreMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -21,17 +25,26 @@ public class CommonUser implements User {
     // because we need to access their instance attributes.
 
     private boolean loginStatus;
-    private List<String> preferredGenres = new ArrayList<>();
+    private Map<String, Integer> preferredGenres = new HashMap<>();
     private Watchlist pwl = new CommonWatchlist();
     private ArrayList<UserWatchlist> watchlists = new ArrayList<>();
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
+    /**
+     * Constructor for a CommonUser.
+     * @param name the name of the user
+     * @param password the password of the user
+     */
     public CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
-        this.preferredGenres = new ArrayList<>();
+
+        final GenreMap genreMap = new GenreMap();
+        for (String genre : genreMap.keySet()) {
+            this.preferredGenres.put(genre, 0);
+        }
     }
 
     @Override
@@ -69,7 +82,7 @@ public class CommonUser implements User {
     }
 
     @Override
-    public List<String> getPreferredGenres() {
+    public Map<String, Integer> getPreferredGenres() {
         return this.preferredGenres;
     }
 
@@ -79,21 +92,17 @@ public class CommonUser implements User {
      */
     @Override
     public void addPreferredGenres(String genre) {
-        if (!this.preferredGenres.contains(genre)) {
-            this.preferredGenres.add(genre);
-        }
+        this.preferredGenres.put(genre, this.preferredGenres.get(genre) + 1);
     }
 
     /**
-     * Adds a list of genres to the list of preferred genres of this User.
+     * Adds a list of genres to the map of preferred genres of this User.
      * @param genres a list of genres
      */
     @Override
     public void addPreferredGenres(List<String> genres) {
         for (String genre : genres) {
-            if (!this.preferredGenres.contains(genre)) {
-                this.preferredGenres.add(genre);
-            }
+            this.preferredGenres.put(genre, this.preferredGenres.get(genre) + 1);
         }
     }
 

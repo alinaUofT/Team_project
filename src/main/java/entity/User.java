@@ -2,6 +2,7 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The representation of a user in our program.
@@ -75,7 +76,7 @@ public interface User {
     /**
      * Returns the preferred genres of the user.
      *
-     * @return list of preferred genres of the user.
+     * @return map of preferred genres of the user.
      */
-    List<String> getPreferredGenres();
+    Map<String, Integer> getPreferredGenres();
 }

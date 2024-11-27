@@ -1,6 +1,7 @@
 package use_case.recommendations;
 
 import java.util.List;
+import java.util.Map;
 
 import entity.CommonUser;
 
@@ -9,7 +10,7 @@ import entity.CommonUser;
  */
 public class RecommendationsInputData {
     private final CommonUser user;
-    private final List<String> preferredGenres;
+    private final Map<String, Integer> preferredGenres;
 
     public RecommendationsInputData(CommonUser user) {
         this.user = user;
@@ -21,7 +22,7 @@ public class RecommendationsInputData {
         return user;
     }
 
-    List<String> getPreferredGenres() {
+    Map<String, Integer> getPreferredGenres() {
         return preferredGenres;
     }
 }
