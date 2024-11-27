@@ -14,7 +14,7 @@ public class Survey1Interactor implements Survey1InputBoundary {
     private final UserFactory userFactory;
 
     public Survey1Interactor(Survey1UserDataAccessInterface survey1userDataAccessInterface,
-                           Survey1OutputBoundary survey1OutputBoundary,
+                             Survey1OutputBoundary survey1OutputBoundary,
                              UserFactory userFactory) {
         this.userDataAccessObject = survey1userDataAccessInterface;
         this.survey1Presenter = survey1OutputBoundary;
@@ -29,7 +29,7 @@ public class Survey1Interactor implements Survey1InputBoundary {
         final String genre3 = selectedGenres.get(2);
 
         if (genre1.isEmpty()) {
-            survey1Presenter.prepareFailView("You must select three more genre.");
+            survey1Presenter.prepareFailView("You must select three more genres.");
         }
         else if (genre2.isEmpty()) {
             survey1Presenter.prepareFailView("You must select two more genres.");

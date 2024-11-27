@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import data_access.GenreMap;
+import interface_adapter.signup.SignupState;
 import interface_adapter.survey1.SubmitController;
 import interface_adapter.survey1.Survey1State;
 import interface_adapter.survey1.Survey1ViewModel;
@@ -28,8 +29,8 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
     private final List<String> selectedGenres = new ArrayList<>();
     private SubmitController submitController;
 
-
     private final JButton submit;
+    private final JLabel errorLabel;
 
     public Survey1View(Survey1ViewModel survey1ViewModel) throws IOException {
         this.survey1ViewModel = survey1ViewModel;
@@ -55,6 +56,11 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
             addGenreButton(button, genre);
             genreButtonsPanel.add(button);
         }
+
+        errorLabel = new JLabel("You need to select 3 more genres."); // Initial message
+        errorLabel.setFont(new Font("Ariel", Font.PLAIN, 13));
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         submit = new JButton("Submit");
         submit.setPreferredSize(new Dimension(100, 40));
@@ -82,6 +88,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
         this.add(surveyQuestionPanel);
         this.add(genreButtonsPanel);
+        this.add(errorLabel);
         this.add(submitPanel);
     }
 
@@ -92,7 +99,9 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
             if (selectedGenres.contains(genre)) {
                 // If the genre is already selected, deselect it
                 selectedGenres.remove(genre);
-                button.setBackground(null); // Reset button color to default
+                // Reset button color to default
+                button.setBackground(null);
+
             }
             else if (selectedGenres.size() < 3) {
                 // If less than 3 genres are selected, add the new genre
@@ -102,12 +111,26 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
             // Enable the submit button only if exactly 3 genres are selected
             submit.setEnabled(selectedGenres.size() == 3);
+
+            // Update error message
+            final int remaining = 3 - selectedGenres.size();
+            if (remaining > 0) {
+                errorLabel.setText(
+                        "You need to select " + remaining + " more genre" + (remaining > 1 ? "s" : "") + ".");
+            }
+            else {
+                errorLabel.setText(""); // Clear error message when exactly 3 genres are selected
+            }
         });
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
+        final Survey1State state = (Survey1State) evt.getNewValue();
+        if (state.getSurvey1Error() != null) {
+            JOptionPane.showMessageDialog(this, state.getSurvey1Error());
+        }
+        else if (evt.getPropertyName().equals("state")) {
             // Enable the submit button only if exactly 3 genres are selected
             submit.setEnabled(selectedGenres.size() == 3);
         }

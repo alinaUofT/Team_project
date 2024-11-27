@@ -5,7 +5,7 @@ package interface_adapter.survey1;
  */
 public class Survey1State {
     private String username = "";
-
+    private String survey1Error;
     private String genre1 = "";
     private String genre2 = "";
     private String genre3 = "";
@@ -18,7 +18,6 @@ public class Survey1State {
     }
 
     public Survey1State() {
-
     }
 
     public String getGenre1() {
@@ -53,7 +52,11 @@ public class Survey1State {
         return username;
     }
 
-    public void setSurvey1Error(String message) {
-        // Set the error message.
+    public String getSurvey1Error() {
+        return survey1Error;
+    }
+
+    public void setSurvey1Error(String survey1Error) {
+        this.survey1Error = survey1Error;
     }
 }

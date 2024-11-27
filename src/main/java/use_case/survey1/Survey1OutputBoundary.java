@@ -15,9 +15,9 @@ public interface Survey1OutputBoundary {
 
     /**
      * Prepares the failure view for the Login Use Case.
-     * @param errorMessage the explanation of the failure
+     * @param error the explanation of the failure
      */
-    void prepareFailView(String errorMessage);
+    void prepareFailView(String error);
 
     /**
      * Prepares the success view for the Login Use Case.
