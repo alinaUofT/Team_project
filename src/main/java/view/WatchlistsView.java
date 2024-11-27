@@ -201,12 +201,14 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                             final User currUser = currentState.getCurrentUser();
                             if (!currentListName.isEmpty()) {
                                 createWatchlistController.execute(currUser, currentListName);
-                                System.out.println(currUser.getWatchlists());
                             }
                             else {
                                 createWatchlistController.execute(currUser, "Untitled List");
                             }
+                            listNameField.setText("");
+                            x = 0;
                             SwingUtilities.getWindowAncestor(createWatchlistButton).dispose();
+                            // System.out.println(currUser.getWatchlists()); // testing purposes
                             updateWatchlists();
                         }
                     }
@@ -217,6 +219,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(cancel)) {
                     listNameField.setText("");
+                    x = 0;
                     SwingUtilities.getWindowAncestor(cancel).dispose();
                 }
             }

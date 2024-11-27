@@ -1,6 +1,6 @@
 package use_case.create_watchlist;
 
-import entity.CommonWatchlistFactory;
+import entity.CommonUserWatchlistFactory;
 import entity.User;
 import entity.UserWatchlist;
 
@@ -11,18 +11,18 @@ public class CreateWatchlistInteractor implements CreateWatchlistInputBoundary {
 
     private final CreateWatchlistDataAccessInterface createWatchlistDataAccessInterface;
     private final CreateWatchlistOutputBoundary createWatchlistPresenter;
-    private final CommonWatchlistFactory commonWatchlistFactory;
+    private final CommonUserWatchlistFactory commonUserWatchlistFactory;
 
     public CreateWatchlistInteractor(CreateWatchlistDataAccessInterface createWatchlistDataAccessInterface,
                                  CreateWatchlistOutputBoundary createWatchlistPresenter) {
         this.createWatchlistDataAccessInterface = createWatchlistDataAccessInterface;
         this.createWatchlistPresenter = createWatchlistPresenter;
-        this.commonWatchlistFactory = new CommonWatchlistFactory();
+        this.commonUserWatchlistFactory = new CommonUserWatchlistFactory();
     }
 
     @Override
     public void execute(User user, String watchlistName) {
-        final UserWatchlist watchlist = commonWatchlistFactory.create(watchlistName);
+        final UserWatchlist watchlist = commonUserWatchlistFactory.create(watchlistName);
         user.addWatchlist(watchlist);
         createWatchlistDataAccessInterface.saveWatchlist(user, watchlist);
     }

@@ -1,5 +1,7 @@
 package entity;
 
+import data_access.GenreMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

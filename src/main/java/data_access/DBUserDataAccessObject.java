@@ -5,17 +5,16 @@ import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import entity.MovieReview;
+
+import entity.*;
+
 import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import entity.CommonUserFactory;
-import entity.CommonMovieReviewFactory;
 import org.bson.Document;
 import java.util.Date;
 import java.util.ArrayList;
-import entity.User;
 
 import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
@@ -34,11 +33,11 @@ import use_case.watchlists.WatchlistsUserDataAccessInterface;
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface,
-        HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
-        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
-        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface,
-        Survey1UserDataAccessInterface, CreateWatchlistDataAccessInterface {
+        LoginUserDataAccessInterface, HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
+        RecommendationsUserDataAccessInterface,
+        Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
+        CreateWatchlistDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -101,6 +100,25 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             System.out.println("User saved successfully");
         } catch (Exception e) {
             System.out.println("User not saved: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean saveWatchlist(User user, Watchlist watchlist) {
+        try {
+            // Create a document representing the review
+            Document watchlistDoc = new Document()
+                    .append("watchlistName", watchlist.getListName());
+
+            collection.updateOne(
+                    new Document("userId", user),
+                    new Document("$push", new Document("watchlist", watchlistDoc))
+            );
+
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
+            return false;
         }
     }
 
