@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.create_watchlist.CreateWatchlistController;
+import interface_adapter.create_watchlist.CreateWatchlistPresenter;
 import interface_adapter.movie.MovieViewModel;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsPresenter;
@@ -33,6 +35,9 @@ import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
+import use_case.create_watchlist.CreateWatchlistInputBoundary;
+import use_case.create_watchlist.CreateWatchlistInteractor;
+import use_case.create_watchlist.CreateWatchlistOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
@@ -314,6 +319,21 @@ public class AppBuilder {
 
         final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
         recommendationsView.setRecommendationsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Create Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addCreateWatchlistUseCase() {
+        final CreateWatchlistOutputBoundary createWatchlistOutputBoundary = new CreateWatchlistPresenter(
+                viewManagerModel, watchlistsViewModel, watchlistViewModel);
+        final CreateWatchlistInputBoundary createWatchlistInteractor = new CreateWatchlistInteractor(
+                userDataAccessObject, createWatchlistOutputBoundary);
+
+        final CreateWatchlistController controller = new CreateWatchlistController(createWatchlistInteractor);
+        watchlistsView.setCreateWatchlistController(controller);
         return this;
     }
 

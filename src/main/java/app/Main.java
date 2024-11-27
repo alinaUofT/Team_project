@@ -30,6 +30,7 @@ public class Main {
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
                                             .addHomeUseCase()
+                                            .addCreateWatchlistUseCase()
                                             .addMy_ReviewsUseCase()
                                             .addRecommendationsUseCase()
                                             .build();

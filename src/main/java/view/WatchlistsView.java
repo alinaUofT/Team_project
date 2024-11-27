@@ -1,8 +1,8 @@
 package view;
 
-import entity.CommonUserWatchlist;
 import entity.User;
 import entity.UserWatchlist;
+import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -26,14 +26,17 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     private final WatchlistsViewModel watchlistsViewModel;
     private WatchlistsController watchlistsController;
 
+    private CreateWatchlistController createWatchlistController;
+
     private JPanel topLine;
     private JButton createWatchlist;
     private JButton pwl;
     private JPanel watchlistButtons;
 
-    private final JTextField listNameField = new JTextField();
-
     private int x = 0;
+    private String currentListName = "";
+
+    private final JTextField listNameField = new JTextField();
 
     public WatchlistsView(WatchlistsViewModel watchlistsViewModel) {
         this.watchlistsViewModel = watchlistsViewModel;
@@ -154,10 +157,12 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         listNameField.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 updateCharacterCount(1);
+                recordText();
             }
 
             public void removeUpdate(DocumentEvent e) {
                 updateCharacterCount(-1);
+                recordText();
             }
 
             public void changedUpdate(DocumentEvent e) {
@@ -168,6 +173,11 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                 x += increment;
                 characterLimitLabel.setText("Character Limit: " + x + "/" + maxChar);
             }
+
+            private void recordText() {
+                // Record the current text entered in listNameField
+                currentListName = listNameField.getText();
+            }
         });
 
         // Add text field components to panel
@@ -175,25 +185,54 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         textPanel.add(listNameField, BorderLayout.CENTER);
         textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
 
+        // Buttons
+        final JButton createWatchlistButton = new JButton("Create Watchlist");
+        final JButton cancel = new JButton("Cancel");
+
+        final JPanel buttons = new JPanel();
+
+        // Action Listener for buttons
+        createWatchlistButton.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(createWatchlistButton)) {
+                            final WatchlistsState currentState = watchlistsViewModel.getState();
+                            final User currUser = currentState.getCurrentUser();
+                            if (!currentListName.isEmpty()) {
+                                createWatchlistController.execute(currUser, currentListName);
+                                System.out.println(currUser.getWatchlists());
+                            }
+                            else {
+                                createWatchlistController.execute(currUser, "Untitled List");
+                            }
+                            SwingUtilities.getWindowAncestor(createWatchlistButton).dispose();
+                            updateWatchlists();
+                        }
+                    }
+                }
+        );
+
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(cancel)) {
+                    listNameField.setText("");
+                    SwingUtilities.getWindowAncestor(cancel).dispose();
+                }
+            }
+        });
+
+        buttons.add(cancel);
+        buttons.add(createWatchlistButton);
+
         // Add components to the panel
-        panel.add(textPanel);
+        panel.add(textPanel, BorderLayout.CENTER);
+        panel.add(buttons, BorderLayout.SOUTH);
 
         // Create a custom dialog with our panel
-        final int option = JOptionPane.showOptionDialog(this, panel, "Create a New List",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, new Object[]{"Create List", "Cancel"}, null);
-
-        if (option == JOptionPane.YES_OPTION) {
-            final String listName = listNameField.getText().trim();
-            if (!listName.isEmpty()) {
-                final WatchlistsState currentState = watchlistsViewModel.getState();
-                // Create a new watchlist entity with the list name
-                final UserWatchlist watchlist = new CommonUserWatchlist(listName);
-                currentState.getCurrentUser().getWatchlists().add(watchlist);
-                updateWatchlists();
-            }
-        }
-        // updateWatchlists();
+        JOptionPane.showOptionDialog(this, panel, "Create a New List",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, new Object[]{}, null);
     }
 
     @Override
@@ -207,6 +246,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
     public void setWatchlistsController(WatchlistsController controller) {
         this.watchlistsController = controller;
+    }
+
+    public void setCreateWatchlistController(CreateWatchlistController controller) {
+        this.createWatchlistController = controller;
     }
 
     /**

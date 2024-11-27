@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import entity.*;
 import org.bson.Document;
 
 import com.mongodb.client.FindIterable;
@@ -19,7 +20,7 @@ import org.bson.Document;
 import java.util.Date;
 import java.util.ArrayList;
 
-import entity.User;
+import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -37,7 +38,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface,
-        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface, Survey1UserDataAccessInterface {
+        WatchlistUserDataAccessInterface, RecommendationsUserDataAccessInterface,
+        Survey1UserDataAccessInterface, CreateWatchlistDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
