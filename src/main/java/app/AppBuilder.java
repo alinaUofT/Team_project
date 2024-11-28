@@ -6,10 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import entity.CommonMovieFactory;
+import interface_adapter.movie.MovieController;
+import interface_adapter.movie.MoviePresenter;
+import interface_adapter.movie.MovieViewModel;
 import interface_adapter.reviews.My_ReviewsController;
 import interface_adapter.reviews.My_ReviewsPresenter;
 import interface_adapter.reviews.My_ReviewsViewModel;
 import data_access.DBUserDataAccessObject;
+import data_access.DBMovieDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeController;
@@ -20,6 +25,9 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.search_results.SearchResultsController;
+import interface_adapter.search_results.SearchResultsPresenter;
+import interface_adapter.search_results.SearchResultsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -36,7 +44,13 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.movie.MovieInputBoundary;
+import use_case.movie.MovieInteractor;
+import use_case.movie.MovieOutputBoundary;
 import use_case.my_reviews.*;
+import use_case.search_results.SearchResultsInputBoundary;
+import use_case.search_results.SearchResultsInteractor;
+import use_case.search_results.SearchResultsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -63,9 +77,11 @@ public class AppBuilder {
     private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
+    private final CommonMovieFactory movieFactory = new CommonMovieFactory();
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -80,6 +96,10 @@ public class AppBuilder {
     private My_ReviewsViewModel my_ReviewsViewModel;
     private My_ReviewsView my_ReviewsView;
     private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+    private SearchResultsView searchResultsView;
+    private SearchResultsViewModel searchResultsViewModel;
+    private MovieView movieView;
+    private MovieViewModel movieViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -117,9 +137,6 @@ public class AppBuilder {
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
-
-
-
 
     /**
      * Adds the Watchlists View to the application.
@@ -262,12 +279,61 @@ public class AppBuilder {
      */
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel);
+                watchlistsViewModel, homeViewModel, searchResultsViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
         final HomeController controller = new HomeController(homeInteractor);
         loggedInView.setHomeController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Search Results View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSearchResultsView() {
+        searchResultsViewModel = new SearchResultsViewModel();
+        searchResultsView = new SearchResultsView(searchResultsViewModel);
+        cardPanel.add(searchResultsView, searchResultsViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Search Results Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addSearchResultsUseCase() {
+        final SearchResultsOutputBoundary searchResultsOutputBoundary = new SearchResultsPresenter(viewManagerModel,
+                searchResultsViewModel, homeViewModel, movieViewModel);
+        final SearchResultsInputBoundary searchResultsInteractor = new SearchResultsInteractor(movieDBAccessObject,
+                searchResultsOutputBoundary);
+        final SearchResultsController controller = new SearchResultsController(searchResultsInteractor);
+        searchResultsView.setSearchResultsController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Movie View to the application.
+     * @return this builder
+     */
+    public AppBuilder addMovieView() {
+        movieViewModel = new MovieViewModel();
+        movieView = new MovieView(movieViewModel);
+        cardPanel.add(movieView, movieViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Movie Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addMovieUseCase() {
+        final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
+                movieViewModel, homeViewModel);
+        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDBAccessInterface, movieOutputBoundary);
+        final MovieController controller = new MovieController(movieInteractor);
+        movieView.setMovieController(controller);
         return this;
     }
 
@@ -286,4 +352,5 @@ public class AppBuilder {
 
         return application;
     }
+
 }

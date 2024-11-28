@@ -1,8 +1,8 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home.LoggedInState;
 import interface_adapter.home.HomeViewModel;
+import interface_adapter.home.LoggedInState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;

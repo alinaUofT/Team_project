@@ -1,23 +1,46 @@
 package entity;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple implementation of the Movie interface.
  */
 public class CommonMovie implements Movie, Comparable {
 
-    // TODO: assign the variables for starRating, userReviews, genres
-    // TODO override comparison method to comare names of movies not ids of objects
-    private final String title;
-    private int starRating;
-    private List<String> userReviews;
+    private String title;
+    private String posterPath;
+    private String overview;
+    private Double voterAverage;
     private List<String> genres;
 
+    private final List<String> userReviews;
+    private final Double starRating;
+
+    // Constructor with default values
     public CommonMovie(String title) {
         this.title = title;
+        this.posterPath = "";
+        this.overview = "";
+        this.voterAverage = 0.0;
+        this.genres = new ArrayList<>();
+
+        this.starRating = 0.0;
+        this.userReviews = new ArrayList<>();
+    }
+
+    // Method to set information from the helper function
+    // call on List<Object> movieInfo = formatedSearchedMovies(query)
+    @Override
+    public void setInfo(List<Object> movieInfo) {
+        this.title = movieInfo.get(0).toString();
+        this.posterPath = movieInfo.get(1).toString();
+        this.overview = movieInfo.get(2).toString();
+        this.voterAverage = Double.parseDouble(movieInfo.get(3).toString());
+        // Cast to List<String>
+        this.genres = (List<String>) movieInfo.get(4);
     }
 
     @Override
@@ -26,7 +49,22 @@ public class CommonMovie implements Movie, Comparable {
     }
 
     @Override
-    public int getStarRatings() {
+    public String getPoster() {
+        return posterPath;
+    }
+
+    @Override
+    public String getOverview() {
+        return overview;
+    }
+
+    @Override
+    public Double getVoterAverage() {
+        return voterAverage;
+    }
+
+    @Override
+    public Double getStarRatings() {
         return starRating;
     }
 

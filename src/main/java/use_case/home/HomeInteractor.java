@@ -28,4 +28,13 @@ public class HomeInteractor implements HomeInputBoundary {
         final User curentUser = this.userDataAccessObject.get(username);
         this.userPresenter.switchToWatchlistsView(curentUser);
     }
+
+    /**
+     * Executes the Switch to Home View View Use Case.
+     * @param query query of the searched movie
+     */
+    @Override
+    public void switchToSearchResultsView(String query) {
+        this.userPresenter.switchToSearchResultsView(query);
+    }
 }

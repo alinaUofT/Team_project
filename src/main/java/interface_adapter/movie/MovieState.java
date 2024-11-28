@@ -28,4 +28,8 @@ public class MovieState {
     public String getExternalStarRating() {
         return externalStarRating;
     }
+
+    public List<String> getGenres() {
+        return genres;
+    }
 }

@@ -11,4 +11,8 @@ public interface MovieInputBoundary {
      */
     void execute(MovieInputData movieInputData);
 
+    /**
+     * Switches to the Home View.
+     */
+    void switchToHomeView();
 }

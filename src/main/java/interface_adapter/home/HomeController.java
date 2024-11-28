@@ -3,7 +3,7 @@ package interface_adapter.home;
 import use_case.home.HomeInputBoundary;
 
 /**
- * Controller for the Change Password Use Case.
+ * Controller for the Home Use Case.
  */
 public class HomeController {
     private final HomeInputBoundary homeInteractor;
@@ -18,6 +18,14 @@ public class HomeController {
      */
     public void switchToWatchlistsView(String username) {
         this.homeInteractor.switchToWatchlistsView(username);
+    }
+
+    /**
+     * Executes the "switch to Search Results" Use Case.
+     * @param query query of the search result
+     */
+    public void switchToSearchResultsView(String query) {
+        this.homeInteractor.switchToSearchResultsView(query);
     }
 
 }

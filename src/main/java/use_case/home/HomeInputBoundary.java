@@ -10,4 +10,10 @@ public interface HomeInputBoundary {
      * @param username username of the currently logged-in user
      */
     void switchToWatchlistsView(String username);
+
+    /**
+     * Executes the Switch to Search Results View Use Case.
+     * @param title username of the currently logged-in user
+     */
+    void switchToSearchResultsView(String title);
 }

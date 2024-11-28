@@ -1,14 +1,26 @@
 package interface_adapter.search_results;
 
-// TODO finish the Search Results state
-
 /**
  * The state for the Search Results View Model.
  */
 public class SearchResultsState {
-    private String title = "";
+    private String searchTitle = "";
+    private String searchError;
 
-    public String getTitle() {
-        return title;
+    public void setSearchTitle(String searchTitle) {
+        this.searchTitle = searchTitle;
     }
+
+    public String getSearchTitle() {
+        return searchTitle;
+    }
+
+    public String getSearchError() {
+        return searchError;
+    }
+
+    public void setSearchResultsError(String errorMessage) {
+        this.searchError = errorMessage;
+    }
+
 }

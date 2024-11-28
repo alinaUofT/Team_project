@@ -12,4 +12,10 @@ public interface HomeOutputBoundary {
      * @param user currently logged in user
      */
     void switchToWatchlistsView(User user);
+
+    /**
+     * Switches to the Search Results View.
+     * @param query the search query
+     */
+    void switchToSearchResultsView(String query);
 }

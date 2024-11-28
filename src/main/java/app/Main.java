@@ -19,6 +19,8 @@ public class Main {
                                             .addWatchlistsView()
                                             .addSurvey1View()
                                             .addMyReviewsView()
+                                            .addSearchResultsView()
+                                            .addMovieView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
@@ -26,6 +28,8 @@ public class Main {
                                             .addWatchlistsUseCase()
                                             .addHomeUseCase()
                                             .addMy_ReviewsUseCase()
+                                            .addSearchResultsUseCase()
+                                            .addMovieUseCase()
                                             .build();
         
         application.pack();
