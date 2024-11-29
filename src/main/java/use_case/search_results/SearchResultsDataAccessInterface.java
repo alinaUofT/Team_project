@@ -1,10 +1,9 @@
-package use_case.movie;
+package use_case.search_results;
 
-// TODO: add to these later
 /**
- * DAO for the Movie Use Case.
+ * DAO for the Search Results Use Case.
  */
-public interface MovieUserDataAccess {
+public interface SearchResultsDataAccessInterface {
 
     /**
      * Checks if the given title exists.

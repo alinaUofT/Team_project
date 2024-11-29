@@ -1,23 +1,38 @@
 package entity;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple implementation of the Movie interface.
  */
 public class CommonMovie implements Movie, Comparable {
 
-    // TODO: assign the variables for starRating, userReviews, genres
-    // TODO override comparison method to comare names of movies not ids of objects
     private final String title;
-    private int starRating;
-    private List<String> userReviews;
+    private String posterPath;
+    private String overview;
+    private String voterAverage;
     private List<String> genres;
 
+    private final List<String> userReviews;
+    private final Double starRating;
+
+    // Constructor with default values
     public CommonMovie(String title) {
         this.title = title;
+
+        this.starRating = 0.0;
+        this.userReviews = new ArrayList<>();
+    }
+
+    @Override
+    public void setInformation(String posterPaths, String overviews, String voteAverages, List<String> genresList) {
+        this.posterPath = posterPaths;
+        this.overview = overviews;
+        this.voterAverage = voteAverages;
+        this.genres = genresList;
     }
 
     @Override
@@ -26,7 +41,22 @@ public class CommonMovie implements Movie, Comparable {
     }
 
     @Override
-    public int getStarRatings() {
+    public String getPoster() {
+        return posterPath;
+    }
+
+    @Override
+    public String getOverview() {
+        return overview;
+    }
+
+    @Override
+    public String getVoterAverage() {
+        return voterAverage;
+    }
+
+    @Override
+    public Double getStarRatings() {
         return starRating;
     }
 

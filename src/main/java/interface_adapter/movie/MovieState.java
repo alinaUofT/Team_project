@@ -45,6 +45,9 @@ public class MovieState {
     public String getExternalStarRating() {
         return externalStarRating;
     }
+  
+    public List<String> getGenres() {
+        return genres;
 
     @Override
     public String toString() {
@@ -56,5 +59,6 @@ public class MovieState {
                 + "externalStarRating='" + externalStarRating
                 + "genres=" + genres
                 + '}';
+
     }
 }

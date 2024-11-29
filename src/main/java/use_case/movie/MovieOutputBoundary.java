@@ -6,6 +6,11 @@ package use_case.movie;
 public interface MovieOutputBoundary {
 
     /**
+     * Prepares the success view for the Movie Use Case.
+     */
+    void switchToMovieView();
+
+    /**
      * Switches to the Home View.
      */
     void switchToHomeView();
@@ -14,4 +19,6 @@ public interface MovieOutputBoundary {
      * Switches to the User Reviews View.
      */
     void switchToUserReviewsView();
+
+
 }
