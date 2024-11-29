@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.add_to_watchlist.AddToWatchlistController;
+import interface_adapter.add_to_watchlist.AddToWatchlistPresenter;
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.create_watchlist.CreateWatchlistPresenter;
 import interface_adapter.movie.MovieViewModel;
@@ -46,6 +48,9 @@ import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import interface_adapter.watchlists.rename.RenameController;
 import interface_adapter.watchlists.rename.RenamePresenter;
+import use_case.add_to_watchlist.AddToWatchlistInputBoundary;
+import use_case.add_to_watchlist.AddToWatchlistInteractor;
+import use_case.add_to_watchlist.AddToWatchlistOutputBoundary;
 import use_case.create_watchlist.CreateWatchlistInputBoundary;
 import use_case.create_watchlist.CreateWatchlistInteractor;
 import use_case.create_watchlist.CreateWatchlistOutputBoundary;
@@ -108,21 +113,31 @@ public class AppBuilder {
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
+
     private LoginViewModel loginViewModel;
     private LoginView loginView;
+
     private HomeViewModel homeViewModel;
     private HomeView loggedInView;
+
     private WatchlistsView watchlistsView;
     private WatchlistsViewModel watchlistsViewModel;
+
     private WatchlistView watchlistView;
     private WatchlistViewModel watchlistViewModel;
+
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
+
     private MyReviewsViewModel my_ReviewsViewModel;
     private MyReviewsView my_ReviewsView;
+
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
+
     private MovieViewModel movieViewModel;
+    private MovieView movieView;
+
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
 
@@ -260,6 +275,18 @@ public class AppBuilder {
         surveySecondPageViewModel = new SurveySecondPageViewModel();
         surveySecondPageView = new SurveySecondPageView(surveySecondPageViewModel);
         cardPanel.add(surveySecondPageView, surveySecondPageView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Movie View to the application.
+     * @return this builder
+     * @throws IOException checkstyle
+     */
+    public AppBuilder addMovieView() {
+        movieViewModel = new MovieViewModel();
+        movieView = new MovieView(movieViewModel);
+        cardPanel.add(movieView, movieView.getViewName());
         return this;
     }
 
@@ -443,6 +470,21 @@ public class AppBuilder {
 
         final RenameController controller = new RenameController(renameInteractor);
         watchlistsView.setRenameController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Add to Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addAddToWatchlistUseCase() {
+        final AddToWatchlistOutputBoundary addToWatchlistOutputBoundary = new AddToWatchlistPresenter(
+                viewManagerModel, movieViewModel);
+        final AddToWatchlistInputBoundary addToWatchlistInteractor = new AddToWatchlistInteractor(
+                userDataAccessObject, addToWatchlistOutputBoundary);
+
+        final AddToWatchlistController controller = new AddToWatchlistController(addToWatchlistInteractor);
+        movieView.setAddToWatchlistController(controller);
         return this;
     }
 

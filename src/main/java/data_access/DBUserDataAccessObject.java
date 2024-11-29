@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import entity.*;
-
-import static com.mongodb.client.model.Filters.eq;
+import org.bson.Document;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import org.bson.Document;
-
+import entity.*;
+import use_case.add_to_watchlist.AddToWatchlistDataAccessInterface;
 import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -21,9 +19,9 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
 import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
-import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 import use_case.watchlists.rename.RenameUserDataAccessInterface;
 
@@ -35,7 +33,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
         RecommendationsUserDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
-        CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface {
+        CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -102,21 +100,62 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public boolean saveWatchlist(User user, Watchlist watchlist) {
+    public boolean saveWatchlist(User user, UserWatchlist watchlist) {
+        boolean success = false;
         try {
             // Create a document representing the review
             Document watchlistDoc = new Document()
-                    .append("watchlistName", watchlist.getListName());
+                    .append("watchlistName", watchlist.getListName())
+                    .append("movies", watchlist.getMovies());
 
             collection.updateOne(
-                    new Document("userId", user),
+                    new Document("userId", user.getName()),
                     new Document("$push", new Document("watchlist", watchlistDoc))
             );
 
-            return true;
+            success = true;
         } catch (Exception e) {
             System.err.println("Error adding watchlist to user: " + e.getMessage());
-            return false;
+        }
+        return success;
+    }
+
+    @Override
+    public void saveToWatchlist(User user, Watchlist watchlist, Movie movie) {
+
+        try {
+            // Find the user's document in the collection
+            final Document userDoc = collection.find(new Document("userId", user.getName())).first();
+
+            if (userDoc != null) {
+                // Retrieve the user's watchlists
+                final List<Document> userWatchlists = (List<Document>) userDoc.get("watchlists");
+
+                // Find the specific watchlist by name
+                Document targetWatchlist = null;
+                for (Document doc : userWatchlists) {
+                    if (doc.getString("watchlistName").equals(watchlist.getListName())) {
+                        targetWatchlist = doc;
+                        break;
+                    }
+                }
+
+                if (targetWatchlist != null) {
+                    // Update the watchlist by adding the new movie
+                    collection.updateOne(
+                            new Document("userId", user.getName())
+                                    .append("watchlists.watchlistName", watchlist.getListName()),
+                            new Document("$push", new Document("watchlists.$.movies", movie.getTitle()))
+                    );
+                    System.out.println("Movie added to watchlist successfully!");
+                } else {
+                    System.err.println("Watchlist not found.");
+                }
+            } else {
+                System.err.println("User not found.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error adding movie to watchlist: " + e.getMessage());
         }
     }
 
@@ -145,7 +184,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             return false; // Indicate failure
         }
     }
-
 
     public List<MovieReview> getReviews(User user) {
         // Initialize the factory to create MovieReview objects

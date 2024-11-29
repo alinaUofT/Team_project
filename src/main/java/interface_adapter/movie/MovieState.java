@@ -17,6 +17,7 @@ public class MovieState {
     private String reviews = "";
     private String externalStarRating = "";
     private List<String> genres = new ArrayList<>();
+    private String movieError;
 
     public MovieState() {
 
@@ -24,6 +25,11 @@ public class MovieState {
 
     public User getCurrentUser() {
         return this.currentUser;
+    }
+
+    // added
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public Movie getCurrentMovie() {
@@ -44,6 +50,10 @@ public class MovieState {
 
     public String getExternalStarRating() {
         return externalStarRating;
+    }
+
+    public void setMovieError(String movieError) {
+        this.movieError = movieError;
     }
 
     @Override

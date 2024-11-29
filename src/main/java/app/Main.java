@@ -25,11 +25,13 @@ public class Main {
                                             .addMyReviewsView()
                                             .addSurveySecondPageView()
                                             .addRecommendationsView()
+                                            .addMovieView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
+                                            .addCreateWatchlistUseCase()
                                             .addWatchlistUseCase()
                                             .addHomeUseCase()
                                             .addCreateWatchlistUseCase()
@@ -38,6 +40,7 @@ public class Main {
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
+                                            .addAddToWatchlistUseCase()
                                             .build();
         
         application.pack();

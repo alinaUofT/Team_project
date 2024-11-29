@@ -8,12 +8,12 @@ import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import interface_adapter.watchlists.rename.RenameController;
 
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
