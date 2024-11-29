@@ -1,19 +1,29 @@
 package entity;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A class representing a user-created watchlist of a User in this app.
  */
-public class CommonUserWatchlist extends Watchlist implements UserWatchlist{
+public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlist {
     // TODO Find or write more specific exceptions to throw
 
     private String listName;
-    private final List<Movie> movies = new ArrayList<>();
+    private List<Movie> movies;
 
     public CommonUserWatchlist(String listName) {
         this.listName = listName;
+        this.movies = new ArrayList<>();
+    }
+
+    /**
+     * Get the name of the watchlist.
+     */
+    @Override
+    public String getListName() {
+        return listName;
     }
 
     /**
@@ -44,7 +54,7 @@ public class CommonUserWatchlist extends Watchlist implements UserWatchlist{
      * @return length of the watchlist
      */
     @Override
-    public int len() {
+    public int size() {
         return this.movies.size();
     }
 }

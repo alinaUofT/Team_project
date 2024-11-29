@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import entity.User;
 import interface_adapter.home.HomeController;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
@@ -23,6 +24,7 @@ import interface_adapter.search_results.SearchResultsController;
 import interface_adapter.search_results.SearchResultsState;
 import interface_adapter.search_results.SearchResultsViewModel;
 import interface_adapter.watchlists.WatchlistsController;
+import interface_adapter.my_reviews.MyReviewsController;
 
 /**
  * The Home View for when the user is logged into the program.
@@ -34,7 +36,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     private HomeController homeController;
     private LogoutController logoutController;
     private SearchResultsController searchResultsController;
-
+    private MyReviewsController myReviewsController;
     private final JLabel username;
 
     private final JButton logOut;
@@ -45,7 +47,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     private JButton searchEnter = new JButton("Enter");
     private JButton recommendations = new JButton("Recommendations");
     private JButton myWatchlists = new JButton("My Watchlists");
-    private JButton myReviews = new JButton("My Reviews");
+    private JButton myReviewsButton = new JButton("My Reviews");
 
     private final JTextField searchInputField = new JTextField(50);
 
@@ -82,6 +84,16 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
         final JPanel bottomButtons = new JPanel();
         recommendations = new JButton("Recommendations");
+        recommendations.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(recommendations)) {
+                        final String uname = homeViewModel.getState().getUsername();
+                        this.homeController.switchToRecommendationsView(uname);
+                    }
+                }
+        );
+
         myWatchlists = new JButton("My Watchlists");
         myWatchlists.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -93,10 +105,17 @@ public class HomeView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        myReviews = new JButton("My Reviews");
+        myReviewsButton = new JButton("My Reviews");
         bottomButtons.add(recommendations);
         bottomButtons.add(myWatchlists);
-        bottomButtons.add(myReviews);
+        bottomButtons.add(myReviewsButton);
+        // Add ActionListener to trigger the controller
+        // Add ActionListener to trigger the controller
+        myReviewsButton.addActionListener(evt -> {
+          final User user = homeController.getUser(homeViewModel.getState().getUsername());
+            myReviewsController.getReviews(user); // Call the controller with the username
+        });
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -180,5 +199,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     public void setHomeController(HomeController controller) {
         this.homeController = controller;
     }
+
+    public void setMyReviewsController(MyReviewsController my_reviewsController){ this.myReviewsController = my_reviewsController; }
 
 }

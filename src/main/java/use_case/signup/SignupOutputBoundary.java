@@ -18,7 +18,13 @@ public interface SignupOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Switches to the Logged In View.
+     * Switches to the Survey1 View.
+     * @param uname newly created user
+     */
+    void switchToSurvey1View(String uname);
+
+    /**
+     * Switches to the Login View.
      */
     void switchToLoginView();
 }

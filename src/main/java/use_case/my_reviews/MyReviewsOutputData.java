@@ -1,12 +1,16 @@
 package use_case.my_reviews;
-import entity.MovieReview;
 
 import java.util.List;
 
-public class My_ReviewsOutputData {
+import entity.MovieReview;
+
+/**
+ * The format for the output data of the "My Reviews" use case.
+ */
+public class MyReviewsOutputData {
     private final List<MovieReview> reviews;
 
-    public My_ReviewsOutputData(List<MovieReview> reviews) {
+    public MyReviewsOutputData(List<MovieReview> reviews) {
         this.reviews = reviews;
     }
 

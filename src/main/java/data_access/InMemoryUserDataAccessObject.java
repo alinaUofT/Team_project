@@ -8,6 +8,7 @@ import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
@@ -18,7 +19,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         LoginUserDataAccessInterface,
         HomeUserDataAccessInterface,
         LogoutUserDataAccessInterface,
-        WatchlistsUserDataAccessInterface {
+        WatchlistsUserDataAccessInterface,
+        Survey1UserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 

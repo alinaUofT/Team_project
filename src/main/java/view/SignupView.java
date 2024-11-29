@@ -67,6 +67,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                                     currentState.getPassword(),
                                     currentState.getRepeatPassword()
                             );
+                            signupController.switchToSurvey1View(currentState.getUsername());
                         }
                     }
                 }

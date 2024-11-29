@@ -139,7 +139,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         });
 
         // styling
-        this.setPreferredSize(new Dimension(400, 300));
+        this.setPreferredSize(new Dimension(450, 500));
         final Color backcolor = new Color(255, 255, 255);
         this.setBackground(backcolor);
         title.setBackground(backcolor);

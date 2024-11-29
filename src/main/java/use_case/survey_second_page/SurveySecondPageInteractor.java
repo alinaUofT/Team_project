@@ -1,16 +1,21 @@
 package use_case.survey_second_page;
 
+import entity.UserFactory;
+
 /**
  * The Survey Second Page Interactor.
  */
 public class SurveySecondPageInteractor implements SurveySecondPageInputBoundary {
     private final SurveySecondPageDataAccessInterface userDataAccessObject;
     private final SurveySecondPageOutputBoundary surveySecondPagePresenter;
+    private final UserFactory userFactory;
 
-    public SurveySecondPageInteractor(SurveySecondPageDataAccessInterface userDataAccessInterface,
-                                      SurveySecondPageOutputBoundary surveySecondPagePresenter) {
-        this.userDataAccessObject = userDataAccessInterface;
+    public SurveySecondPageInteractor(SurveySecondPageDataAccessInterface surveySecondPageDataAccessInterface,
+                                      SurveySecondPageOutputBoundary surveySecondPagePresenter,
+                                      UserFactory userFactory) {
+        this.userDataAccessObject = surveySecondPageDataAccessInterface;
         this.surveySecondPagePresenter = surveySecondPagePresenter;
+        this.userFactory = userFactory;
     }
 
     @Override

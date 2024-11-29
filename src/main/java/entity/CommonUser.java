@@ -1,7 +1,15 @@
 package entity;
 
+import data_access.GenreMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.mongodb.client.model.Filters.eq;
+
+
 
 /**
  * A simple implementation of the User interface.
@@ -17,15 +25,26 @@ public class CommonUser implements User {
     // because we need to access their instance attributes.
 
     private boolean loginStatus;
-    private List<String> preferredGenres = new ArrayList<>();
-    private PrWatched pwl = new Watchlist();
-    private List<UserWatchlist> watchlists = new ArrayList<>();
+    private Map<String, Integer> preferredGenres = new HashMap<>();
+    private Watchlist pwl = new CommonWatchlist();
+    private ArrayList<UserWatchlist> watchlists = new ArrayList<UserWatchlist>();
+
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
+    /**
+     * Constructor for a CommonUser.
+     * @param name the name of the user
+     * @param password the password of the user
+     */
     public CommonUser(String name, String password) {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
+
+        final GenreMap genreMap = new GenreMap();
+        for (String genre : genreMap.keySet()) {
+            this.preferredGenres.put(genre, 0);
+        }
     }
 
     @Override
@@ -48,7 +67,7 @@ public class CommonUser implements User {
      * @return previously watched list
      */
     @Override
-    public PrWatched getPwl() {
+    public Watchlist getPwl() {
         return this.pwl;
     }
 
@@ -58,8 +77,18 @@ public class CommonUser implements User {
      * @return list of watchlists of the user.
      */
     @Override
-    public List<UserWatchlist> getWatchlists() {
+    public ArrayList<UserWatchlist> getWatchlists() {
         return this.watchlists;
+    }
+
+    @Override
+    public void addWatchlist(UserWatchlist watchlist) {
+        this.watchlists.add(watchlist);
+    }
+
+    @Override
+    public Map<String, Integer> getPreferredGenres() {
+        return this.preferredGenres;
     }
 
     /**
@@ -68,21 +97,17 @@ public class CommonUser implements User {
      */
     @Override
     public void addPreferredGenres(String genre) {
-        if (!this.preferredGenres.contains(genre)) {
-            this.preferredGenres.add(genre);
-        }
+        this.preferredGenres.put(genre, this.preferredGenres.get(genre) + 1);
     }
 
     /**
-     * Adds a list of genres to the list of preferred genres of this User.
+     * Adds a list of genres to the map of preferred genres of this User.
      * @param genres a list of genres
      */
     @Override
     public void addPreferredGenres(List<String> genres) {
         for (String genre : genres) {
-            if (!this.preferredGenres.contains(genre)) {
-                this.preferredGenres.add(genre);
-            }
+            this.preferredGenres.put(genre, this.preferredGenres.get(genre) + 1);
         }
     }
 
@@ -105,9 +130,4 @@ public class CommonUser implements User {
     public boolean watchedBefore(Movie movie) {
         return this.pwl.contains(movie);
     }
-  
-    public List<String> getPreferredGenres() {
-        return this.preferredGenres;
-    }
-
 }

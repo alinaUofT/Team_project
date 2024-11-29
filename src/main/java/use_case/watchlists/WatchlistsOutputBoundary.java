@@ -13,7 +13,7 @@ public interface WatchlistsOutputBoundary {
     void switchToHomeView();
 
     /**
-     * Switches to the PrWatched View.
+     * Switches to the Watchlist View.
      * @param currentUser user that is currently logged in
      * @param ind         index that corresponds to the watchlist to switch to
      */

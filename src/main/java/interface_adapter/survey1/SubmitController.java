@@ -1,5 +1,7 @@
 package interface_adapter.survey1;
 
+import java.util.List;
+
 import use_case.survey1.Survey1InputBoundary;
 import use_case.survey1.Survey1InputData;
 
@@ -7,29 +9,34 @@ import use_case.survey1.Survey1InputData;
  * The controller for the Login Use Case.
  */
 public class SubmitController {
-
     private final Survey1InputBoundary survey1UseCaseInteractor;
 
     public SubmitController(Survey1InputBoundary survey1UseCaseInteractor) {
+
         this.survey1UseCaseInteractor = survey1UseCaseInteractor;
     }
 
     /**
-     * Executes the Survey1 Use Case.
-     * @param genre1 the first movie genre that the user selects
-     * @param genre2 the second movie genre that the user selects
-     * @param genre3 the third movie genre that the user selects
+     * Executes the "submit survey" Use Case.
+     * @param selectedGenres the genres selected by the user
+     * @param username username of the currently logged-in user
      */
-    public void execute(String genre1, String genre2, String genre3) {
-        final Survey1InputData survey1InputData = new Survey1InputData(genre1, genre2, genre3);
-
-        survey1UseCaseInteractor.execute(survey1InputData);
+    public void execute(List<String> selectedGenres, String username) {
+        final Survey1InputData survey1InputData = new Survey1InputData(selectedGenres);
+        this.survey1UseCaseInteractor.execute(survey1InputData, username);
     }
 
     /**
      * Executes the "switch to SurveySecondPageView" Use Case.
+     * @param username username of the currently logged-in user
+     * @throws IllegalArgumentException if username is null or empty
      */
-    public void switchToSurveySecondPageView() {
-        survey1UseCaseInteractor.switchToSurveySecondPageView();
+    public void switchToSurveySecondPageView(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty.");
+        }
+        else {
+            this.survey1UseCaseInteractor.switchToSurveySecondPageView(username);
+        }
     }
 }

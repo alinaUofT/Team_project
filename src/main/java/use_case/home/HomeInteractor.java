@@ -30,11 +30,26 @@ public class HomeInteractor implements HomeInputBoundary {
     }
 
     /**
+     * Executes the Switch to Recommendations View Use Case.
+     * @param username username of the currently logged-in user
+     */
+    @Override
+    public void switchToRecommendationsView(String username) {
+        final User curentUser = this.userDataAccessObject.get(username);
+        this.userPresenter.switchToRecommendationsView(curentUser);
+    }
+  
+  /**
      * Executes the Switch to Home View Use Case.
      * @param query query of the searched movie
      */
     @Override
     public void switchToSearchResultsView(String query) {
         this.userPresenter.switchToSearchResultsView(query);
+
+    @Override
+    public User getUser(String username) {
+        return userDataAccessObject.get(username);
+
     }
 }

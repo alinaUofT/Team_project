@@ -18,4 +18,10 @@ public interface HomeOutputBoundary {
      * @param query the search query
      */
     void switchToSearchResultsView(String query);
+
+  /**
+     * Switches to the Recommendations View.
+     * @param user currently logged in user
+     */
+    void switchToRecommendationsView(User user);
 }

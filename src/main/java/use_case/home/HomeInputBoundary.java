@@ -1,5 +1,7 @@
 package use_case.home;
 
+import entity.User;
+
 /**
  * The Change Password Use Case.
  */
@@ -16,4 +18,13 @@ public interface HomeInputBoundary {
      * @param title username of the currently logged-in user
      */
     void switchToSearchResultsView(String title);
+
+    /**
+     * Executes the Switch to Recommendations View Use Case.
+     * @param username username of the currently logged-in user
+     */
+    void switchToRecommendationsView(String username);
+
+    User getUser(String username);
+
 }

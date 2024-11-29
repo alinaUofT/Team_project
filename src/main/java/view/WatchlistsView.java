@@ -2,8 +2,7 @@ package view;
 
 import entity.User;
 import entity.UserWatchlist;
-import interface_adapter.home.LoggedInState;
-import interface_adapter.signup.SignupState;
+import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -16,11 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The View for the watchlists screen.
+ * The View for the screen showing a list of watchlists.
  */
 public class WatchlistsView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName;
@@ -28,10 +26,17 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     private final WatchlistsViewModel watchlistsViewModel;
     private WatchlistsController watchlistsController;
 
-    private final JButton home;
-    private final JButton createWatchlist;
-    private final JButton pwl;
-    private List watchlistButtons;
+    private CreateWatchlistController createWatchlistController;
+
+    private JPanel topLine;
+    private JButton createWatchlist;
+    private JButton pwl;
+    private JPanel watchlistButtons;
+
+    private int x = 0;
+    private String currentListName = "";
+
+    private final JTextField listNameField = new JTextField();
 
     public WatchlistsView(WatchlistsViewModel watchlistsViewModel) {
         this.watchlistsViewModel = watchlistsViewModel;
@@ -39,52 +44,59 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         watchlistsViewModel.addPropertyChangeListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(title);
+        this.topLine = new JPanel();
+        topLine.setLayout(new BoxLayout(topLine, BoxLayout.X_AXIS));
+        topLine.setPreferredSize(new Dimension(400, 50));
 
-        this.home = new JButton(watchlistsViewModel.HOME_LABEL);
-        home.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        final JButton home = new JButton(watchlistsViewModel.HOME_LABEL);
+        home.setAlignmentX(Component.LEFT_ALIGNMENT);
         home.addActionListener(
                 evt -> watchlistsController.switchToHomeView()
         );
-        this.add(home);
+        topLine.add(home);
+
+        final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        topLine.add(title);
+        this.add(topLine);
+
         this.createWatchlist = new JButton(watchlistsViewModel.CREATE_LIST_LABEL);
-        //        createWatchlist.addActionListener(
-        //                evt -> createWatchlistController.execute()
-        //        );
+
         createWatchlist.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(createWatchlist);
+        createWatchlist.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(createWatchlist)) {
+                            createNewListPopUpView();
+                        }
+                    }
+                }
+        );
+        this.watchlistButtons = new JPanel();
+        this.watchlistButtons.setLayout(new BoxLayout(this.watchlistButtons, BoxLayout.Y_AXIS));
         this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
-        pwl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pwl.addActionListener(
+        this.pwl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.pwl.addActionListener(
                 evt -> {
                     final User currentUser = watchlistsViewModel.getState().getCurrentUser();
 
                     watchlistsController.goToPWL(currentUser);
                 }
         );
-        createWatchlist.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(createWatchlist)) {
-//                            createNewListPopUpView();
-                            // TODO: if (result == JOptionPane.YES_OPTION) add new list to user's existing lists
-                        }
-                    }
-                }
-        );
-        this.add(pwl);
-//        this.updateWatchlists();
-
+        this.watchlistButtons.add(this.pwl);
+        this.add(this.watchlistButtons);
+        this.setPreferredSize(new Dimension(400, 300));
+        final Color backcolor = new Color(255, 255, 255);
+        this.setBackground(backcolor);
     }
 
     private void updateWatchlists() {
         final List<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
-        this.watchlistButtons = new ArrayList<JPanel>();
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();
+            buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton watchlist = new JButton(watchlists.get(i).getListName());
             final int ind = i;
             watchlist.addActionListener(
@@ -122,67 +134,109 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             buttons.add(delete);
             this.watchlistButtons.add(buttons);
         }
+        this.revalidate();
     }
 
     /**
      * View for Create a New List Pop-Up Window.
-     * @return 0 (yes) or  1 (no) for which button was clicked
      */
-//    private int createNewListPopUpView() {
-//        // final int maxChar = 75;
-//        final JPanel panel = new JPanel();
-//
-//        // Adjusting panel size
-//        panel.setPreferredSize(new Dimension(500, 200));
-//
-//        final JPanel textPanel = new JPanel(new BorderLayout());
-//        // Text field for naming new list
-//        final JLabel enterNameLabel = new JLabel("Enter List Name:");
-//        // final JTextField listNameField = new JTextField(40);
-//
-//        addListNameListener();
-//        // not functioning currently, not a today problem
-//        final int x = listNameField.getText().length();
-//        final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/100");
-//
-//        // Add text field components to panel
-//        textPanel.add(enterNameLabel, BorderLayout.NORTH);
-//        textPanel.add(listNameField, BorderLayout.CENTER);
-//        textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
-//
-//        // Add components to the panel
-//        panel.add(textPanel);
-//
-//        // Create a custom dialog with our panel
-//        return JOptionPane.showOptionDialog(this, panel, "Create a New List",
-//                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-//                null, new Object[]{"Create List", "Cancel"}, null);
-//    }
+    private void createNewListPopUpView() {
+        // final int maxChar = 75;
+        final JPanel panel = new JPanel();
 
-//    private void addListNameListener() {
-//        listNameField.getDocument().addDocumentListener(new DocumentListener() {
-//            private void documentListenerHelper() {
-//                final WatchlistsState currentState = watchlistsViewModel.getState();
-//                currentState.setListName(listNameField.getText());
-//                watchlistsViewModel.setState(currentState);
-//            }
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//        });
-//    }
+        // Adjusting panel size
+        panel.setPreferredSize(new Dimension(500, 200));
+
+        final JPanel textPanel = new JPanel(new BorderLayout());
+        // Text field for naming new list
+        final JLabel enterNameLabel = new JLabel("Enter List Name:");
+        // final JTextField listNameField = new JTextField(40);
+
+        final int maxChar = 100;
+        final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/" + maxChar);
+
+        listNameField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                updateCharacterCount(1);
+                recordText();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateCharacterCount(-1);
+                recordText();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                /* Not needed for plain text fields */
+            }
+
+            private void updateCharacterCount(int increment) {
+                x += increment;
+                characterLimitLabel.setText("Character Limit: " + x + "/" + maxChar);
+            }
+
+            private void recordText() {
+                // Record the current text entered in listNameField
+                currentListName = listNameField.getText();
+            }
+        });
+
+        // Add text field components to panel
+        textPanel.add(enterNameLabel, BorderLayout.NORTH);
+        textPanel.add(listNameField, BorderLayout.CENTER);
+        textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
+
+        // Buttons
+        final JButton createWatchlistButton = new JButton("Create Watchlist");
+        final JButton cancel = new JButton("Cancel");
+
+        final JPanel buttons = new JPanel();
+
+        // Action Listener for buttons
+        createWatchlistButton.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(createWatchlistButton)) {
+                            final WatchlistsState currentState = watchlistsViewModel.getState();
+                            final User currUser = currentState.getCurrentUser();
+                            if (!currentListName.isEmpty()) {
+                                createWatchlistController.execute(currUser, currentListName);
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(panel, currentState.getEmptyListNameError());
+                            }
+                            listNameField.setText("");
+                            x = 0;
+                            SwingUtilities.getWindowAncestor(createWatchlistButton).dispose();
+                            // System.out.println(currUser.getWatchlists()); // testing purposes
+                        }
+                    }
+                }
+        );
+
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(cancel)) {
+                    listNameField.setText("");
+                    x = 0;
+                    SwingUtilities.getWindowAncestor(cancel).dispose();
+                }
+            }
+        });
+
+        buttons.add(cancel);
+        buttons.add(createWatchlistButton);
+
+        // Add components to the panel
+        panel.add(textPanel, BorderLayout.CENTER);
+        panel.add(buttons, BorderLayout.SOUTH);
+
+        // Create a custom dialog with our panel
+        JOptionPane.showOptionDialog(this, panel, "Create a New List",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, new Object[]{}, null);
+    }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
@@ -197,6 +251,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         this.watchlistsController = controller;
     }
 
+    public void setCreateWatchlistController(CreateWatchlistController controller) {
+        this.createWatchlistController = controller;
+    }
+
     /**
      * This method gets called when a bound property is changed.
      *
@@ -205,6 +263,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        this.updateWatchlists();
     }
 }

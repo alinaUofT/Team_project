@@ -1,29 +1,41 @@
 package data_access;
+
+import static com.mongodb.client.model.Filters.eq;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import entity.MovieReview;
+
+import entity.*;
+
 import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import entity.CommonUserFactory;
-import entity.CommonMovieReviewFactory;
 import org.bson.Document;
-import java.util.Date;
-import java.util.ArrayList;
-import entity.User;
+
+import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.my_reviews.MyReviewsDataAccessInterface;
+import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
+import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
+import use_case.watchlist.WatchlistUserDataAccessInterface;
+import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 
 /**
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface,
-        HomeUserDataAccessInterface,
-        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface {
+        LoginUserDataAccessInterface, HomeUserDataAccessInterface, MyReviewsDataAccessInterface,
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
+        RecommendationsUserDataAccessInterface,
+        Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
+        CreateWatchlistDataAccessInterface {
+
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -69,6 +81,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
         return findIterable.first() != null;
     }
+
+    @Override
+    public boolean movieExists(String movie) {
+        return false;
+    }
+
     @Override
     public void save(User user) {
         Document newAccount = new Document("userId", user.getName())
@@ -82,7 +100,26 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         }
     }
 
-    public boolean addReviewToUser(User user, MovieReview review) {
+    @Override
+    public boolean saveWatchlist(User user, Watchlist watchlist) {
+        try {
+            // Create a document representing the review
+            Document watchlistDoc = new Document()
+                    .append("watchlistName", watchlist.getListName());
+
+            collection.updateOne(
+                    new Document("userId", user),
+                    new Document("$push", new Document("watchlist", watchlistDoc))
+            );
+
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean leaveReview(MovieReview review) {
         try {
             // Create a document representing the review
             Document reviewDoc = new Document()
@@ -97,7 +134,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             // Add the review to the "reviews" array in the user's document
             collection.updateOne(
-                    new Document("userId", user.getName()), // Find user by ID
+                    new Document("userId", review.getUserID()), // Find user by ID
                     new Document("$push", new Document("reviews", reviewDoc)) // Push the new review
             );
 
@@ -109,35 +146,35 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
 
-    public List<MovieReview> getReviews(User username) {
+    public List<MovieReview> getReviews(User user) {
         // Initialize the factory to create MovieReview objects
-        CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
+        final CommonMovieReviewFactory reviewFactory = new CommonMovieReviewFactory();
 
         // Prepare the list to hold the user's reviews
-        List<MovieReview> reviews = new ArrayList<>();
+        final List<MovieReview> reviews = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
-        Document userDoc = collection.find(new Document("userId", username.getName())).first();
+        Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
         if (userDoc != null) {
             // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
-            List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
+            final List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
 
             if (rawReviews != null) {
                 // Iterate over each review and transform it into a MovieReview object
                 for (Document reviewDoc : rawReviews) {
-                    String user = userDoc.getString("userId");
-                    Date date = reviewDoc.getDate("date");
-                    Double starRating = reviewDoc.getDouble("starRating");
-                    String writtenReview = reviewDoc.getString("writtenReview");
-                    String movieTitle = reviewDoc.getString("movieTitle");
+                    final String username = userDoc.getString("userId");
+                    final Date date = reviewDoc.getDate("date");
+                    final Double starRating = reviewDoc.getDouble("starRating");
+                    final String writtenReview = reviewDoc.getString("writtenReview");
+                    final String movieTitle = reviewDoc.getString("movieTitle");
 
                     // Use the factory to create the MovieReview
                     MovieReview review;
                     if (writtenReview != null) {
-                        review = reviewFactory.create(user, date, starRating, writtenReview, movieTitle);
+                        review = reviewFactory.create(username, date, starRating, writtenReview, movieTitle);
                     } else {
-                        review = reviewFactory.create(user, date, starRating, movieTitle);
+                        review = reviewFactory.create(username, date, starRating, movieTitle);
                     }
 
                     // Add the review to the list
