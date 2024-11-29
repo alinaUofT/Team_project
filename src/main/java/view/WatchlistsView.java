@@ -134,6 +134,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             buttons.add(delete);
             this.watchlistButtons.add(buttons);
         }
+        this.revalidate();
     }
 
     /**
