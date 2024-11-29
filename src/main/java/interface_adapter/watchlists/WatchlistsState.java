@@ -7,8 +7,7 @@ import entity.User;
  */
 public class WatchlistsState {
     private User currentUser;
-    private String username;
-    private String listError;
+    private String emptyListNameError = "Can't create untitled list";
 
     public User getCurrentUser() {
         return this.currentUser;
@@ -18,12 +17,8 @@ public class WatchlistsState {
         this.currentUser = user;
     }
 
-    public String getListError() {
-        return listError;
-    }
-
-    public void setListError(String listError) {
-        this.listError = listError;
+    public String getEmptyListNameError() {
+        return emptyListNameError;
     }
 
     @Override
