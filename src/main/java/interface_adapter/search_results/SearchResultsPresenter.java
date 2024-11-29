@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.movie.MovieViewModel;
 import use_case.search_results.SearchResultsOutputBoundary;
+import use_case.search_results.SearchResultsOutputData;
 
 /**
  * The Presenter for the Search Results Use Case.
@@ -22,6 +23,10 @@ public class SearchResultsPresenter implements SearchResultsOutputBoundary {
         this.searchResultsViewModel = searchResultsViewModel;
         this.homeViewModel = homeViewModel;
         this.movieViewModel = movieViewModel;
+    }
+
+    public void setInformation() {
+        searchResultsViewModel.getState().getMovieTitles();
     }
 
     @Override
@@ -47,5 +52,19 @@ public class SearchResultsPresenter implements SearchResultsOutputBoundary {
     public void switchToMovieView() {
         viewManagerModel.setState(movieViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(SearchResultsOutputData searchResultsOutputData) {
+        // Access the current state from the ViewModel
+        final SearchResultsState searchResultsState = searchResultsViewModel.getState();
+
+        // Update the state
+        searchResultsState.setSearchTitle(searchResultsOutputData.getSearchText());
+        searchResultsState.setMovieTitles(searchResultsOutputData.getMovieTitles());
+        searchResultsState.setPosterPaths(searchResultsOutputData.getPosterPaths());
+
+        // Notify the view of changes
+        searchResultsViewModel.firePropertyChanged();
     }
 }

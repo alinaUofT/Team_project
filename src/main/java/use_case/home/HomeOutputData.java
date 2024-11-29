@@ -21,4 +21,5 @@ public class HomeOutputData {
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
+
 }

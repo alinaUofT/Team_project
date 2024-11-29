@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entity.CommonMovie;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -116,10 +117,11 @@ public class APIMovieAccess {
      * @param query the search query that the user inputs.
      * @return list of strings of the data
      */
-    public static List<Object> formatedSearchedMovies(String query) {
+    public static List<CommonMovie> formatedSearchedMovies(String query) {
         final String responseString = searchMovie(query);
 
         final List<Object> searchedMovies = new ArrayList<>();
+        final List<CommonMovie> searchResults = new ArrayList<>();
 
         // Parse the JSON response string into a JSONObject
         final JSONObject jsonObject = new JSONObject(responseString);
@@ -135,7 +137,7 @@ public class APIMovieAccess {
             final String title = movie.getString("title");
             final String posterPath = movie.getString("poster_path");
             final String overview = movie.getString("overview");
-            final String voteAverage = movie.getString("vote_average");
+            final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
 
             // get the genre IDs in an array
             final JSONArray genreID = movie.getJSONArray("genre_ids");
@@ -149,16 +151,14 @@ public class APIMovieAccess {
                 genreList.add(genre);
             }
 
-            // add all the info to the list
-            searchedMovies.add(title);
-            searchedMovies.add(posterPath);
-            searchedMovies.add(overview);
-            searchedMovies.add(voteAverage);
-            searchedMovies.add(genreList);
+            // create a movie with the title, and update the information
+            final CommonMovie result = new CommonMovie(title);
+            result.setInformation(posterPath, overview, voteAverage, genreList);
+            searchResults.add(result);
 
         }
         // return the final list
-        return searchedMovies;
+        return searchResults;
     }
 
     /**

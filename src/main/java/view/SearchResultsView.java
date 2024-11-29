@@ -8,8 +8,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
-import entity.CommonMovie;
-import interface_adapter.login.LoginState;
+import java.util.List;
+
 import interface_adapter.search_results.SearchResultsController;
 import interface_adapter.search_results.SearchResultsState;
 import interface_adapter.search_results.SearchResultsViewModel;
@@ -57,29 +57,12 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         title.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(title, BorderLayout.NORTH);
 
-        // creates the enter button
+        // creates the enter button, which has its functionality in actionPerformed
         this.enter = new JButton(SearchResultsViewModel.ENTER_LABEL);
-        enter.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(enter)) {
-                        final String query = searchInputField.getText();
-                        this.searchResultsController.execute(query);
-                    }
-                }
-
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent evt) {
-//                        if (evt.getSource().equals(enter)) {
-//                            final SearchResultsState currentState = searchResultsViewModel.getState();
-//
-//                            searchResultsController.execute(
-//                                    currentState.getSearchTitle()
-//                            );
-//                        }
-//                    }
-//                }
-        );
+        enter.addActionListener(evt -> {
+            String searchText = searchInputField.getText();
+            searchResultsController.execute(searchText);
+        });
 
         // create the search bar - contains the search label, the input field, and the enter button
         final JPanel searchBar = new JPanel();
@@ -87,8 +70,16 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         searchBar.add(searchInputField);
         searchBar.add(enter);
 
-        // TODO create the panel that displays the results of the search input
+        // for each movie, create new panel and add it to the results panel
         this.results = new JPanel();
+        final List<String> movies = searchResultsViewModel.getState().getMovieTitles();
+        final List<String> posterPaths = searchResultsViewModel.getState().getPosterPaths();
+
+        if (movies != null) {
+            for (int i = 0; i < movies.size(); i++) {
+                results.add(createMoviePanel(movies.get(i), posterPaths.get(i)));
+            }
+        }
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(homeButton, BorderLayout.WEST);
@@ -99,30 +90,32 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
 
     /**
      * Create a panel for an individual movie.
-     * @param title is the title of the movie panel
+     * @param movieTitle the title of the given movie
+     * @param posterPath the poster path of the given movie
      */
-    private JPanel createMoviePanel(String title) {
-        final CommonMovie movie = new CommonMovie(title);
-
+    private JPanel createMoviePanel(String movieTitle, String posterPath) {
         final JPanel moviePanel = new JPanel();
         moviePanel.setLayout(new BorderLayout(10, 10));
 
-        // TODO: Add movie poster
-        final JLabel posterLabel = new JLabel(new ImageIcon());
+        // Load and display the movie poster
+        final ImageIcon posterIcon = new ImageIcon(posterPath);
+        final JLabel posterLabel = new JLabel(posterIcon);
         posterLabel.setPreferredSize(new Dimension(100, 150));
 
-        // Add movie title
-        final JLabel titleLabel = new JLabel(movie.getTitle());
+        // Create and add the movie title
+        final JLabel titleLabel = new JLabel(movieTitle);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Add "See More" button
         final JButton seeMoreButton = new JButton(searchResultsViewModel.SEE_MORE_LABEL);
         seeMoreButton.addActionListener(
                 evt -> searchResultsController.switchToMovieView()
         );
+
         // Arrange components
-        final JPanel textPanel = new JPanel();
-        textPanel.add(titleLabel);
-        textPanel.add(seeMoreButton);
+        final JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(titleLabel, BorderLayout.NORTH);
+        textPanel.add(seeMoreButton, BorderLayout.SOUTH);
 
         moviePanel.add(posterLabel, BorderLayout.WEST);
         moviePanel.add(textPanel, BorderLayout.CENTER);
@@ -136,15 +129,28 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
      */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        // TODO: implement this
+        if (evt.getSource() == enter) {
+            final String query = searchInputField.getText();
+            searchResultsController.execute(query);
+        }
 
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final SearchResultsState state = (SearchResultsState) evt.getNewValue();
-        setFields(state);
-        searchResultsErrorField.setText(state.getSearchError());
+
+        if ("movieTitles".equals(evt.getPropertyName()) || "posterPaths".equals(evt.getPropertyName())) {
+            final List<String> titles = searchResultsViewModel.getState().getMovieTitles();
+            final List<String> posters = searchResultsViewModel.getState().getPosterPaths();
+
+            results.removeAll();
+            for (int i = 0; i < titles.size(); i++) {
+                final JPanel moviePanel = createMoviePanel(titles.get(i), posters.get(i));
+                results.add(moviePanel);
+            }
+            results.revalidate();
+            results.repaint();
+        }
     }
 
     private void setFields(SearchResultsState state) {

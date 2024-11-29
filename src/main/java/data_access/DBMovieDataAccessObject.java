@@ -2,8 +2,8 @@ package data_access;
 
 import java.util.List;
 
+import entity.CommonMovie;
 import entity.CommonMovieFactory;
-import entity.Movie;
 import use_case.movie.MovieUserDataAccessInterface;
 
 /**
@@ -19,12 +19,12 @@ public class DBMovieDataAccessObject implements MovieUserDataAccessInterface {
 
     @Override
     public boolean existsByName(String title) {
-        final List<Object> result = APIMovieAccess.formatedSearchedMovies(title);
+        final List<CommonMovie> result = APIMovieAccess.formatedSearchedMovies(title);
         return !result.isEmpty();
     }
 
     @Override
-    public Movie getMovieByName(String title) {
+    public CommonMovie getMovieByName(String title) {
         return null;
     }
 }

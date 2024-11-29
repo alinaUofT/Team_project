@@ -6,7 +6,7 @@ package use_case.search_results;
 public interface SearchResultsOutputBoundary {
 
     /**
-     * Prepares the failure view for the Login Use Case.
+     * Prepares the failure view for the Search results Use Case.
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
@@ -20,4 +20,10 @@ public interface SearchResultsOutputBoundary {
      * Switches to the Movie View.
      */
     void switchToMovieView();
+
+    /**
+     * Prepares the success view for the Search results Case.
+     * @param searchResultsOutputData the output data
+     */
+    void prepareSuccessView(SearchResultsOutputData searchResultsOutputData);
 }

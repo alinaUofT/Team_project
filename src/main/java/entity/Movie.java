@@ -8,10 +8,15 @@ import java.util.List;
 public interface Movie {
 
     /**
-     * Calls the API to get the information about the movie.
-     * @param movieInfo is a list of the information provided by formatedSearchedMovies
+     * Returns the title of the movie.
+     * @param posterPath the posterPath of the movie.
+     * @param overview the overview of the movie.
+     * @param voteAverage the voteAverage of the movie.
+     * @param genres the genres of the movie.
+     *
      */
-    void setInfo(List<Object> movieInfo);
+    void setInformation(String posterPath, String overview, String voteAverage, List<String> genres);
+
 
     /**
      * Returns the title of the movie.
@@ -35,7 +40,7 @@ public interface Movie {
      * Returns the average voter ratings of the movie.
      * @return the average voter ratings of the movie.
      */
-    Double getVoterAverage();
+    String getVoterAverage();
 
     /**
      * Returns the list of genres of the movie.

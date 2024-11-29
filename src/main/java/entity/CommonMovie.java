@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CommonMovie implements Movie, Comparable {
 
-    private String title;
+    private final String title;
     private String posterPath;
     private String overview;
-    private Double voterAverage;
+    private String voterAverage;
     private List<String> genres;
 
     private final List<String> userReviews;
@@ -22,25 +22,17 @@ public class CommonMovie implements Movie, Comparable {
     // Constructor with default values
     public CommonMovie(String title) {
         this.title = title;
-        this.posterPath = "";
-        this.overview = "";
-        this.voterAverage = 0.0;
-        this.genres = new ArrayList<>();
 
         this.starRating = 0.0;
         this.userReviews = new ArrayList<>();
     }
 
-    // Method to set information from the helper function
-    // call on List<Object> movieInfo = formatedSearchedMovies(query)
     @Override
-    public void setInfo(List<Object> movieInfo) {
-        this.title = movieInfo.get(0).toString();
-        this.posterPath = movieInfo.get(1).toString();
-        this.overview = movieInfo.get(2).toString();
-        this.voterAverage = Double.parseDouble(movieInfo.get(3).toString());
-        // Cast to List<String>
-        this.genres = (List<String>) movieInfo.get(4);
+    public void setInformation(String posterPaths, String overviews, String voteAverages, List<String> genresList) {
+        this.posterPath = posterPaths;
+        this.overview = overviews;
+        this.voterAverage = voteAverages;
+        this.genres = genresList;
     }
 
     @Override
@@ -59,7 +51,7 @@ public class CommonMovie implements Movie, Comparable {
     }
 
     @Override
-    public Double getVoterAverage() {
+    public String getVoterAverage() {
         return voterAverage;
     }
 

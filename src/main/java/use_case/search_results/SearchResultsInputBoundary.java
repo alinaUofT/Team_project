@@ -6,8 +6,8 @@ package use_case.search_results;
 public interface SearchResultsInputBoundary {
 
     /**
-     * Executes the search results use case.
-     * @param searchResultsInputData the input data
+     * Executes the switch to movie view use case.
+     * @param searchResultsInputData the input data for the search results
      */
     void execute(SearchResultsInputData searchResultsInputData);
 

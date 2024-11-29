@@ -19,7 +19,6 @@ public class SearchResultsController {
     */
     public void execute(String title) {
         final SearchResultsInputData searchResultsInputData = new SearchResultsInputData(title);
-
         searchResultsInteractor.execute(searchResultsInputData);
     }
 

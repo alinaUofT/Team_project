@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DBSearchResultsDataAccessObject;
 import entity.CommonMovieFactory;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MoviePresenter;
@@ -14,7 +15,6 @@ import interface_adapter.reviews.My_ReviewsController;
 import interface_adapter.reviews.My_ReviewsPresenter;
 import interface_adapter.reviews.My_ReviewsViewModel;
 import data_access.DBUserDataAccessObject;
-import data_access.DBMovieDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeController;
@@ -47,7 +47,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.movie.MovieInputBoundary;
 import use_case.movie.MovieInteractor;
 import use_case.movie.MovieOutputBoundary;
+import use_case.movie.MovieUserDataAccessInterface;
 import use_case.my_reviews.*;
+import use_case.search_results.SearchResultsDataAccessInterface;
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInteractor;
 import use_case.search_results.SearchResultsOutputBoundary;
@@ -58,6 +60,8 @@ import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
 import view.*;
+
+// import data_access.DBMovieDataAccessObject;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -81,7 +85,8 @@ public class AppBuilder {
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
+//    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
+    private final DBSearchResultsDataAccessObject searchResultsDataAccess = new DBSearchResultsDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -100,6 +105,7 @@ public class AppBuilder {
     private SearchResultsViewModel searchResultsViewModel;
     private MovieView movieView;
     private MovieViewModel movieViewModel;
+    private MovieUserDataAccessInterface movieDataAccessObject;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -306,7 +312,7 @@ public class AppBuilder {
     public AppBuilder addSearchResultsUseCase() {
         final SearchResultsOutputBoundary searchResultsOutputBoundary = new SearchResultsPresenter(viewManagerModel,
                 searchResultsViewModel, homeViewModel, movieViewModel);
-        final SearchResultsInputBoundary searchResultsInteractor = new SearchResultsInteractor(movieDBAccessObject,
+        final SearchResultsInputBoundary searchResultsInteractor = new SearchResultsInteractor(searchResultsDataAccess,
                 searchResultsOutputBoundary);
         final SearchResultsController controller = new SearchResultsController(searchResultsInteractor);
         searchResultsView.setSearchResultsController(controller);
@@ -331,7 +337,7 @@ public class AppBuilder {
     public AppBuilder addMovieUseCase() {
         final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
                 movieViewModel, homeViewModel);
-        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDBAccessInterface, movieOutputBoundary);
+        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
         final MovieController controller = new MovieController(movieInteractor);
         movieView.setMovieController(controller);
         return this;

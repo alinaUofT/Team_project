@@ -30,7 +30,7 @@ public class HomeInteractor implements HomeInputBoundary {
     }
 
     /**
-     * Executes the Switch to Home View View Use Case.
+     * Executes the Switch to Home View Use Case.
      * @param query query of the searched movie
      */
     @Override
