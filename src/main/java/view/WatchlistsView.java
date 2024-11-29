@@ -117,19 +117,13 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             buttons.add(watchlist);
             final JButton rename = new JButton(watchlistsViewModel.RENAME_LABEL);
             rename.addActionListener(
-                    evt -> remaneListPopUpView(watchlist.getName(), ind)
+                    evt -> renameListPopUpView(watchlists.get(ind).getListName(), ind)
             );
             buttons.add(rename);
             final JButton delete = new JButton(watchlistsViewModel.DELETE_LABEL);
-            //            delete.addActionListener(
-            //                    evt -> {
-            //                        if (evt.getSource().equals(delete)) {
-            //                            final User currentUser = watchlistsViewModel.getState().getCurrentUser();
-            //
-            //                            deleteWatchlistController.execute(currentUser, ind);
-            //                        }
-            //                    }
-            //            );
+            delete.addActionListener(
+                    evt -> deleteListPopUpView(watchlists.get(ind).getListName(), ind)
+            );
             buttons.add(delete);
             this.watchlistButtons.add(buttons);
         }
@@ -240,7 +234,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
     /**
      * View for Create a New List Pop-Up Window.
      */
-    private void remaneListPopUpView(String oldName, int ind) {
+    private void renameListPopUpView(String oldName, int ind) {
         // final int maxChar = 75;
         final JPanel panel = new JPanel();
 
@@ -249,7 +243,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
         final JPanel textPanel = new JPanel(new BorderLayout());
         // Text field for naming new list
-        final JLabel enterNameLabel = new JLabel("Enter a new name for a " + oldName + "watchlist:");
+        final JLabel enterNameLabel = new JLabel("Enter a new name for a " + oldName + " watchlist:");
         // final JTextField listNameField = new JTextField(40);
 
         final int maxChar = 100;
@@ -329,6 +323,53 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
         // Create a custom dialog with our panel
         JOptionPane.showOptionDialog(this, panel, "Rename a Watchlist",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, new Object[]{}, null);
+    }
+
+    /**
+     * View for Create a New List Pop-Up Window.
+     */
+    private void deleteListPopUpView(String listName, int ind) {
+        final JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Adjusting panel size
+        panel.setPreferredSize(new Dimension(400, 100));
+
+        final JLabel confirmLabel = new JLabel("Are you sure you want to delete watchlist " + listName + "?");
+
+        // Buttons
+        final JPanel buttons = new JPanel(new BorderLayout());
+        final JButton deleteButton = new JButton("Yes");
+        final JButton cancel = new JButton("No");
+
+        // Action Listener for buttons
+        deleteButton.addActionListener(
+                evt -> {
+//                    deleteWatchlistController.execute(watchlistsViewModel.getState().getCurrentUser(), ind);
+                    SwingUtilities.getWindowAncestor(deleteButton).dispose();
+                }
+        );
+
+        cancel.addActionListener(evt -> {
+            if (evt.getSource().equals(cancel)) {
+                SwingUtilities.getWindowAncestor(cancel).dispose();
+            }
+        });
+
+        cancel.setPreferredSize(new Dimension(60, 60));
+        deleteButton.setPreferredSize(new Dimension(70, 60));
+        buttons.add(cancel, BorderLayout.WEST);
+        buttons.add(deleteButton, BorderLayout.EAST);
+
+        // Add components to the panel
+        panel.add(confirmLabel);
+        panel.add(Box.createRigidArea(new Dimension(5, 20)));
+        panel.add(buttons);
+
+        // Create a custom dialog with our panel
+        JOptionPane.showOptionDialog(this, panel, "Delete a Watchlist",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, new Object[]{}, null);
     }
