@@ -1,28 +1,31 @@
 package interface_adapter.my_reviews;
 
-import interface_adapter.ViewManagerModel;
-import use_case.my_reviews.My_ReviewsOutputBoundary;
-import use_case.my_reviews.My_ReviewsOutputData;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
-    private final My_ReviewsViewModel viewModel;
+import interface_adapter.ViewManagerModel;
+import use_case.my_reviews.MyReviewsOutputData;
+import use_case.my_reviews.My_ReviewsOutputBoundary;
+
+/**
+ * The Presenter for the "my reviews" use case.
+ */
+public class MyReviewsPresenter implements My_ReviewsOutputBoundary {
+    private final MyReviewsViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public My_ReviewsPresenter(My_ReviewsViewModel viewModel,
-                               ViewManagerModel viewManagerModel) {
+    public MyReviewsPresenter(MyReviewsViewModel viewModel,
+                              ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
-    public void prepareMyReviewsView(My_ReviewsOutputData reviews) {
+    public void prepareMyReviewsView(MyReviewsOutputData reviews) {
         // Format each review into a separate string
-        List<String> formattedReviews = reviews.getReviews().stream()
+        final List<String> formattedReviews = reviews.getReviews().stream()
                 .map(review -> {
-                    StringBuilder reviewString = new StringBuilder();
+                    final StringBuilder reviewString = new StringBuilder();
                     reviewString.append("- Title: ").append(review.getMovie_Title()).append("\n")
                             .append("  Date: ").append(review.getDate()).append("\n")
                             .append("  Stars: ").append(review.getStarRating()).append("\n");
@@ -34,9 +37,6 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
                 })
                 .collect(Collectors.toList());
 
-
-        // Update the ViewModel with formatted reviews
-        // Update the view manager to switch to the reviews view
         viewModel.setState(formattedReviews);
         viewModel.firePropertyChanged();
 
@@ -44,11 +44,16 @@ public class My_ReviewsPresenter implements My_ReviewsOutputBoundary {
         this.viewManagerModel.firePropertyChanged();
     }
 
+    /**
+     * go back from the "my reviews" screen.
+     * */
+
     public void goBack() {
         viewManagerModel.setState("logged in");
         viewManagerModel.firePropertyChanged();
 
     }
+
     @Override
     public void prepareNoReviewsView(String message) {
         viewModel.setState(null);

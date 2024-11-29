@@ -2,6 +2,10 @@ package interface_adapter.leave_review;
 
 import use_case.leave_a_review.LeaveReviewInputBoundary;
 
+/**
+ * The controller for the leave a review use case.
+ */
+
 public class LeaveReviewController {
     private final LeaveReviewInputBoundary leaveReviewInteractor;
 

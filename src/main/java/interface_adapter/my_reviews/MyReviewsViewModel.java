@@ -1,13 +1,17 @@
 package interface_adapter.my_reviews;
 
-import interface_adapter.ViewModel;
-
 import java.util.List;
 
-public class My_ReviewsViewModel extends ViewModel<List<String>> {
+import interface_adapter.ViewModel;
+
+/**
+ * The view model for the "my reviews" use case.
+ */
+
+public class MyReviewsViewModel extends ViewModel<List<String>> {
     private List<String> reviews;
 
-    public My_ReviewsViewModel() {
+    public MyReviewsViewModel() {
         super("My_ReviewsView");
     }
 
@@ -17,7 +21,7 @@ public class My_ReviewsViewModel extends ViewModel<List<String>> {
 
     public void setReviews(List<String> reviews) {
         this.reviews = reviews;
-    }
 
+    }
 
 }

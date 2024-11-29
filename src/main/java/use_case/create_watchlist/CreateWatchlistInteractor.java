@@ -25,5 +25,6 @@ public class CreateWatchlistInteractor implements CreateWatchlistInputBoundary {
         final UserWatchlist watchlist = commonUserWatchlistFactory.create(watchlistName);
         user.addWatchlist(watchlist);
         createWatchlistDataAccessInterface.saveWatchlist(user, watchlist);
+        createWatchlistPresenter.prepareSuccessView(user);
     }
 }

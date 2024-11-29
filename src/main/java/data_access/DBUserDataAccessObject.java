@@ -11,15 +11,12 @@ import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import java.util.Date;
-import java.util.ArrayList;
 
 import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
-import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
-import use_case.my_reviews.My_ReviewsDataAccessInterface;
+import use_case.my_reviews.MyReviewsDataAccessInterface;
 import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
@@ -31,7 +28,7 @@ import use_case.watchlists.WatchlistsUserDataAccessInterface;
  * The DAO for user data.
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
-        LoginUserDataAccessInterface, HomeUserDataAccessInterface, My_ReviewsDataAccessInterface,
+        LoginUserDataAccessInterface, HomeUserDataAccessInterface, MyReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
         RecommendationsUserDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,

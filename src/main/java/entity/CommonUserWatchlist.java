@@ -19,6 +19,14 @@ public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlis
     }
 
     /**
+     * Get the name of the watchlist.
+     */
+    @Override
+    public String getListName() {
+        return listName;
+    }
+
+    /**
      * Sets the name of the watchlist.
      *
      * @param listname new name of the watchlist

@@ -13,9 +13,9 @@ import interface_adapter.movie.MovieViewModel;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsPresenter;
 import interface_adapter.recommendations.RecommendationsViewModel;
-import interface_adapter.my_reviews.My_ReviewsController;
-import interface_adapter.my_reviews.My_ReviewsPresenter;
-import interface_adapter.my_reviews.My_ReviewsViewModel;
+import interface_adapter.my_reviews.MyReviewsController;
+import interface_adapter.my_reviews.MyReviewsPresenter;
+import interface_adapter.my_reviews.MyReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
@@ -27,9 +27,6 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
-import interface_adapter.recommendations.RecommendationsController;
-import interface_adapter.recommendations.RecommendationsPresenter;
-import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -42,9 +39,6 @@ import interface_adapter.watchlist.WatchlistPresenter;
 import interface_adapter.survey_second_page.SurveySecondPageController;
 import interface_adapter.survey_second_page.SurveySecondPagePresenter;
 import interface_adapter.survey_second_page.SurveySecondPageViewModel;
-
-import interface_adapter.watchlist.WatchlistController;
-import interface_adapter.watchlist.WatchlistPresenter;
 
 import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
@@ -79,10 +73,6 @@ import use_case.survey1.Survey1OutputBoundary;
 import use_case.survey_second_page.SurveySecondPageInputBoundary;
 import use_case.survey_second_page.SurveySecondPageInteractor;
 import use_case.survey_second_page.SurveySecondPageOutputBoundary;
-
-import use_case.watchlist.WatchlistInputBoundary;
-import use_case.watchlist.WatchlistInteractor;
-import use_case.watchlist.WatchlistOutputBoundary;
 
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
@@ -123,8 +113,8 @@ public class AppBuilder {
     private WatchlistViewModel watchlistViewModel;
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
-    private My_ReviewsViewModel my_ReviewsViewModel;
-    private My_ReviewsView my_ReviewsView;
+    private MyReviewsViewModel my_ReviewsViewModel;
+    private MyReviewsView my_ReviewsView;
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
     private MovieViewModel movieViewModel;
@@ -196,10 +186,10 @@ public class AppBuilder {
      */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
-        my_ReviewsViewModel = new My_ReviewsViewModel();
+        my_ReviewsViewModel = new MyReviewsViewModel();
 
         // Step 2: Initialize the View and link it to the ViewModel
-        my_ReviewsView = new My_ReviewsView(my_ReviewsViewModel);
+        my_ReviewsView = new MyReviewsView(my_ReviewsViewModel);
 
         // Step 3: Add the View to the CardPanel with its unique name
         cardPanel.add(my_ReviewsView, my_ReviewsView.getViewName());
@@ -227,16 +217,16 @@ public class AppBuilder {
 
         //   Create the Presenter and link it to the ViewModel
         final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new My_ReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
+                new MyReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
-        final My_ReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
+        final MyReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
                 userDataAccessObject,
                 my_ReviewsOutputBoundary
         );
 
         // Create the Controller
-        final My_ReviewsController myReviewsController = new My_ReviewsController(my_ReviewsInteractor);
+        final MyReviewsController myReviewsController = new MyReviewsController(my_ReviewsInteractor);
 
         loggedInView.setMyReviewsController(myReviewsController);
         my_ReviewsView.setMyReviewsController(myReviewsController);
@@ -427,7 +417,7 @@ public class AppBuilder {
      */
     public AppBuilder addCreateWatchlistUseCase() {
         final CreateWatchlistOutputBoundary createWatchlistOutputBoundary = new CreateWatchlistPresenter(
-                viewManagerModel, watchlistsViewModel, watchlistViewModel);
+                viewManagerModel, watchlistsViewModel);
         final CreateWatchlistInputBoundary createWatchlistInteractor = new CreateWatchlistInteractor(
                 userDataAccessObject, createWatchlistOutputBoundary);
 
