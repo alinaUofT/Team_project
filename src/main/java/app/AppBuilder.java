@@ -13,9 +13,7 @@ import interface_adapter.movie.MoviePresenter;
 import interface_adapter.movie.MovieViewModel;
 import interface_adapter.my_reviews.MyReviewsController;
 import interface_adapter.my_reviews.MyReviewsPresenter;
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.reviews.My_ReviewsPresenter;
-import interface_adapter.reviews.My_ReviewsViewModel;
+import interface_adapter.my_reviews.MyReviewsViewModel;
 
 import interface_adapter.add_to_watchlist.AddToWatchlistController;
 import interface_adapter.add_to_watchlist.AddToWatchlistPresenter;
@@ -155,20 +153,19 @@ public class AppBuilder {
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
 
-    private MyReviewsViewModel my_ReviewsViewModel;
-    private MyReviewsView my_ReviewsView;
+    private MyReviewsViewModel myReviewsViewModel;
+    private MyReviewsView myReviewsView;
+    private MyReviewsDataAccessInterface myReviewsDataAccessObject;
 
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
-
-    private MovieUserDataAccessInterface movieDataAccessObject;
 
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
+    private MovieUserDataAccessInterface movieDataAccessObject;
 
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
@@ -238,13 +235,13 @@ public class AppBuilder {
      */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
-        my_ReviewsViewModel = new MyReviewsViewModel();
+        myReviewsViewModel = new MyReviewsViewModel();
 
         // Step 2: Initialize the View and link it to the ViewModel
-        my_ReviewsView = new MyReviewsView(my_ReviewsViewModel);
+        myReviewsView = new MyReviewsView(myReviewsViewModel);
 
         // Step 3: Add the View to the CardPanel with its unique name
-        cardPanel.add(my_ReviewsView, my_ReviewsView.getViewName());
+        cardPanel.add(myReviewsView, myReviewsView.getViewName());
 
         // Step 4: Return the AppBuilder for chaining
         return this;
@@ -265,23 +262,21 @@ public class AppBuilder {
      * Adds the My_Reviews Use Case to the application.
      * @return this builder
      */
-    public AppBuilder addMy_ReviewsUseCase() {
+    public AppBuilder addMyReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new MyReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
+        final My_ReviewsOutputBoundary myReviewsOutputBoundary =
+                new MyReviewsPresenter(myReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
-        final MyReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                userDataAccessObject,
-                my_ReviewsOutputBoundary
-        );
+        final MyReviewsInputBoundary myReviewsInteractor = new My_ReviewsInteractor(
+                userDataAccessObject, myReviewsOutputBoundary);
 
         // Create the Controller
-        final MyReviewsController myReviewsController = new MyReviewsController(my_ReviewsInteractor);
+        final MyReviewsController myReviewsController = new MyReviewsController(myReviewsInteractor);
 
         loggedInView.setMyReviewsController(myReviewsController);
-        my_ReviewsView.setMyReviewsController(myReviewsController);
+        myReviewsView.setMyReviewsController(myReviewsController);
         // Return
         return this;
     }
@@ -420,11 +415,9 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addHomeUseCase() {
-        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
+        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel, watchlistsViewModel,
+                recommendationsViewModel, homeViewModel, searchResultsViewModel);
 
-                watchlistsViewModel, homeViewModel, searchResultsViewModel, recommendationsViewModel);
-
-                watchlistsViewModel, recommendationsViewModel, homeViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
@@ -434,7 +427,6 @@ public class AppBuilder {
     }
 
     /**
-
      * Adds the Search Results View to the application.
      * @return this builder
      */
@@ -442,7 +434,7 @@ public class AppBuilder {
         searchResultsViewModel = new SearchResultsViewModel();
         searchResultsView = new SearchResultsView(searchResultsViewModel);
         cardPanel.add(searchResultsView, searchResultsViewModel.getViewName());
-      return this;
+        return this;
     }
 
     /**
@@ -471,7 +463,8 @@ public class AppBuilder {
                 searchResultsOutputBoundary);
         final SearchResultsController controller = new SearchResultsController(searchResultsInteractor);
         searchResultsView.setSearchResultsController(controller);
-      return this;
+        return this;
+    }
 
     /**
      * Adds the Survey Second Page Use Case to the application.
@@ -505,7 +498,6 @@ public class AppBuilder {
     }
 
     /**
-
      * Adds the Movie Use Case to the application.
      * @return this builder
      */
@@ -515,7 +507,8 @@ public class AppBuilder {
         final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
         final MovieController controller = new MovieController(movieInteractor);
         movieView.setMovieController(controller);
-      return this;
+        return this;
+    }
 
     /**
      * Adds the Create Watchlist Use Case to the application.
