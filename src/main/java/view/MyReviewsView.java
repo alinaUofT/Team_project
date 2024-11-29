@@ -1,26 +1,28 @@
 package view;
-import interface_adapter.my_reviews.My_ReviewsController;
-import interface_adapter.my_reviews.My_ReviewsViewModel;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.util.List;
 
-public class My_ReviewsView extends JPanel implements PropertyChangeListener {
+import javax.swing.*;
+
+import interface_adapter.my_reviews.MyReviewsController;
+import interface_adapter.my_reviews.MyReviewsViewModel;
+
+/**
+ * The view for the "my reviews" use case.
+ */
+
+public class MyReviewsView extends JPanel implements PropertyChangeListener {
     private final String viewName = "My_ReviewsView";
-    private final My_ReviewsViewModel viewModel;
+    private final MyReviewsViewModel viewModel;
     private final JPanel reviewsPanel;
-    private My_ReviewsController controller; // Add a reference to the Controller
+    private MyReviewsController controller;
 
-    public My_ReviewsView(My_ReviewsViewModel viewModel) {
+    public MyReviewsView(MyReviewsViewModel viewModel) {
         this.viewModel = viewModel;
-        List<String> reviews = viewModel.getReviews();
+        final List<String> reviews = viewModel.getReviews();
         // Register as an observer
         this.viewModel.addPropertyChangeListener(this);
 
@@ -28,28 +30,28 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BorderLayout());
 
         // Top panel for navigation
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        JButton backButton = new JButton("Back");
-        JLabel titleLabel = new JLabel("My Reviews");
+        final JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        final JButton backButton = new JButton("Back");
+        final JLabel titleLabel = new JLabel("My Reviews");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(backButton);
         topPanel.add(titleLabel);
 
         // Action listener for back button
         backButton.addActionListener(e -> {
-                controller.goBack();
+            controller.goBack();
         });
 
         // Reviews panel
         reviewsPanel = new JPanel();
         reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-        reviewsPanel.setBackground(new Color(255, 243, 212)); // Light yellow background
+        reviewsPanel.setBackground(new Color(255, 243, 212));
 
         // Scrollable area
-        JScrollPane scrollPane = new JScrollPane(reviewsPanel);
+        final JScrollPane scrollPane = new JScrollPane(reviewsPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Smooth scrolling
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
         // Add components to the main panel
         this.add(topPanel, BorderLayout.NORTH);
@@ -59,18 +61,23 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
         updateView(reviews);
     }
 
-    public void setMyReviewsController(My_ReviewsController controller) {
-        this.controller = controller;
+    public void setMyReviewsController(MyReviewsController controller1) {
+        this.controller = controller1;
     }
 
+    /**
+     * Update the view with formated reviews.
+     * @param formattedReviews the formated reviews to be passed to the view.
+     */
     public void updateView(List<String> formattedReviews) {
         reviewsPanel.removeAll();
 
         if (formattedReviews == null || formattedReviews.isEmpty()) {
             reviewsPanel.add(new JLabel("No reviews available."));
-        } else {
+        }
+        else {
             for (String review : formattedReviews) {
-                JTextArea reviewArea = new JTextArea(review);
+                final JTextArea reviewArea = new JTextArea(review);
                 reviewArea.setWrapStyleWord(true);
                 reviewArea.setLineWrap(true);
                 reviewArea.setEditable(false);
@@ -89,12 +96,12 @@ public class My_ReviewsView extends JPanel implements PropertyChangeListener {
         reviewsPanel.revalidate();
         reviewsPanel.repaint();
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("state".equals(evt.getPropertyName())) {
-            // Cast the new value to a List<String>, since that's the state being sent
-            List<String> formattedReviews = (List<String>) evt.getNewValue();
-            updateView(formattedReviews); // Pass the list of reviews to update the view
+            final List<String> formattedReviews = (List<String>) evt.getNewValue();
+            updateView(formattedReviews);
         }
     }
 
