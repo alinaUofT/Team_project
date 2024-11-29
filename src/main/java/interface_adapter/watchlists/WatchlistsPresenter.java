@@ -40,7 +40,9 @@ public class WatchlistsPresenter implements WatchlistsOutputBoundary {
     @Override
     public void switchToWatchlistView(User currentUser, int ind) {
         // should switch to watchlist view which is not implemented
-        viewManagerModel.setState(homeViewModel.getViewName());
+        watchlistViewModel.getState().updateState(currentUser, ind);
+        watchlistViewModel.firePropertyChanged();
+        viewManagerModel.setState(watchlistViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

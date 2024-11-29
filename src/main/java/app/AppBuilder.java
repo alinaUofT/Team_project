@@ -50,6 +50,8 @@ import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
+import interface_adapter.watchlists.rename.RenameController;
+import interface_adapter.watchlists.rename.RenamePresenter;
 import use_case.create_watchlist.CreateWatchlistInputBoundary;
 import use_case.create_watchlist.CreateWatchlistInteractor;
 import use_case.create_watchlist.CreateWatchlistOutputBoundary;
@@ -87,6 +89,9 @@ import use_case.watchlist.WatchlistOutputBoundary;
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
+import use_case.watchlists.rename.RenameInputBoundary;
+import use_case.watchlists.rename.RenameInteractor;
+import use_case.watchlists.rename.RenameOutputBoundary;
 import view.*;
 
 /**
@@ -433,6 +438,21 @@ public class AppBuilder {
 
         final CreateWatchlistController controller = new CreateWatchlistController(createWatchlistInteractor);
         watchlistsView.setCreateWatchlistController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Create Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRenameUseCase() {
+        final RenameOutputBoundary renameOutputBoundary = new RenamePresenter(
+                viewManagerModel, watchlistsViewModel);
+        final RenameInputBoundary renameInteractor = new RenameInteractor(
+                userDataAccessObject, renameOutputBoundary);
+
+        final RenameController controller = new RenameController(renameInteractor);
+        watchlistsView.setRenameController(controller);
         return this;
     }
 
