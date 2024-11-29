@@ -2,9 +2,7 @@ package data_access;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import entity.*;
 
@@ -66,7 +64,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             // Create and return the User object
             return userFactory.create(name, password);
-        } else {
+        }
+        else {
             // Handle case where user is not found
             throw new RuntimeException("User with username '" + username + "' not found.");
         }
@@ -107,7 +106,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     public boolean saveWatchlist(User user, Watchlist watchlist) {
         try {
             // Create a document representing the review
-            Document watchlistDoc = new Document()
+            final Document watchlistDoc = new Document()
                     .append("watchlistName", watchlist.getListName());
 
             collection.updateOne(
@@ -116,8 +115,36 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             );
 
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.err.println("Error adding watchlist to user: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Saves the preferred genres for a user.
+     *
+     * @param user the user whose preferred genres are to be saved
+     * @param preferredGenres a map of genres and their corresponding preference levels
+     * @return true if the preferred genres were saved successfully, false otherwise
+     */
+    @Override
+    public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
+        try {
+            // Create a document representing the review
+            final Document preferredGenresDoc = new Document()
+                    .append("preferredGenres", preferredGenres);
+
+            collection.updateOne(
+                    new Document("userId", user),
+                    new Document("$push", new Document("preferredGenres", preferredGenresDoc))
+            );
+
+            return true;
+        }
+        catch (Exception e) {
+            System.err.println("Error adding preferredGenres to user: " + e.getMessage());
             return false;
         }
     }
@@ -147,7 +174,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             return false; // Indicate failure
         }
     }
-
 
     public List<MovieReview> getReviews(User user) {
         // Initialize the factory to create MovieReview objects

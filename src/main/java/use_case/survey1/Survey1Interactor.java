@@ -31,6 +31,7 @@ public class Survey1Interactor implements Survey1InputBoundary {
         final Survey1OutputData survey1OutputData = new Survey1OutputData(genre1, genre2, genre3);
         final User user = this.userDataAccessObject.get(username);
         user.addPreferredGenres(selectedGenres);
+        this.userDataAccessObject.savePreferredGenres(user, user.getPreferredGenres());
         survey1Presenter.prepareSuccessView(survey1OutputData);
     }
 

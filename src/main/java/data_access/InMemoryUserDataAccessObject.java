@@ -41,6 +41,11 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return users.get(username);
     }
 
+    @Override
+    public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
+        return false;
+    }
+
 //    @Override
 //    public void changePassword(User user) {
 //        // Replace the old entry with the new password
