@@ -51,6 +51,9 @@ public class MovieState {
     public String getExternalStarRating() {
         return externalStarRating;
     }
+  
+    public List<String> getGenres() {
+        return genres;
 
     public void setMovieError(String movieError) {
         this.movieError = movieError;
@@ -66,5 +69,6 @@ public class MovieState {
                 + "externalStarRating='" + externalStarRating
                 + "genres=" + genres
                 + '}';
+
     }
 }

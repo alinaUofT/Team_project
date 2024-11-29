@@ -25,13 +25,13 @@ public class Main {
                                             .addMyReviewsView()
                                             .addSurveySecondPageView()
                                             .addRecommendationsView()
+                                            .addSearchResultsView()
                                             .addMovieView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
-                                            .addCreateWatchlistUseCase()
                                             .addWatchlistUseCase()
                                             .addHomeUseCase()
                                             .addCreateWatchlistUseCase()
@@ -40,6 +40,8 @@ public class Main {
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
+                                            .addSearchResultsUseCase()
+                                            .addMovieUseCase()
                                             .addAddToWatchlistUseCase()
                                             .build();
         
