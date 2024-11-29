@@ -18,7 +18,7 @@ import interface_adapter.home.HomeController;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.logout.LogoutController;
-import interface_adapter.my_reviews.My_ReviewsController;
+import interface_adapter.my_reviews.MyReviewsController;
 
 /**
  * The Home View for when the user is logged into the program.
@@ -29,7 +29,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     private final HomeViewModel homeViewModel;
     private HomeController homeController;
     private LogoutController logoutController;
-    private My_ReviewsController myReviewsController;
+    private MyReviewsController myReviewsController;
     private final JLabel username;
 
     private final JButton logOut;
@@ -175,5 +175,5 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         this.homeController = controller;
     }
 
-    public void setMyReviewsController(My_ReviewsController my_reviewsController){ this.myReviewsController = my_reviewsController; }
+    public void setMyReviewsController(MyReviewsController my_reviewsController){ this.myReviewsController = my_reviewsController; }
 }
