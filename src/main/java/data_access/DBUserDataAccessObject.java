@@ -1,5 +1,7 @@
 package data_access;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,12 +41,27 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
         CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface {
 
+    private static final int SUCCESS_CODE = 200;
+    private static final String CONTENT_TYPE_LABEL = "Content-Type";
+    private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String STATUS_CODE_LABEL = "status_code";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String MESSAGE = "message";
+    private static final String WATCHLIST = "watchlist";
+    private static final String WATCHLIST_NAME = "watchlistName";
+    private static final String MOVIES = "movies";
     private final CommonUserFactory userFactory;
+    private final CommonUserWatchlistFactory watchlistFactory;
+    private final CommonMovieFactory movieFactory;
+
     DataBaseConstructor database = new DataBaseConstructor();
     MongoCollection<Document> collection = database.GetCollection("Users");
 
     public DBUserDataAccessObject(CommonUserFactory userFactory) {
         this.userFactory = userFactory;
+        this.watchlistFactory = new CommonUserWatchlistFactory();
+        this.movieFactory = new CommonMovieFactory();
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
@@ -54,11 +71,38 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
         if (userDocument != null) {
             // Extract fields from the document
-            final String name = userDocument.getString("username");
-            final String password = userDocument.getString("password");
+            final String name = userDocument.getString(USERNAME);
+            final String password = userDocument.getString(PASSWORD);
 
+            // Retrieve the watchlists
+            final List<Watchlist> watchlists = new ArrayList<>();
+            final List<Document> watchlistDocuments = userDocument.getList(WATCHLIST, Document.class);
+            if (watchlistDocuments != null) {
+                for (Document watchlistDoc : watchlistDocuments) {
+                    final String watchlistName = watchlistDoc.getString(WATCHLIST_NAME);
+                    // create watchlist
+                    final UserWatchlist watchlist = watchlistFactory.create(watchlistName);
+                    watchlists.add(watchlist);
+
+                    final List<String> movies = watchlistDoc.getList(MOVIES, String.class);
+                    if (!movies.isEmpty()) {
+                        for (String movieName : movies) {
+                            final Movie movie = movieFactory.create(movieName);
+                            try {
+                                watchlist.addMovie(movie);
+                            }
+                            catch (Exception e) {
+                                System.out.println("Movie not saved: " + e.getMessage());
+                            }
+                        }
+                    }
+                }
+            }
             // Create and return the User object
-            return userFactory.create(name, password);
+            final User user = userFactory.create(name, password);
+            user.setWatchlists(watchlists);
+
+            return user;
         }
         else {
             // Handle case where user is not found
@@ -99,13 +143,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         try {
             // Create a document representing the review
             Document watchlistDoc = new Document()
-                    .append("watchlistName", watchlist.getListName())
-                    .append("movies", watchlist.getMovies());
-
+                    .append(WATCHLIST_NAME, watchlist.getListName())
+                    .append(MOVIES, watchlist.getMovies());
 
             collection.updateOne(
                     new Document("userId", user.getName()),
-                    new Document("$push", new Document("watchlist", watchlistDoc))
+                    new Document("$push", new Document(WATCHLIST, watchlistDoc))
             );
 
             success = true;
@@ -148,12 +191,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             if (userDoc != null) {
                 // Retrieve the user's watchlists
-                final List<Document> userWatchlists = (List<Document>) userDoc.get("watchlists");
+                final List<Document> userWatchlists = (List<Document>) userDoc.get(WATCHLIST);
 
                 // Find the specific watchlist by name
                 Document targetWatchlist = null;
                 for (Document doc : userWatchlists) {
-                    if (doc.getString("watchlistName").equals(watchlist.getListName())) {
+                    if (doc.getString(WATCHLIST_NAME).equals(watchlist.getListName())) {
                         targetWatchlist = doc;
                         break;
                     }
@@ -179,6 +222,50 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (Exception e) {
             System.err.println("Error adding movie to watchlist: " + e.getMessage());
         }
+    }
+
+    @Override
+    public ArrayList<Watchlist> getWatchlists(User user) {
+        // Initialize the factory to create watchlist objects
+        final CommonUserWatchlistFactory watchlistFactory = new CommonUserWatchlistFactory();
+
+        // Prepare the list to hold the user's watchlists
+        final ArrayList<Watchlist> watchlists = new ArrayList<>();
+
+        // Query the "Users" collection to find the user and their reviews
+        final Document userDoc = collection.find(new Document("userId", user.getName())).first();
+
+        if (userDoc != null) {
+            // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
+            final List<Document> rawWatchlists = (List<Document>) userDoc.get("watchlists");
+
+            if (rawWatchlists != null) {
+                // Iterate over each review and transform it into a MovieReview object
+                for (Document watchlistDoc : rawWatchlists) {
+                    final String watchlistName = watchlistDoc.getString("watchlistName");
+                    final List<Movie> movies = watchlistDoc.getList("movies", Movie.class);
+
+                    // Use the factory to create the Watchlist
+                    final Watchlist watchlist;
+                    watchlist = watchlistFactory.create(watchlistName);
+
+                    if (!movies.isEmpty()) {
+                        for (Movie movie : movies) {
+                            try {
+                                watchlist.addMovie(movie);
+                            } catch (Exception e) {
+                                System.err.println("Error adding movie to watchlist: " + e.getMessage());
+                            }
+                        }
+                    }
+
+                    // Add the review to the list
+                    watchlists.add(watchlist);
+                }
+            }
+        }
+        // Return the list of watchlists
+        return watchlists;
     }
 
     /**

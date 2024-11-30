@@ -23,4 +23,10 @@ public interface WatchlistOutputBoundary {
      * @param currentUser user that is currently logged in
      */
     void switchToPWLView(User currentUser);
+
+    /**
+     * Switches to the PWL View.
+     * @param currentUser user that is currently logged in
+     */
+    void switchToMovieSearchView(User currentUser);
 }
