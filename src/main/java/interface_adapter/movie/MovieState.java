@@ -45,20 +45,20 @@ public class MovieState {
     public String getExternalStarRating() {
         return externalStarRating;
     }
-  
+
     public List<String> getGenres() {
         return genres;
-
-    @Override
-    public String toString() {
-        return "MovieState{"
-                + "currentUser='" + currentUser
-                + "title='" + title
-                + "starRating=" + starRating
-                + "reviews='" + reviews
-                + "externalStarRating='" + externalStarRating
-                + "genres=" + genres
-                + '}';
-
     }
-}
+        @Override
+        public String toString () {
+            return "MovieState{"
+                    + "currentUser='" + currentUser
+                    + "title='" + title
+                    + "starRating=" + starRating
+                    + "reviews='" + reviews
+                    + "externalStarRating='" + externalStarRating
+                    + "genres=" + genres
+                    + '}';
+
+        }
+    }

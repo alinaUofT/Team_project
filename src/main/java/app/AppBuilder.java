@@ -11,16 +11,21 @@ import entity.CommonMovieFactory;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MoviePresenter;
 import interface_adapter.movie.MovieViewModel;
-import interface_adapter.reviews.My_ReviewsController;
-import interface_adapter.reviews.My_ReviewsPresenter;
-import interface_adapter.reviews.My_ReviewsViewModel;
-
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.create_watchlist.CreateWatchlistPresenter;
+import interface_adapter.home.LoggedInState;
+import interface_adapter.leave_review.LeaveReviewController;
+import interface_adapter.leave_review.LeaveReviewPresenter;
+import interface_adapter.leave_review.LeaveReviewState;
+import interface_adapter.leave_review.LeaveReviewViewModel;
+import interface_adapter.movie.MovieState;
+import interface_adapter.movie.MovieViewModel;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsPresenter;
 import interface_adapter.recommendations.RecommendationsViewModel;
-
+import interface_adapter.my_reviews.MyReviewsController;
+import interface_adapter.my_reviews.MyReviewsPresenter;
+import interface_adapter.my_reviews.MyReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
@@ -60,6 +65,9 @@ import use_case.create_watchlist.CreateWatchlistOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
+import use_case.leave_a_review.LeaveReviewInputBoundary;
+import use_case.leave_a_review.LeaveReviewInteractor;
+import use_case.leave_a_review.LeaveReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -119,15 +127,14 @@ import view.*;
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
     private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
     private final CommonMovieFactory movieFactory = new CommonMovieFactory();
 
-    // thought question: is the hard dependency below a problem?
+
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-//    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
+    //    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
     private final DBSearchResultsDataAccessObject searchResultsDataAccess = new DBSearchResultsDataAccessObject();
 
     private SignupView signupView;
@@ -142,10 +149,9 @@ public class AppBuilder {
     private WatchlistViewModel watchlistViewModel;
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
-
-    private My_ReviewsViewModel my_ReviewsViewModel;
-    private My_ReviewsView my_ReviewsView;
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+    private MyReviewsViewModel myReviewsViewModel;
+    private MyReviewsView myReviewsView;
+    private MyReviewsDataAccessInterface my_ReviewsDataAccessObject;
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
     private MovieView movieView;
@@ -156,6 +162,10 @@ public class AppBuilder {
     private RecommendationsView recommendationsView;
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
+    private LeaveReviewView leaveReviewView;
+    private LeaveReviewViewModel leaveReviewViewModel;
+    private final LoggedInState loggedInState = new LoggedInState();
+    private final MovieState movieState = new MovieState();
 
 
     public AppBuilder() {
@@ -223,13 +233,13 @@ public class AppBuilder {
      */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
-        my_ReviewsViewModel = new MyReviewsViewModel();
+        myReviewsViewModel = new MyReviewsViewModel();
 
         // Step 2: Initialize the View and link it to the ViewModel
-        my_ReviewsView = new MyReviewsView(my_ReviewsViewModel);
+        myReviewsView = new MyReviewsView(myReviewsViewModel);
 
         // Step 3: Add the View to the CardPanel with its unique name
-        cardPanel.add(my_ReviewsView, my_ReviewsView.getViewName());
+        cardPanel.add(myReviewsView, myReviewsView.getViewName());
 
         // Step 4: Return the AppBuilder for chaining
         return this;
@@ -246,30 +256,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the My_Reviews Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addMy_ReviewsUseCase() {
-
-        //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new MyReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
-
-        //  Create the Interactor
-        final MyReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                userDataAccessObject,
-                my_ReviewsOutputBoundary
-        );
-
-        // Create the Controller
-        final MyReviewsController myReviewsController = new MyReviewsController(my_ReviewsInteractor);
-
-        loggedInView.setMyReviewsController(myReviewsController);
-        my_ReviewsView.setMyReviewsController(myReviewsController);
-        // Return
-        return this;
-    }
 
     /**
      * Adds the Survey1 View to the application.
@@ -296,6 +282,31 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the My_Reviews Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addMyReviewsUseCase() {
+
+        final My_ReviewsOutputBoundary myReviewsOutputBoundary =
+                new MyReviewsPresenter(myReviewsViewModel, viewManagerModel);
+
+        //  Create the Interactor
+        final MyReviewsInputBoundary myReviewsInteractor = new My_ReviewsInteractor(
+                userDataAccessObject,
+                myReviewsOutputBoundary
+        );
+
+        // Create the Controller
+        final MyReviewsController myReviewsController = new MyReviewsController(myReviewsInteractor);
+
+        loggedInView.setMyReviewsController(myReviewsController);
+        myReviewsView.setMyReviewsController(myReviewsController);
+        // Return
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
@@ -308,6 +319,45 @@ public class AppBuilder {
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
         return this;
+    }
+
+    public AppBuilder addMovieView() {
+        movieViewModel = new MovieViewModel();
+        movieView = new MovieView(movieViewModel);
+        cardPanel.add(movieView, movieViewModel.getViewName());
+        return this;
+    }
+
+    public AppBuilder addLeaveReviewView() {
+
+        LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);
+
+        LeaveReviewViewModel leaveReviewViewModel = new LeaveReviewViewModel();
+        leaveReviewViewModel.setState(leaveReviewState);
+
+        leaveReviewView = new LeaveReviewView(leaveReviewViewModel);
+
+        cardPanel.add(leaveReviewView, leaveReviewView.getName());
+
+        return this;
+    }
+
+
+    public AppBuilder addLeaveReviewUseCase() {
+
+        final LeaveReviewOutputBoundary leaveReviewPresenter =
+                new LeaveReviewPresenter(leaveReviewViewModel, viewManagerModel);
+
+        final LeaveReviewInputBoundary leaveReviewInteractor = new LeaveReviewInteractor(userDataAccessObject,
+                leaveReviewPresenter);
+
+        final LeaveReviewController leaveReviewController = new LeaveReviewController(leaveReviewInteractor);
+
+        movieView.setLeaveReviewController(leaveReviewController);
+        leaveReviewView.setLeaveReviewController(leaveReviewController);
+
+        return this;
+
     }
 
     /**
@@ -324,23 +374,6 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
-
-//    /**
-//     * Adds the Change Password Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addChangePasswordUseCase() {
-//        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-//                new ChangePasswordPresenter(homeViewModel);
-//
-//        final ChangePasswordInputBoundary changePasswordInteractor =
-//                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
-//
-//        final ChangePasswordController changePasswordController =
-//                new ChangePasswordController(changePasswordInteractor);
-//        loggedInView.setChangePasswordController(changePasswordController);
-//        return this;
-//    }
 
     /**
      * Adds the Logout Use Case to the application.
@@ -395,9 +428,7 @@ public class AppBuilder {
     public AppBuilder addHomeUseCase() {
         final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel,
 
-                watchlistsViewModel, homeViewModel, searchResultsViewModel, recommendationsViewModel);
-
-                watchlistsViewModel, recommendationsViewModel, homeViewModel);
+                watchlistsViewModel, recommendationsViewModel, homeViewModel, searchResultsViewModel);
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
 
@@ -407,19 +438,19 @@ public class AppBuilder {
     }
 
     /**
-
      * Adds the Search Results View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addSearchResultsView() {
         searchResultsViewModel = new SearchResultsViewModel();
         searchResultsView = new SearchResultsView(searchResultsViewModel);
         cardPanel.add(searchResultsView, searchResultsViewModel.getViewName());
-      return this;
+        return this;
     }
 
-    /**   
-    * Adds the Survey1 Use Case to the application.
+    /**
+     * Adds the Survey1 Use Case to the application.
      * @return this builder
      */
     public AppBuilder addSurvey1UseCase() {
@@ -434,8 +465,8 @@ public class AppBuilder {
     }
 
     /**
-
      * Adds the Search Results Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addSearchResultsUseCase() {
@@ -445,9 +476,10 @@ public class AppBuilder {
                 searchResultsOutputBoundary);
         final SearchResultsController controller = new SearchResultsController(searchResultsInteractor);
         searchResultsView.setSearchResultsController(controller);
-      return this;
+        return this;
+    }
 
-  /**
+    /**
      * Adds the Survey Second Page Use Case to the application.
      * @return this builder
      */
@@ -464,88 +496,82 @@ public class AppBuilder {
     }
 
     /**
-
      * Adds the Movie View to the application.
+     *
      * @return this builder
      */
-    public AppBuilder addMovieView() {
-        movieViewModel = new MovieViewModel();
-        movieView = new MovieView(movieViewModel);
-        cardPanel.add(movieView, movieViewModel.getViewName());
-      return this;
+        /**
+         * Adds the Recommendations Use Case to the application.
+         * @return this builder
+         */
+        public AppBuilder addRecommendationsUseCase () {
+            final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
+                    viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
+            final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
+                    userDataAccessObject, recommendationsOutputBoundary, userFactory);
 
-  /**
-     * Adds the Recommendations Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsUseCase() {
-        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
-                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
-        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
-                userDataAccessObject, recommendationsOutputBoundary, userFactory);
+            final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
+            recommendationsView.setRecommendationsController(controller);
+            return this;
+        }
 
-        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
-        recommendationsView.setRecommendationsController(controller);
-        return this;
-    }
+        /**
+         * Adds the Movie Use Case to the application.
+         * @return this builder
+         */
+        public AppBuilder addMovieUseCase () {
+            final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
+                    movieViewModel, homeViewModel);
+            final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
+            final MovieController controller = new MovieController(movieInteractor);
+            movieView.setMovieController(controller);
+            return this;
+        }
 
-    /**
+            /**
+             * Adds the Create Watchlist Use Case to the application.
+             * @return this builder
+             */
+            public AppBuilder addCreateWatchlistUseCase() {
+                final CreateWatchlistOutputBoundary createWatchlistOutputBoundary = new CreateWatchlistPresenter(
+                        viewManagerModel, watchlistsViewModel);
+                final CreateWatchlistInputBoundary createWatchlistInteractor = new CreateWatchlistInteractor(
+                        userDataAccessObject, createWatchlistOutputBoundary);
 
-     * Adds the Movie Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addMovieUseCase() {
-        final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
-                movieViewModel, homeViewModel);
-        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
-        final MovieController controller = new MovieController(movieInteractor);
-        movieView.setMovieController(controller);
-      return this;
+                final CreateWatchlistController controller = new CreateWatchlistController(createWatchlistInteractor);
+                watchlistsView.setCreateWatchlistController(controller);
+                return this;
+            }
 
-  /**
-     * Adds the Create Watchlist Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addCreateWatchlistUseCase() {
-        final CreateWatchlistOutputBoundary createWatchlistOutputBoundary = new CreateWatchlistPresenter(
-                viewManagerModel, watchlistsViewModel);
-        final CreateWatchlistInputBoundary createWatchlistInteractor = new CreateWatchlistInteractor(
-                userDataAccessObject, createWatchlistOutputBoundary);
+            /**
+             * Adds the Create Watchlist Use Case to the application.
+             * @return this builder
+             */
+            public AppBuilder addRenameUseCase () {
+                final RenameOutputBoundary renameOutputBoundary = new RenamePresenter(
+                        viewManagerModel, watchlistsViewModel);
+                final RenameInputBoundary renameInteractor = new RenameInteractor(
+                        userDataAccessObject, renameOutputBoundary);
 
-        final CreateWatchlistController controller = new CreateWatchlistController(createWatchlistInteractor);
-        watchlistsView.setCreateWatchlistController(controller);
-        return this;
-    }
+                final RenameController controller = new RenameController(renameInteractor);
+                watchlistsView.setRenameController(controller);
+                return this;
+            }
 
-    /**
-     * Adds the Create Watchlist Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addRenameUseCase() {
-        final RenameOutputBoundary renameOutputBoundary = new RenamePresenter(
-                viewManagerModel, watchlistsViewModel);
-        final RenameInputBoundary renameInteractor = new RenameInteractor(
-                userDataAccessObject, renameOutputBoundary);
+            /**
+             * Creates the JFrame for the application and initially sets the SignupView to be displayed.
+             * @return the application
+             */
+            public JFrame build () {
+                final JFrame application = new JFrame("Movies4U");
+                application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        final RenameController controller = new RenameController(renameInteractor);
-        watchlistsView.setRenameController(controller);
-        return this;
-    }
+                application.add(cardPanel);
 
-    /**
-     * Creates the JFrame for the application and initially sets the SignupView to be displayed.
-     * @return the application
-     */
-    public JFrame build() {
-        final JFrame application = new JFrame("Movies4U");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                viewManagerModel.setState(loginView.getViewName());
 
-        application.add(cardPanel);
+                viewManagerModel.firePropertyChanged();
 
-        viewManagerModel.setState(loginView.getViewName());
-
-        viewManagerModel.firePropertyChanged();
-
-        return application;
-    }
-}
+                return application;
+            }
+        }

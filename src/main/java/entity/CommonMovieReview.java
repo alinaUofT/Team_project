@@ -5,7 +5,7 @@ import java.util.Date;
 public class CommonMovieReview implements MovieReview {
     private final String userID;
     private final Date date;
-    private final Double starRating;
+    private final double starRating;
     private final String content;
     private final String movie_Title;
 
@@ -43,7 +43,7 @@ public class CommonMovieReview implements MovieReview {
         return this.content;
     }
 
-    public String getMovie_Title() {
+    public String getMovieTitle() {
         return this.movie_Title;
     }
 }

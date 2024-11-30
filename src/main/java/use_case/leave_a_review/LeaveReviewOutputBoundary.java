@@ -18,4 +18,6 @@ public interface LeaveReviewOutputBoundary {
      * Upon failure.
      */
     void failure();
+
+    void goHome();
 }
