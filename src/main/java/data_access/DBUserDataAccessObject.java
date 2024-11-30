@@ -27,6 +27,7 @@ import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
+import use_case.watchlists.delete.DeleteWatchlistUserDataAccessInterface;
 import use_case.watchlists.rename.RenameUserDataAccessInterface;
 
 /**
@@ -37,7 +38,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
         RecommendationsUserDataAccessInterface, LeaveReviewDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
-        CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface {
+        CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface,
+        DeleteWatchlistUserDataAccessInterface {
 
     private final CommonUserFactory userFactory;
     DataBaseConstructor database = new DataBaseConstructor();
