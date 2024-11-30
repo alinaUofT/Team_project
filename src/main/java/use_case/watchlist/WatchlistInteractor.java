@@ -8,11 +8,11 @@ import entity.UserFactory;
  * The Watchlists Interactor.
  */
 public class WatchlistInteractor implements WatchlistInputBoundary {
-    private final DBUserDataAccessObject userDataAccessObject;
+    private final WatchlistUserDataAccessInterface userDataAccessObject;
     private final WatchlistOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
-    public WatchlistInteractor(DBUserDataAccessObject watchlistDataAccessInterface,
+    public WatchlistInteractor(WatchlistUserDataAccessInterface watchlistDataAccessInterface,
                                WatchlistOutputBoundary watchlistOutputBoundary,
                                UserFactory userFactory) {
         this.userDataAccessObject = watchlistDataAccessInterface;

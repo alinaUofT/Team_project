@@ -20,7 +20,7 @@ public class CommonUser implements User {
     private final String password;
     // TODO update the interface
 
-    // TODO I don't think storing login status is useful.
+    // I don't think storing login status is useful.
     // We store current user in the view states already
     // because we need to access their instance attributes.
 

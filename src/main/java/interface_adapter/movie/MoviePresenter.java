@@ -1,6 +1,7 @@
 package interface_adapter.movie;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.home.HomeViewModel;
 import use_case.movie.MovieOutputBoundary;
 
 /**
@@ -10,22 +11,33 @@ public class MoviePresenter implements MovieOutputBoundary {
 
     private final MovieViewModel movieViewModel;
     private final ViewManagerModel viewManagerModel;
-    // private final HomeViewModel homeViewModel;
-    // TODO add the homeViewModel
+    private final HomeViewModel homeViewModel;
 
-    public MoviePresenter(MovieViewModel movieViewModel, ViewManagerModel viewManagerModel) {
+    public MoviePresenter(ViewManagerModel viewManagerModel,
+                          MovieViewModel movieViewModel,
+                          HomeViewModel homeViewModel) {
         this.movieViewModel = movieViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.homeViewModel = homeViewModel;
     }
 
-    // TODO add these
+    @Override
+    public void switchToMovieView() {
+        // On success, user clicks, switch to the movie view.
+        viewManagerModel.setState(movieViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
     @Override
     public void switchToHomeView() {
-
+        viewManagerModel.setState(homeViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void switchToUserReviewsView() {
-
+        // TODO not implemented
+        viewManagerModel.setState(homeViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

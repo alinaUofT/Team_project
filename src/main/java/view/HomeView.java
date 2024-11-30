@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -18,6 +20,10 @@ import interface_adapter.home.HomeController;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.search_results.SearchResultsController;
+import interface_adapter.search_results.SearchResultsState;
+import interface_adapter.search_results.SearchResultsViewModel;
+import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.my_reviews.MyReviewsController;
 
 /**
@@ -29,11 +35,16 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     private final HomeViewModel homeViewModel;
     private HomeController homeController;
     private LogoutController logoutController;
+    private SearchResultsController searchResultsController;
     private MyReviewsController myReviewsController;
     private final JLabel username;
 
     private final JButton logOut;
 
+    // TODO: change the button names to reference the the HomeViewModel at the end
+    private final JLabel search = new JLabel("Search");
+
+    private JButton searchEnter = new JButton("Enter");
     private JButton recommendations = new JButton("Recommendations");
     private JButton myWatchlists = new JButton("My Watchlists");
     private JButton myReviewsButton = new JButton("My Reviews");
@@ -47,8 +58,22 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel("Movies4U");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final LabelTextPanel searchInfo = new LabelTextPanel(
-                new JLabel("Search:"), searchInputField);
+        // creates the enter button
+        searchEnter.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(searchEnter)) {
+                        final String query = searchInputField.getText();
+                        this.homeController.switchToSearchResultsView(query);
+                    }
+                }
+        );
+
+        // create the search bar - contains the search label, the input field, and the enter button
+        final JPanel searchBar = new JPanel();
+        searchBar.add(search);
+        searchBar.add(searchInputField);
+        searchBar.add(searchEnter);
 
         username = new JLabel();
 
@@ -146,7 +171,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
         this.add(logOutButton);
         this.add(title);
-        this.add(searchInfo);
+        this.add(searchBar);
         this.add(bottomButtons);
     }
 
@@ -176,4 +201,5 @@ public class HomeView extends JPanel implements PropertyChangeListener {
     }
 
     public void setMyReviewsController(MyReviewsController my_reviewsController){ this.myReviewsController = my_reviewsController; }
+
 }

@@ -9,25 +9,54 @@ public interface Movie {
 
     /**
      * Returns the title of the movie.
+     * @param posterPath the posterPath of the movie.
+     * @param overview the overview of the movie.
+     * @param voteAverage the voteAverage of the movie.
+     * @param genres the genres of the movie.
+     *
+     */
+    void setInformation(String posterPath, String overview, String voteAverage, List<String> genres);
+
+
+    /**
+     * Returns the title of the movie.
      * @return the title of the movie.
      */
     String getTitle();
 
     /**
-     * Returns the star ratings of the movie.
-     * @return the star ratings of the movie.
+     * Returns the poster path of the movie.
+     * @return the poster path of the movie.
      */
-    int getStarRatings();
+    String getPoster();
 
     /**
-     * Returns the reviews of the movie from users.
-     * @return the reviews of the movie from users.
+     * Returns the overview/summary of the movie.
+     * @return the overview of the movie.
      */
-    List<String> getUserReviews();
+    String getOverview();
+
+    /**
+     * Returns the average voter ratings of the movie.
+     * @return the average voter ratings of the movie.
+     */
+    String getVoterAverage();
 
     /**
      * Returns the list of genres of the movie.
      * @return the list of genres of the movie.
      */
     List<String> getGenres();
+
+    /**
+     * Returns the star ratings of the movie.
+     * @return the star ratings of the movie.
+     */
+    Double getStarRatings();
+
+    /**
+     * Returns the reviews of the movie from users.
+     * @return the reviews of the movie from users.
+     */
+    List<String> getUserReviews();
 }
