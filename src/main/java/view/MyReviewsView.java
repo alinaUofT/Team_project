@@ -23,13 +23,10 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
     public MyReviewsView(MyReviewsViewModel viewModel) {
         this.viewModel = viewModel;
         final List<String> reviews = viewModel.getReviews();
-        // Register as an observer
         this.viewModel.addPropertyChangeListener(this);
 
-        // Set layout
         this.setLayout(new BorderLayout());
 
-        // Top panel for navigation
         final JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         final JButton backButton = new JButton("Back");
         final JLabel titleLabel = new JLabel("My Reviews");
@@ -42,22 +39,18 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
             controller.goBack();
         });
 
-        // Reviews panel
         reviewsPanel = new JPanel();
         reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
         reviewsPanel.setBackground(new Color(255, 243, 212));
 
-        // Scrollable area
         final JScrollPane scrollPane = new JScrollPane(reviewsPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        // Add components to the main panel
         this.add(topPanel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
-        // Initial render
         updateView(reviews);
     }
 

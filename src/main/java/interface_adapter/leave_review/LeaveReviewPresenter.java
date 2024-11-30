@@ -38,7 +38,7 @@ public class LeaveReviewPresenter implements LeaveReviewOutputBoundary {
      */
 
     public void success() {
-        viewModel.success();
+        viewModel.success(true);
         viewModel.firePropertyChanged();
         viewManagerModel.setState("Leave a review success");
         viewManagerModel.firePropertyChanged();
@@ -48,7 +48,7 @@ public class LeaveReviewPresenter implements LeaveReviewOutputBoundary {
      * Triggers the leave a review failure notification.
      */
     public void failure() {
-        viewModel.failure();
+        viewModel.success(false);
         viewModel.firePropertyChanged();
         viewManagerModel.setState("Leave a review failure");
         viewManagerModel.firePropertyChanged();

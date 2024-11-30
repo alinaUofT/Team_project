@@ -14,6 +14,7 @@ import entity.CommonUserWatchlist;
 import entity.Movie;
 import entity.UserWatchlist;
 import entity.Watchlist;
+import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
@@ -23,12 +24,13 @@ import interface_adapter.watchlists.WatchlistsState;
  * The View for when the user views a movie.
  */
 
-public class    MovieView extends JPanel implements ActionListener, PropertyChangeListener {
+public class MovieView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "Movie Information";
 
     private final MovieViewModel movieViewModel;
     private MovieController movieController;
+    private LeaveReviewController leaveReviewController;
 
     // buttons
     private final JButton home;
@@ -188,6 +190,7 @@ public class    MovieView extends JPanel implements ActionListener, PropertyChan
         this.movieController = movieController;
     }
 
+
     private void setPoster(String posterUrl) {
         try {
             // Load image from URL
@@ -202,5 +205,11 @@ public class    MovieView extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
+    this.leaveReviewController = leaveReviewController;
+
 
 }
+}
+}
+

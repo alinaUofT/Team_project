@@ -38,12 +38,13 @@ public class Main {
                                             .addCreateWatchlistUseCase()
                                             .addRenameUseCase()
                                             .addMy_ReviewsUseCase()
+                                            .addMyReviewsUseCase()
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
                                             .addSearchResultsUseCase()
                                             .addMovieUseCase()
-          
+
                                             .build();
         
         application.pack();

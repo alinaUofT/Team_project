@@ -17,10 +17,19 @@ import interface_adapter.reviews.My_ReviewsViewModel;
 
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.create_watchlist.CreateWatchlistPresenter;
+import interface_adapter.home.LoggedInState;
+import interface_adapter.leave_review.LeaveReviewController;
+import interface_adapter.leave_review.LeaveReviewPresenter;
+import interface_adapter.leave_review.LeaveReviewState;
+import interface_adapter.leave_review.LeaveReviewViewModel;
+import interface_adapter.movie.MovieState;
+import interface_adapter.movie.MovieViewModel;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsPresenter;
 import interface_adapter.recommendations.RecommendationsViewModel;
-
+import interface_adapter.my_reviews.MyReviewsController;
+import interface_adapter.my_reviews.MyReviewsPresenter;
+import interface_adapter.my_reviews.MyReviewsViewModel;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
@@ -60,6 +69,9 @@ import use_case.create_watchlist.CreateWatchlistOutputBoundary;
 import use_case.home.HomeInputBoundary;
 import use_case.home.HomeInteractor;
 import use_case.home.HomeOutputBoundary;
+import use_case.leave_a_review.LeaveReviewInputBoundary;
+import use_case.leave_a_review.LeaveReviewInteractor;
+import use_case.leave_a_review.LeaveReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -119,7 +131,6 @@ import view.*;
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
     private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -142,10 +153,9 @@ public class AppBuilder {
     private WatchlistViewModel watchlistViewModel;
     private Survey1View survey1View;
     private Survey1ViewModel survey1ViewModel;
-
-    private My_ReviewsViewModel my_ReviewsViewModel;
-    private My_ReviewsView my_ReviewsView;
-    private My_ReviewsDataAccessInterface my_ReviewsDataAccessObject;
+    private MyReviewsViewModel myReviewsViewModel;
+    private MyReviewsView myReviewsView;
+    private MyReviewsDataAccessInterface my_ReviewsDataAccessObject;
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
     private MovieView movieView;
@@ -154,8 +164,14 @@ public class AppBuilder {
 
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
+    private MovieViewModel movieViewModel;
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
+    private LeaveReviewView leaveReviewView;
+    private MovieView movieView;
+    private LeaveReviewViewModel leaveReviewViewModel;
+    private final LoggedInState loggedInState = new LoggedInState();
+    private final MovieState movieState = new MovieState();
 
 
     public AppBuilder() {
@@ -223,15 +239,29 @@ public class AppBuilder {
      */
     public AppBuilder addMyReviewsView() {
         // Step 1: Initialize the ViewModel
-        my_ReviewsViewModel = new MyReviewsViewModel();
+        myReviewsViewModel = new MyReviewsViewModel();
 
         // Step 2: Initialize the View and link it to the ViewModel
-        my_ReviewsView = new MyReviewsView(my_ReviewsViewModel);
+        myReviewsView = new MyReviewsView(myReviewsViewModel);
 
         // Step 3: Add the View to the CardPanel with its unique name
-        cardPanel.add(my_ReviewsView, my_ReviewsView.getViewName());
+        cardPanel.add(myReviewsView, myReviewsView.getViewName());
 
         // Step 4: Return the AppBuilder for chaining
+        return this;
+    }
+
+    public AppBuilder addLeaveReviewView() {
+
+        LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);
+
+        LeaveReviewViewModel leaveReviewViewModel = new LeaveReviewViewModel();
+        leaveReviewViewModel.setState(leaveReviewState);
+
+        leaveReviewView = new LeaveReviewView(leaveReviewViewModel);
+
+        cardPanel.add(leaveReviewView, leaveReviewView.getName());
+
         return this;
     }
 
@@ -246,30 +276,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the My_Reviews Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addMy_ReviewsUseCase() {
-
-        //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary my_ReviewsOutputBoundary =
-                new MyReviewsPresenter(my_ReviewsViewModel, viewManagerModel);
-
-        //  Create the Interactor
-        final MyReviewsInputBoundary my_ReviewsInteractor = new My_ReviewsInteractor(
-                userDataAccessObject,
-                my_ReviewsOutputBoundary
-        );
-
-        // Create the Controller
-        final MyReviewsController myReviewsController = new MyReviewsController(my_ReviewsInteractor);
-
-        loggedInView.setMyReviewsController(myReviewsController);
-        my_ReviewsView.setMyReviewsController(myReviewsController);
-        // Return
-        return this;
-    }
 
     /**
      * Adds the Survey1 View to the application.
@@ -296,6 +302,30 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the My_Reviews Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addMyReviewsUseCase() {
+
+        final My_ReviewsOutputBoundary myReviewsOutputBoundary =
+                new MyReviewsPresenter(myReviewsViewModel, viewManagerModel);
+
+        //  Create the Interactor
+        final MyReviewsInputBoundary myReviewsInteractor = new My_ReviewsInteractor(
+                userDataAccessObject,
+                myReviewsOutputBoundary
+        );
+
+        // Create the Controller
+        final MyReviewsController myReviewsController = new MyReviewsController(myReviewsInteractor);
+
+        loggedInView.setMyReviewsController(myReviewsController);
+        myReviewsView.setMyReviewsController(myReviewsController);
+        // Return
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
@@ -308,6 +338,23 @@ public class AppBuilder {
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
         return this;
+    }
+
+    public AppBuilder addLeaveReviewUseCase() {
+
+        final LeaveReviewOutputBoundary leaveReviewPresenter =
+                new LeaveReviewPresenter(leaveReviewViewModel, viewManagerModel);
+
+        final LeaveReviewInputBoundary leaveReviewInteractor = new LeaveReviewInteractor(userDataAccessObject,
+                leaveReviewPresenter);
+
+        final LeaveReviewController leaveReviewController = new LeaveReviewController(leaveReviewInteractor);
+
+        movieView.setLeaveReviewController(leaveReviewController);
+        leaveReviewView.setLeaveReviewController(leaveReviewController);
+
+        return this;
+
     }
 
     /**
@@ -324,23 +371,6 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
-
-//    /**
-//     * Adds the Change Password Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addChangePasswordUseCase() {
-//        final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-//                new ChangePasswordPresenter(homeViewModel);
-//
-//        final ChangePasswordInputBoundary changePasswordInteractor =
-//                new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
-//
-//        final ChangePasswordController changePasswordController =
-//                new ChangePasswordController(changePasswordInteractor);
-//        loggedInView.setChangePasswordController(changePasswordController);
-//        return this;
-//    }
 
     /**
      * Adds the Logout Use Case to the application.
@@ -418,8 +448,8 @@ public class AppBuilder {
       return this;
     }
 
-    /**   
-    * Adds the Survey1 Use Case to the application.
+    /**
+     * Adds the Survey1 Use Case to the application.
      * @return this builder
      */
     public AppBuilder addSurvey1UseCase() {
@@ -447,7 +477,7 @@ public class AppBuilder {
         searchResultsView.setSearchResultsController(controller);
       return this;
 
-  /**
+    /**
      * Adds the Survey Second Page Use Case to the application.
      * @return this builder
      */
