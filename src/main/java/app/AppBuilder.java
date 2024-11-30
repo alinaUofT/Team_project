@@ -160,7 +160,6 @@ public class AppBuilder {
 
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
-    private MovieViewModel movieViewModel;
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
     private LeaveReviewView leaveReviewView;
@@ -246,20 +245,6 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addLeaveReviewView() {
-
-        LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);
-
-        LeaveReviewViewModel leaveReviewViewModel = new LeaveReviewViewModel();
-        leaveReviewViewModel.setState(leaveReviewState);
-
-        leaveReviewView = new LeaveReviewView(leaveReviewViewModel);
-
-        cardPanel.add(leaveReviewView, leaveReviewView.getName());
-
-        return this;
-    }
-
     /**
      * Adds the Survey1 View to the application.
      * @return this builder
@@ -335,6 +320,28 @@ public class AppBuilder {
         signupView.setSignupController(controller);
         return this;
     }
+
+    public AppBuilder addMovieView() {
+        movieViewModel = new MovieViewModel();
+        movieView = new MovieView(movieViewModel);
+        cardPanel.add(movieView, movieViewModel.getViewName());
+        return this;
+    }
+
+    public AppBuilder addLeaveReviewView() {
+
+        LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);
+
+        LeaveReviewViewModel leaveReviewViewModel = new LeaveReviewViewModel();
+        leaveReviewViewModel.setState(leaveReviewState);
+
+        leaveReviewView = new LeaveReviewView(leaveReviewViewModel);
+
+        cardPanel.add(leaveReviewView, leaveReviewView.getName());
+
+        return this;
+    }
+
 
     public AppBuilder addLeaveReviewUseCase() {
 
@@ -493,12 +500,6 @@ public class AppBuilder {
      *
      * @return this builder
      */
-    public AppBuilder addMovieView() {
-        movieViewModel = new MovieViewModel();
-        movieView = new MovieView(movieViewModel);
-        cardPanel.add(movieView, movieViewModel.getViewName());
-        return this;
-    }
         /**
          * Adds the Recommendations Use Case to the application.
          * @return this builder

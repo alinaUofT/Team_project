@@ -22,6 +22,7 @@ public class Main {
                                             .addWatchlistsView()
                                             .addWatchlistView()
                                             .addSurvey1View()
+                                            .addMovieView()
                                             .addMyReviewsView()
                                             .addSurveySecondPageView()
                                             .addRecommendationsView()
