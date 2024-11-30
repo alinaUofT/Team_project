@@ -5,6 +5,8 @@ package entity;
  */
 public interface Watchlist {
 
+
+
     // TODO Find or write more specific exceptions to throw
     /**
      * Get the name of this watchlist.
@@ -46,5 +48,4 @@ public interface Watchlist {
      * @throws Exception if the movie is not found in the list
      */
     void removeMovie(Movie movie) throws Exception;
-
 }
