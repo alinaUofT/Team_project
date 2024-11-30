@@ -160,6 +160,7 @@ public class AppBuilder {
 
     private RecommendationsViewModel recommendationsViewModel;
     private RecommendationsView recommendationsView;
+    private MovieViewModel movieViewModel;
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
     private LeaveReviewView leaveReviewView;
@@ -174,7 +175,6 @@ public class AppBuilder {
 
     /**
      * Adds the Signup View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSignupView() {
@@ -186,7 +186,6 @@ public class AppBuilder {
 
     /**
      * Adds the Login View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLoginView() {
@@ -198,7 +197,6 @@ public class AppBuilder {
 
     /**
      * Adds the LoggedIn View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLoggedInView() {
@@ -210,7 +208,6 @@ public class AppBuilder {
 
     /**
      * Adds the Watchlists View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWatchlistsView() {
@@ -222,7 +219,6 @@ public class AppBuilder {
 
     /**
      * Adds the Watchlists View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWatchlistView() {
@@ -234,7 +230,6 @@ public class AppBuilder {
 
     /**
      * Adds the MyReviews View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addMyReviewsView() {
@@ -267,7 +262,6 @@ public class AppBuilder {
 
     /**
      * Adds the Survey1 View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addRecommendationsView() {
@@ -280,7 +274,6 @@ public class AppBuilder {
 
     /**
      * Adds the Survey1 View to the application.
-     *
      * @return this builder
      * @throws IOException checkstyle
      */
@@ -293,7 +286,6 @@ public class AppBuilder {
 
     /**
      * Adds the Survey1 View to the application.
-     *
      * @return this builder
      * @throws IOException checkstyle
      */
@@ -331,7 +323,6 @@ public class AppBuilder {
 
     /**
      * Adds the Signup Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
@@ -364,7 +355,6 @@ public class AppBuilder {
 
     /**
      * Adds the Login Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLoginUseCase() {
@@ -380,7 +370,6 @@ public class AppBuilder {
 
     /**
      * Adds the Logout Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLogoutUseCase() {
@@ -397,7 +386,6 @@ public class AppBuilder {
 
     /**
      * Adds the Watchlists Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWatchlistsUseCase() {
@@ -413,7 +401,6 @@ public class AppBuilder {
 
     /**
      * Adds the Watchlist Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWatchlistUseCase() {
@@ -429,7 +416,6 @@ public class AppBuilder {
 
     /**
      * Adds the Home Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addHomeUseCase() {
@@ -458,7 +444,6 @@ public class AppBuilder {
 
     /**
      * Adds the Survey1 Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSurvey1UseCase() {
@@ -489,7 +474,6 @@ public class AppBuilder {
 
     /**
      * Adds the Survey Second Page Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSurveySecondPageUseCase() {

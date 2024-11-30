@@ -23,17 +23,15 @@ import interface_adapter.watchlists.WatchlistsState;
 /**
  * The View for when the user views a movie.
  */
-
 public class MovieView extends JPanel implements ActionListener, PropertyChangeListener {
-
     private final String viewName = "Movie Information";
 
     private final MovieViewModel movieViewModel;
     private MovieController movieController;
     private LeaveReviewController leaveReviewController;
 
-    // buttons
-    private final JButton home;
+    private final JButton backButton;
+    private final JButton homeButton;
     private final JButton watchedButton;
     private final JButton addToListButton;
     private final JButton userReviewsButton;
@@ -186,6 +184,10 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         //
     }
 
+    public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
+        this.leaveReviewController = leaveReviewController;
+    }
+
     public void setMovieController(MovieController movieController) {
         this.movieController = movieController;
     }
@@ -204,11 +206,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             e.printStackTrace();
         }
     }
-
-public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
-    this.leaveReviewController = leaveReviewController;
-
-
+    
 }
 }
 
