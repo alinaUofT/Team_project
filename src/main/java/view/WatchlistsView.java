@@ -1,7 +1,7 @@
 package view;
 
 import entity.User;
-import entity.UserWatchlist;
+import entity.Watchlist;
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsState;
@@ -78,6 +78,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         );
         this.watchlistButtons = new JPanel();
         this.watchlistButtons.setLayout(new BoxLayout(this.watchlistButtons, BoxLayout.Y_AXIS));
+
         this.pwl = new JButton(watchlistsViewModel.PWL_LABEL);
         this.pwl.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.pwl.addActionListener(
@@ -98,7 +99,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         while (this.watchlistButtons.getComponentCount() > 1) {
             this.watchlistButtons.remove(this.watchlistButtons.getComponentCount() - 1);
         }
-        final List<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
+        final List<Watchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
         System.out.println(watchlists.size());
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();
@@ -134,7 +135,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
      * View for Create a New List Pop-Up Window.
      */
     private void createNewListPopUpView() {
-        // final int maxChar = 75;
         final JPanel panel = new JPanel();
 
         // Adjusting panel size
@@ -145,7 +145,13 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         final JLabel enterNameLabel = new JLabel("Enter List Name:");
         // final JTextField listNameField = new JTextField(40);
 
-        final int maxChar = 100;
+        // Buttons
+        final JButton createWatchlistButton = new JButton("Create Watchlist");
+        final JButton cancel = new JButton("Cancel");
+
+        final JPanel buttons = new JPanel();
+
+        final int maxChar = 50;
         final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/" + maxChar);
 
         listNameField.getDocument().addDocumentListener(new DocumentListener() {
@@ -166,6 +172,12 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             private void updateCharacterCount(int increment) {
                 x += increment;
                 characterLimitLabel.setText("Character Limit: " + x + "/" + maxChar);
+                if (x > maxChar) {
+                    createWatchlistButton.setEnabled(false);
+                }
+                else {
+                    createWatchlistButton.setEnabled(true);
+                }
             }
 
             private void recordText() {
@@ -178,12 +190,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         textPanel.add(enterNameLabel, BorderLayout.NORTH);
         textPanel.add(listNameField, BorderLayout.CENTER);
         textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
-
-        // Buttons
-        final JButton createWatchlistButton = new JButton("Create Watchlist");
-        final JButton cancel = new JButton("Cancel");
-
-        final JPanel buttons = new JPanel();
 
         // Action Listener for buttons
         createWatchlistButton.addActionListener(
@@ -300,7 +306,8 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
                             SwingUtilities.getWindowAncestor(renameButton).dispose();
                         }
                         else {
-                            JOptionPane.showMessageDialog(panel, watchlistsViewModel.getState().getEmptyListNameError());
+                            JOptionPane.showMessageDialog(panel,
+                                    watchlistsViewModel.getState().getEmptyListNameError());
                         }
                     }
                 }

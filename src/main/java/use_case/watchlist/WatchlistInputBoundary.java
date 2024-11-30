@@ -24,4 +24,10 @@ public interface WatchlistInputBoundary {
      */
     void switchToWatchlistsView(String username);
 
+    /**
+     * Executes the switch to search view for add movie to watchlist use case.
+     * @param username name of the user that is currently logged in
+     */
+    void switchToMovieSearchView(String username);
+
 }
