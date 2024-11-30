@@ -38,4 +38,8 @@ public class MovieController {
     public void switchToHomeView() {
         movieUseCaseInteractor.switchToHomeView();
     }
+
+    public void switchToLeaveReviewView() {
+        movieUseCaseInteractor.switchToLeaveReviewView();
+    }
 }
