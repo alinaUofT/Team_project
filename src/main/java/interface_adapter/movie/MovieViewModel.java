@@ -2,7 +2,6 @@ package interface_adapter.movie;
 
 import interface_adapter.ViewModel;
 
-import java.lang.classfile.Label;
 
 /**
  * The View Model for the Movie View.
