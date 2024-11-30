@@ -1,6 +1,5 @@
 package entity;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,6 @@ public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlis
 
     /**
      * Sets the name of the watchlist.
-     *
      * @param listname new name of the watchlist
      */
     @Override
@@ -36,9 +34,13 @@ public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlis
         this.listName = listname;
     }
 
+    @Override
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
     /**
      * Get Movie at a given index in this watchlist.
-     *
      * @param index of a Movie
      * @return Movie at a given index
      * @throws IndexOutOfBoundsException if index is out of bounds
