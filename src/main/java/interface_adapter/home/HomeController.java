@@ -23,7 +23,6 @@ public class HomeController {
 
     /**
      * Executes the "switch to RecommendationsView" Use Case.
-
      * @param username of the currently logged in user
      */
     public void switchToRecommendationsView(String username) {
@@ -34,7 +33,7 @@ public class HomeController {
         return homeInteractor.getUser(username);
     }
   
-  /**
+    /**
      * Executes the "switch to Search Results" Use Case.
      * @param query query of the search result
      */

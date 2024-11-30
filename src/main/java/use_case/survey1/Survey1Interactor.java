@@ -24,14 +24,18 @@ public class Survey1Interactor implements Survey1InputBoundary {
     @Override
     public void execute(Survey1InputData survey1InputData, String username) {
         final List<String> selectedGenres = survey1InputData.getSelectedGenres();
-        final String genre1 = selectedGenres.get(0);
-        final String genre2 = selectedGenres.get(1);
-        final String genre3 = selectedGenres.get(2);
 
-        final Survey1OutputData survey1OutputData = new Survey1OutputData(genre1, genre2, genre3);
+        final Survey1OutputData survey1OutputData = new Survey1OutputData(selectedGenres);
         final User user = this.userDataAccessObject.get(username);
         user.addPreferredGenres(selectedGenres);
-        survey1Presenter.prepareSuccessView(survey1OutputData);
+        final boolean success = this.userDataAccessObject.savePreferredGenres(user, user.getPreferredGenres());
+
+        if (success) {
+            survey1Presenter.prepareSuccessView(survey1OutputData);
+        }
+        else {
+            survey1Presenter.prepareFailView("Failed to save preferred genres.");
+        }
     }
 
     /**

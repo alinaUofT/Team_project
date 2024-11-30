@@ -60,6 +60,11 @@ public class MovieState {
         this.movieError = movieError;
     }
 
+    /**
+     * Returns a string representation of the MovieState object.
+     *
+     * @return a string representation of the MovieState object
+     */
     @Override
     public String toString() {
         return "MovieState{"

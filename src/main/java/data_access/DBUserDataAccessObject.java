@@ -3,7 +3,9 @@ package data_access;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
 import com.mongodb.client.FindIterable;
@@ -57,7 +59,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             // Create and return the User object
             return userFactory.create(name, password);
-        } else {
+        }
+        else {
             // Handle case where user is not found
             throw new RuntimeException("User with username '" + username + "' not found.");
         }
@@ -112,6 +115,30 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         return success;
     }
 
+    /**
+     * Saves the preferred genres for a user.
+     *
+     * @param user the user whose preferred genres are to be saved
+     * @param preferredGenres a map of genres and their corresponding preference levels
+     * @return true if the preferred genres were saved successfully, false otherwise
+     */
+    @Override
+    public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
+        boolean success = false;
+        try {
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$set", new Document("preferredGenres", preferredGenres)),
+                    new UpdateOptions().upsert(true)
+            );
+            success = true;
+        }
+        catch (Exception e) {
+            System.out.println("Error adding preferred genres: " + e.getMessage());
+        }
+        return success;
+    }
+
     @Override
     public void saveToWatchlist(User user, Watchlist watchlist, Movie movie) {
 
@@ -140,13 +167,16 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                             new Document("$push", new Document("watchlists.$.movies", movie.getTitle()))
                     );
                     System.out.println("Movie added to watchlist successfully!");
-                } else {
+                }
+                else {
                     System.err.println("Watchlist not found.");
                 }
-            } else {
+            }
+            else {
                 System.err.println("User not found.");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.err.println("Error adding movie to watchlist: " + e.getMessage());
         }
     }

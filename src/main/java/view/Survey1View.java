@@ -11,7 +11,6 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import data_access.GenreMap;
-import interface_adapter.signup.SignupState;
 import interface_adapter.survey1.SubmitController;
 import interface_adapter.survey1.Survey1State;
 import interface_adapter.survey1.Survey1ViewModel;
