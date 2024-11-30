@@ -11,6 +11,7 @@ import com.mongodb.client.FindIterable;
 import entity.*;
 import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
+import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
@@ -27,17 +28,10 @@ import use_case.watchlists.WatchlistsUserDataAccessInterface;
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, HomeUserDataAccessInterface, MyReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
-        RecommendationsUserDataAccessInterface,
+        RecommendationsUserDataAccessInterface, LeaveReviewDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
         CreateWatchlistDataAccessInterface {
 
-    private static final int SUCCESS_CODE = 200;
-    private static final String CONTENT_TYPE_LABEL = "Content-Type";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String STATUS_CODE_LABEL = "status_code";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String MESSAGE = "message";
     private final CommonUserFactory userFactory;
     DataBaseConstructor database = new DataBaseConstructor();
     MongoCollection<Document> collection = database.GetCollection("Users");
@@ -117,7 +111,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
      */
     public boolean leaveReview(MovieReview review) {
         final Document reviewDoc = new Document()
-                    .append("movieTitle", review.getMovie_Title())
+                    .append("movieTitle", review.getMovieTitle())
                     .append("date", review.getDate())
                     .append("starRating", review.getStarRating());
 
@@ -147,11 +141,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         final Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
         if (userDoc != null) {
-            // Extract the user's reviews (assuming reviews are stored in a sub-document or array)
             final List<Document> rawReviews = (List<Document>) userDoc.get("reviews");
 
             if (rawReviews != null) {
-                // Iterate over each review and transform it into a MovieReview object
                 for (Document reviewDoc : rawReviews) {
                     final String username = userDoc.getString("userId");
                     final Date date = reviewDoc.getDate("date");
@@ -159,7 +151,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     final String writtenReview = reviewDoc.getString("writtenReview");
                     final String movieTitle = reviewDoc.getString("movieTitle");
 
-                    // Use the factory to create the MovieReview
                     final MovieReview review;
                     if (writtenReview != null) {
                         review = reviewFactory.create(username, date, starRating, writtenReview, movieTitle);

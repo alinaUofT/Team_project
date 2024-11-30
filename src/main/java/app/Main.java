@@ -33,7 +33,7 @@ public class Main {
                                             .addWatchlistUseCase()
                                             .addHomeUseCase()
                                             .addCreateWatchlistUseCase()
-                                            .addMy_ReviewsUseCase()
+                                            .addMyReviewsUseCase()
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
