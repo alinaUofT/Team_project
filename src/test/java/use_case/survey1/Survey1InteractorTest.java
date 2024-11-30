@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class Survey1InteractorTest {
     @Test
-    public void toSurveySecondPageViewTest() {
+    public void savePreferredGenresTest() {
         ArrayList<String> selectedGenres = new ArrayList<>(Arrays.asList("Action", "Adventure", "Comedy"));
 
         Survey1InputData survey1InputData = new Survey1InputData(selectedGenres);
@@ -29,7 +29,8 @@ public class Survey1InteractorTest {
 
             @Override
             public void switchToSurveySecondPageView(User currentUser) {
-                // This is expected
+                assertEquals("Alice", currentUser.getName());
+                assertEquals(selectedGenres, currentUser.getPreferredGenres());
             }
 
             @Override
@@ -43,5 +44,76 @@ public class Survey1InteractorTest {
         Survey1InputBoundary survey1Interactor =
                 new Survey1Interactor(userRepo, survey1presenter, new CommonUserFactory());
         survey1Interactor.execute(survey1InputData, "Alice");
+    }
+
+    @Test
+    public void executeFailTest() {
+        ArrayList<String> selectedGenres = new ArrayList<>(Arrays.asList("Action", "Adventure", "Comedy"));
+
+        Survey1InputData survey1InputData = new Survey1InputData(selectedGenres);
+
+        // Mock the user repository to simulate failure
+        InMemoryUserDataAccessObject userRepo = new InMemoryUserDataAccessObject() {
+            @Override
+            public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
+                return false; // Simulate failure
+            }
+        };
+
+        UserFactory factory = new CommonUserFactory();
+        User user = factory.create("Alice", "password");
+        userRepo.save(user);
+        userRepo.setCurrentUsername("Alice");
+
+        Survey1OutputBoundary survey1presenter = new Survey1OutputBoundary() {
+            @Override
+            public void switchToSurveySecondPageView(User currentUser) {
+                fail("Switch to second page should not occur in a failure scenario.");
+            }
+
+            @Override
+            public void prepareSuccessView(Survey1OutputData survey1OutputData) {
+                fail("Success view should not be prepared in a failure scenario.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("Failed to save preferred genres.", error);
+            }
+        };
+
+        Survey1InputBoundary survey1Interactor =
+                new Survey1Interactor(userRepo, survey1presenter, new CommonUserFactory());
+        survey1Interactor.execute(survey1InputData, "Alice");
+    }
+
+    @Test
+    public void switchToSurveySecondPageViewTest() {
+        InMemoryUserDataAccessObject userRepo = new InMemoryUserDataAccessObject();
+        UserFactory factory = new CommonUserFactory();
+        User user = factory.create("Alice", "password");
+        userRepo.save(user);
+        userRepo.setCurrentUsername("Alice");
+
+        Survey1OutputBoundary survey1presenter = new Survey1OutputBoundary() {
+            @Override
+            public void switchToSurveySecondPageView(User currentUser) {
+                assertEquals("Alice", currentUser.getName());
+            }
+
+            @Override
+            public void prepareSuccessView(Survey1OutputData survey1OutputData) {
+                fail("Success view should not be prepared in this scenario.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Failure view should not be prepared in this scenario.");
+            }
+        };
+
+        Survey1InputBoundary survey1Interactor =
+                new Survey1Interactor(userRepo, survey1presenter, new CommonUserFactory());
+        survey1Interactor.switchToSurveySecondPageView("Alice");
     }
 }
