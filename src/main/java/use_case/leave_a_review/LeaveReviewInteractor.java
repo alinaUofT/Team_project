@@ -24,7 +24,7 @@ public class LeaveReviewInteractor implements LeaveReviewInputBoundary {
     }
 
     /**
-     * This triggers the leaveReview method in out DB access layer that actually stores the review to the
+     * This triggers the leaveReview method in our DB access layer that actually stores the review to the
      * user in our DB.
      * @param userID the userID, needed to fetch user information.
      * @param stars the star rating.
@@ -54,5 +54,9 @@ public class LeaveReviewInteractor implements LeaveReviewInputBoundary {
     @Override
     public void goBack() {
         leaveReviewPresenter.goBack();
+    }
+
+    public void goHome(){
+        leaveReviewPresenter.goHome();
     }
 }

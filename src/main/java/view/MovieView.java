@@ -16,6 +16,7 @@ import entity.CommonUserWatchlist;
 import entity.Movie;
 import entity.UserWatchlist;
 import entity.Watchlist;
+import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
@@ -24,18 +25,21 @@ import interface_adapter.watchlists.WatchlistsState;
 /**
  * The View for when the user views a movie.
  */
-
 public class MovieView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "Movie Information";
 
     private final MovieViewModel movieViewModel;
     private MovieController movieController;
-
+    private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
     // buttons
     private final JButton home;
+
+    private final JButton backButton;
+    private final JButton homeButton;
+
     private final JButton watchedButton;
     private final JButton addToListButton;
     private final JButton userReviewsButton;
@@ -55,15 +59,16 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         final JLabel title = new JLabel(MovieViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // home button
-        this.home = new JButton(MovieViewModel.HOME_LABEL);
-        home.addActionListener(
+        // Home button section
+        this.homeButton = new JButton(MovieViewModel.HOME_LABEL);
+        homeButton.addActionListener(
                 evt -> movieController.switchToHomeView()
         );
 
-        final JPanel homeButton = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        homeButton.add(home);
-        homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JPanel homePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Fixed the naming
+        homePanel.add(this.homeButton);
+        homePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.add(homePanel);
 
         // title and poster panel
 
@@ -94,6 +99,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
+        this.backButton = new JButton(MovieViewModel.BACK_BUTTON_LABEL);
 
         final JPanel bottomButtons = new JPanel();
         bottomButtons.add(watchedButton);
@@ -148,8 +154,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                             addToListPopUpView();
                         }
                     }
-                }
-        );
+                });
     }
 
     /**
@@ -227,6 +232,10 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         //
     }
 
+    public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
+        this.leaveReviewController = leaveReviewController;
+    }
+
     public void setMovieController(MovieController movieController) {
         this.movieController = movieController;
     }
@@ -238,6 +247,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     public void setAddToWatchlistController(AddToWatchlistController addToWatchlistController) {
         this.addToWatchlistController = addToWatchlistController;
     }
+
 
     private void setPoster(String posterUrl) {
         try {
@@ -253,3 +263,4 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         }
     }
 }
+
