@@ -46,7 +46,7 @@ public class HomeInteractor implements HomeInputBoundary {
     @Override
     public void switchToSearchResultsView(String query) {
         this.userPresenter.switchToSearchResultsView(query);
-
+    }
     @Override
     public User getUser(String username) {
         return userDataAccessObject.get(username);

@@ -23,7 +23,7 @@ public class HomeController {
 
     
 
-     * Executes the "switch to RecommendationsView" Use Case.
+     /** Executes the "switch to RecommendationsView" Use Case.
      * @param username of the currently logged in user
      */
     public void switchToRecommendationsView(String username) {

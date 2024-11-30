@@ -30,21 +30,20 @@ public class Main {
 
                                             .addSignupUseCase()
                                             .addLoginUseCase()
-                                            // .addChangePasswordUseCase()
                                             .addLogoutUseCase()
                                             .addWatchlistsUseCase()
                                             .addWatchlistUseCase()
                                             .addHomeUseCase()
+                                            .addLeaveReviewView()
+                                            .addLeaveReviewUseCase()
                                             .addCreateWatchlistUseCase()
                                             .addRenameUseCase()
-                                            .addMy_ReviewsUseCase()
                                             .addMyReviewsUseCase()
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSurveySecondPageUseCase()
                                             .addSearchResultsUseCase()
                                             .addMovieUseCase()
-
                                             .build();
         
         application.pack();
