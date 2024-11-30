@@ -434,7 +434,7 @@ public class AppBuilder {
      */
     public AppBuilder addWatchlistUseCase() {
         final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel, watchlistViewModel);
+                watchlistsViewModel, homeViewModel, watchlistViewModel, searchResultsViewModel);
         final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
                 userDataAccessObject, watchlistOutputBoundary, userFactory);
 

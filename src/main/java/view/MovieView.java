@@ -167,9 +167,9 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         final MovieState currentState = movieViewModel.getState();
 
-        final ArrayList<UserWatchlist> watchlists = currentState.getCurrentUser().getWatchlists();
+        final ArrayList<Watchlist> watchlists = currentState.getCurrentUser().getWatchlists();
 
-        for (UserWatchlist watchlist : watchlists) {
+        for (Watchlist watchlist : watchlists) {
             final String listName = watchlist.getListName();
             final JButton listButton = new JButton(listName);
             final Movie currentMovie = currentState.getCurrentMovie();
