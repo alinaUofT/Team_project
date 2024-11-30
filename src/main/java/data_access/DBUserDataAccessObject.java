@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.*;
 
+import com.mongodb.client.model.UpdateOptions;
 import entity.*;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -128,22 +129,19 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
      */
     @Override
     public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
+        boolean success = false;
         try {
-            // Create a document representing the review
-            final Document preferredGenresDoc = new Document()
-                    .append("preferredGenres", preferredGenres);
-
             collection.updateOne(
-                    new Document("userId", user),
-                    new Document("$push", new Document("preferredGenres", preferredGenresDoc))
+                    new Document("userId", user.getName()),
+                    new Document("$set", new Document("preferredGenres", preferredGenres)),
+                    new UpdateOptions().upsert(true)
             );
-
-            return true;
+            success = true;
         }
         catch (Exception e) {
-            System.err.println("Error adding preferredGenres to user: " + e.getMessage());
-            return false;
+            System.out.println("Error adding preferred genres: " + e.getMessage());
         }
+        return success;
     }
 
     public boolean leaveReview(MovieReview review) {
