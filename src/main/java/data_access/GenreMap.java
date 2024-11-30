@@ -44,7 +44,7 @@ public class GenreMap {
     /**
      * @return Array of genre names.
      */
-    public String[] keySet () {
+    public String[] keySet() {
         return genreMap.values().toArray(new String[0]);
     }
 }

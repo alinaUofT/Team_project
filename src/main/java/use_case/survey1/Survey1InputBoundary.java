@@ -11,10 +11,4 @@ public interface Survey1InputBoundary {
      * @param username the user who is taking the survey
      */
     void execute(Survey1InputData survey1InputData, String username);
-
-    /**
-     * Executes the switch to SurveySecondPageView use case.
-     * @param username username of the currently logged-in user
-     */
-    void switchToSurveySecondPageView(String username);
 }

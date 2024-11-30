@@ -92,4 +92,11 @@ public interface User {
      * @return map of preferred genres of the user.
      */
     Map<String, Integer> getPreferredGenres();
+
+    /**
+     * Sets the preferred genres of the user.
+     *
+     * @param preferredGenres map of preferred genres of the user.
+     */
+    void setPreferredGenres(Map<String, Integer> preferredGenres);
 }
