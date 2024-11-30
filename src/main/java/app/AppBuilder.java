@@ -345,13 +345,6 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addMovieView() {
-        movieViewModel = new MovieViewModel();
-        movieView = new MovieView(movieViewModel);
-        cardPanel.add(movieView, movieViewModel.getViewName());
-        return this;
-    }
-
     public AppBuilder addLeaveReviewView() {
 
         LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);

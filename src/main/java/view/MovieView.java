@@ -35,7 +35,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private AddToWatchlistController addToWatchlistController;
 
     // buttons
-    private final JButton home;
 
     private final JButton backButton;
     private final JButton homeButton;
