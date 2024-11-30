@@ -17,6 +17,7 @@ public class MovieState {
     private String reviews = "";
     private String externalStarRating = "";
     private List<String> genres = new ArrayList<>();
+    private String movieError;
 
     public MovieState() {
 
@@ -24,6 +25,11 @@ public class MovieState {
 
     public User getCurrentUser() {
         return this.currentUser;
+    }
+
+    // added
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public Movie getCurrentMovie() {
@@ -50,6 +56,10 @@ public class MovieState {
         return genres;
     }
 
+    public void setMovieError(String movieError) {
+        this.movieError = movieError;
+    }
+
     /**
      * Returns a string representation of the MovieState object.
      *
@@ -57,10 +67,14 @@ public class MovieState {
      */
     @Override
     public String toString() {
-        return "MovieState{" + "currentUser='" + currentUser + "title='" + title + "starRating=" + starRating
-                + "reviews='" + reviews
-                + "externalStarRating='" + externalStarRating
-                + "genres=" + genres
+        return "MovieState{"
+                + "currentUser='" + currentUser
+                + ", title='" + title
+                + ", starRating=" + starRating
+                + ", reviews=" + reviews
+                + ", externalStarRating='" + externalStarRating
+                + ", genres=" + genres
                 + '}';
+
     }
 }

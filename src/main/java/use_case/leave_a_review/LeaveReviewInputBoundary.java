@@ -28,4 +28,7 @@ public interface LeaveReviewInputBoundary {
      */
 
     void goBack();
+
+
+    void goHome();
 }

@@ -26,7 +26,7 @@ public class MyReviewsPresenter implements My_ReviewsOutputBoundary {
         final List<String> formattedReviews = reviews.getReviews().stream()
                 .map(review -> {
                     final StringBuilder reviewString = new StringBuilder();
-                    reviewString.append("- Title: ").append(review.getMovie_Title()).append("\n")
+                    reviewString.append("- Title: ").append(review.getMovieTitle()).append("\n")
                             .append("  Date: ").append(review.getDate()).append("\n")
                             .append("  Stars: ").append(review.getStarRating()).append("\n");
                     if (review.getContent() != null) {

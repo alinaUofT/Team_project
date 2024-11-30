@@ -1,7 +1,7 @@
 package use_case.create_watchlist;
 
 import entity.User;
-import entity.Watchlist;
+import entity.UserWatchlist;
 
 public interface CreateWatchlistDataAccessInterface {
 
@@ -11,5 +11,5 @@ public interface CreateWatchlistDataAccessInterface {
      * @param watchlist to save
      * @return success
      */
-    boolean saveWatchlist(User user, Watchlist watchlist);
+    boolean saveWatchlist(User user, UserWatchlist watchlist);
 }
