@@ -38,6 +38,7 @@ public class Main {
                                             .addLeaveReviewUseCase()
                                             .addCreateWatchlistUseCase()
                                             .addRenameUseCase()
+                                            .addDeleteUseCase()
                                             .addMyReviewsUseCase()
                                             .addRecommendationsUseCase()
                                             .addSurvey1UseCase()

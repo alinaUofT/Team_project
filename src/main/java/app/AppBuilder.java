@@ -61,6 +61,8 @@ import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
+import interface_adapter.watchlists.delete.DeleteWatchlistController;
+import interface_adapter.watchlists.delete.DeleteWatchlistPresenter;
 import interface_adapter.watchlists.rename.RenameController;
 import interface_adapter.watchlists.rename.RenamePresenter;
 import use_case.add_to_watchlist.AddToWatchlistInputBoundary;
@@ -113,6 +115,9 @@ import use_case.survey_second_page.SurveySecondPageOutputBoundary;
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
+import use_case.watchlists.delete.DeleteWatchlistInputBoundary;
+import use_case.watchlists.delete.DeleteWatchlistInteractor;
+import use_case.watchlists.delete.DeleteWatchlistOutputBoundary;
 import use_case.watchlists.rename.RenameInputBoundary;
 import use_case.watchlists.rename.RenameInteractor;
 import use_case.watchlists.rename.RenameOutputBoundary;
@@ -567,6 +572,21 @@ public class AppBuilder {
 
         final RenameController controller = new RenameController(renameInteractor);
         watchlistsView.setRenameController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Delete Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addDeleteUseCase() {
+        final DeleteWatchlistOutputBoundary deleteOutputBoundary = new DeleteWatchlistPresenter(
+                viewManagerModel, watchlistsViewModel);
+        final DeleteWatchlistInputBoundary deleteInteractor = new DeleteWatchlistInteractor(
+                userDataAccessObject, deleteOutputBoundary);
+
+        final DeleteWatchlistController controller = new DeleteWatchlistController(deleteInteractor);
+        watchlistsView.setDeleteController(controller);
         return this;
     }
 

@@ -6,6 +6,7 @@ import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
+import interface_adapter.watchlists.delete.DeleteWatchlistController;
 import interface_adapter.watchlists.rename.RenameController;
 
 import java.awt.*;
@@ -29,6 +30,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
     private CreateWatchlistController createWatchlistController;
     private RenameController renameController;
+    private DeleteWatchlistController deleteController;
 
     private JPanel topLine;
     private JButton createWatchlist;
@@ -354,7 +356,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         // Action Listener for buttons
         deleteButton.addActionListener(
                 evt -> {
-//                    deleteWatchlistController.execute(watchlistsViewModel.getState().getCurrentUser(), ind);
+                    deleteController.execute(watchlistsViewModel.getState().getCurrentUser(), ind);
                     SwingUtilities.getWindowAncestor(deleteButton).dispose();
                 }
         );
@@ -400,6 +402,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
     public void setRenameController(RenameController controller) {
         this.renameController = controller;
+    }
+
+    public void setDeleteController(DeleteWatchlistController controller) {
+        this.deleteController = controller;
     }
 
     /**
