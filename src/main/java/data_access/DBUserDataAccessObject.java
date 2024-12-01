@@ -168,6 +168,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     new Document("userId", user.getName()),
                     new Document("$unset", new Document(WATCHLIST + "." + ind, ind))
             );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(WATCHLIST, null))
+            );
 
             success = true;
         } catch (Exception e) {
