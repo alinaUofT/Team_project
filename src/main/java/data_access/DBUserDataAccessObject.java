@@ -253,7 +253,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void saveToPwl(User user, Movie movie) {
+    public boolean saveToPwl(User user, Movie movie) {
+        boolean success = false;
         try {
             // Find the user's document in the collection
             final Document userDoc = collection.find(new Document("userId", user.getName())).first();
@@ -269,6 +270,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                             new Document("$push", new Document("previouslyWatched.movies", movie.getTitle()))
                     );
                     System.out.println("Movie added to watchlist successfully!");
+                    success = true;
                 }
                 else {
                     // If the PWL doesn't exist, create it and add the movie
@@ -289,6 +291,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (Exception e) {
             System.err.println("Error adding movie to previously watched list: " + e.getMessage());
         }
+        return success;
     }
 
     /**
@@ -330,8 +333,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void saveToWatchlist(User user, Watchlist watchlist, Movie movie) {
-
+    public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+        boolean success = false;
         try {
             // Find the user's document in the collection
             final Document userDoc = collection.find(new Document("userId", user.getName())).first();
@@ -343,7 +346,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 // Find the specific watchlist by name
                 Document targetWatchlist = null;
                 for (Document doc : userWatchlists) {
-                    if (doc.getString(WATCHLIST_NAME).equals(watchlist.getListName())) {
+                    if (doc.getString(WATCHLIST_NAME).equals(watchlistName)) {
                         targetWatchlist = doc;
                         break;
                     }
@@ -353,10 +356,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     // Update the watchlist by adding the new movie
                     collection.updateOne(
                             new Document("userId", user.getName())
-                                    .append("watchlists.watchlistName", watchlist.getListName()),
+                                    .append("watchlists.watchlistName", watchlistName),
                             new Document("$push", new Document("watchlists.$.movies", movie.getTitle()))
                     );
                     System.out.println("Movie added to watchlist successfully!");
+                    success = true;
                 }
                 else {
                     System.err.println("Watchlist not found.");
@@ -369,6 +373,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (Exception e) {
             System.err.println("Error adding movie to watchlist: " + e.getMessage());
         }
+        return success;
     }
 
     @Override

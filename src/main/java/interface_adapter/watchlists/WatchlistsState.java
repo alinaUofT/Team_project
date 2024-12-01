@@ -21,6 +21,10 @@ public class WatchlistsState {
         return emptyListNameError;
     }
 
+    public void setEmptyListNameError(String emptyListNameError) {
+        this.emptyListNameError = emptyListNameError;
+    }
+
     @Override
     public String toString() {
         return "WatchlistsState{"

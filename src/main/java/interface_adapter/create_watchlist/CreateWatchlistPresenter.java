@@ -27,10 +27,10 @@ public class CreateWatchlistPresenter implements CreateWatchlistOutputBoundary {
         watchlistsViewModel.firePropertyChanged();
     }
 
-//    @Override
-//    public void prepareFailView(String errorMessage) {
-//        final WatchlistsState watchlistsState = watchlistsViewModel.getState();
-//        watchlistsState.setListError(errorMessage);
-//        watchlistsViewModel.firePropertyChanged();
-//    }
+    @Override
+    public void prepareFailView(String errorMessage) {
+        final WatchlistsState watchlistsState = watchlistsViewModel.getState();
+        watchlistsState.setEmptyListNameError(errorMessage);
+        watchlistsViewModel.firePropertyChanged();
+    }
 }

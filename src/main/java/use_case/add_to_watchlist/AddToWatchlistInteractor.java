@@ -33,7 +33,7 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
             userDataAccessObject.saveToPwl(user, movie);
         }
         else {
-            userDataAccessObject.saveToWatchlist(user, user.getWatchlist(watchlistName), movie);
+            userDataAccessObject.saveToWatchlist(user, watchlistName, movie);
         }
         addToWatchlistPresenter.prepareSuccessView(user);
     }
