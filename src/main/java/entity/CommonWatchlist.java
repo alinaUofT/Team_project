@@ -71,6 +71,17 @@ public class CommonWatchlist implements Watchlist {
     }
 
     @Override
+    public Movie getMoviebyName(String name) {
+        Movie target = null;
+        for (Movie movie : this.movies) {
+            if (movie.getTitle().equals(name)) {
+                target = movie;
+            }
+        }
+        return target;
+    }
+
+    @Override
     public List<Movie> getMovies() {
         return movies;
     }

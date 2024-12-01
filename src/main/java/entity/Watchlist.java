@@ -32,6 +32,13 @@ public interface Watchlist {
     Movie getMovie(int index) throws IndexOutOfBoundsException;
 
     /**
+     * Get Movie at a given index in this watchlist.
+     * @param name of a Movie
+     * @return Movie with name
+     */
+    Movie getMoviebyName(String name);
+
+    /**
      * Get length of this watchlist.
      * @return length of the watchlist
      */
