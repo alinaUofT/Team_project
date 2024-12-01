@@ -18,8 +18,10 @@ public interface SearchResultsOutputBoundary {
 
     /**
      * Switches to the Movie View.
+     * @param searchResultsOutputData the output data
+     *
      */
-    void switchToMovieView();
+    void switchToMovieView(SearchResultsOutputData searchResultsOutputData, String movieTitle);
 
     /**
      * Prepares the success view for the Search results Case.
