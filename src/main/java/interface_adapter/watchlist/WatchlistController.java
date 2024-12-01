@@ -34,14 +34,6 @@ public class WatchlistController {
      * Executes the "switch to PWLView" Use Case.
      * @param currentUser user that is currently logged in
      */
-    public void goToPWL(User currentUser) {
-        watchlistInteractor.switchToPWL(currentUser);
-    }
-
-    /**
-     * Executes the "switch to PWLView" Use Case.
-     * @param currentUser user that is currently logged in
-     */
     public void switchToMovieSearchView(String currentUser) {
         watchlistInteractor.switchToMovieSearchView(currentUser);
     }

@@ -13,12 +13,6 @@ public interface WatchlistInputBoundary {
     void switchToHomeView();
 
     /**
-     * Executes the switch to PWL view use case.
-     * @param currentUser user that is currently logged in
-     */
-    void switchToPWL(User currentUser);
-
-    /**
      * Executes the switch to watchlists view use case.
      * @param username name of the user that is currently logged in
      */
