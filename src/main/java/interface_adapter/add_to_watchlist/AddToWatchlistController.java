@@ -17,10 +17,10 @@ public class AddToWatchlistController {
     /**
      * The controller for the Add To Watchlist Use Case.
      * @param user User adding to watchlist.
-     * @param watchlist watchlist to add
+     * @param watchlistName watchlist to add to
      * @param movie The movie being added to watchlist.
      */
-    public void execute(User user, Watchlist watchlist, String movie) {
-        useCaseInteractor.execute(user, watchlist, movie);
+    public void execute(User user, String watchlistName, String movie) {
+        useCaseInteractor.execute(user, watchlistName, movie);
     }
 }

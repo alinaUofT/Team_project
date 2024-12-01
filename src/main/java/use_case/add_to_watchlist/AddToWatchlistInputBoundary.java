@@ -8,8 +8,8 @@ public interface AddToWatchlistInputBoundary {
     /**
      * Executes the signup use case.
      * @param user user
-     * @param watchlist watchlist
+     * @param watchlistName watchlist
      * @param movieTitle movie name
      */
-    void execute(User user, Watchlist watchlist, String movieTitle);
+    void execute(User user, String watchlistName, String movieTitle);
 }

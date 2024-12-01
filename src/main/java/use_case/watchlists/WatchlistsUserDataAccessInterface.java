@@ -1,8 +1,10 @@
 package use_case.watchlists;
 
 import entity.User;
+import entity.UserWatchlist;
 import entity.Watchlist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public interface WatchlistsUserDataAccessInterface {
     /**
      * Saves the user.
      * @param user the user to get watchlists from
+     * @return user watchlists
      */
-    List<Watchlist> getWatchlists(User user);
-
+    List<UserWatchlist> getWatchlists(User user);
 }

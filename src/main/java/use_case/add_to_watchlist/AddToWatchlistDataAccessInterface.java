@@ -16,4 +16,6 @@ public interface AddToWatchlistDataAccessInterface {
      * @param movie movie to add
      */
     void saveToWatchlist(User user, Watchlist watchlist, Movie movie);
+
+    void saveToPwl(User user, Movie movie);
 }

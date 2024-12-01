@@ -34,11 +34,6 @@ public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlis
         this.listName = listname;
     }
 
-    @Override
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
     /**
      * Get Movie at a given index in this watchlist.
      * @param index of a Movie

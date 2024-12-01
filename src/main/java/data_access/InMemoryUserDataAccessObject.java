@@ -89,6 +89,19 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         }
     }
 
+    @Override
+    public void savePwl(User user) {
+        if (user == null) {
+            System.out.println("InMemoryUserDataAccessObject: User is null.");
+        }
+        try {
+            System.out.println("InMemoryUserDataAccessObject: Saving pwl for user: " + user.getName());
+            user.setPwl(user.getPwl());
+        }
+        catch (Exception e) {
+            System.err.println("InMemoryUserDataAccessObject: Error saving pwl: " + e.getMessage());
+        }
+    }
 
     // Add a review for a specific user
     public void addReview(User user, MovieReview review) {
@@ -102,8 +115,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return userReviews.getOrDefault(user.getName(), new ArrayList<>());
     }
 
-
-
     @Override
     public void setCurrentUsername(String name) {
         this.currentUsername = name;
@@ -115,7 +126,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public ArrayList<Watchlist> getWatchlists(User user) {
+    public ArrayList<UserWatchlist> getWatchlists(User user) {
         return user.getWatchlists();
     }
 
