@@ -22,8 +22,8 @@ public class DeleteWatchlistInteractor implements DeleteWatchlistInputBoundary {
      */
     @Override
     public void execute(DeleteWatchlistInputData deleteInputData) {
-//        TODO save to the database
         deleteInputData.getCurrentUser().getWatchlists().remove(deleteInputData.getIndex());
+        userDataAccessObject.deleteWatchlist(deleteInputData.getCurrentUser(), deleteInputData.getIndex());
         userPresenter.execute();
     }
 }

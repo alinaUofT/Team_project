@@ -174,6 +174,45 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         return success;
     }
 
+    @Override
+    public boolean deleteWatchlist(User user, int ind) {
+        boolean success = false;
+        try {
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$unset", new Document(WATCHLIST + "." + ind, ind))
+            );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(WATCHLIST, null))
+            );
+
+            success = true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
+        }
+        return success;
+    }
+
+    @Override
+    public boolean renameWatchlist(User user, int ind, String newName) {
+        boolean success = false;
+        final String path = WATCHLIST + "." + ind + "." + "watchlistName";
+        try {
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$set", new Document(path, newName))
+            );
+
+            success = true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
+        }
+        return success;
+    }
+
+
+
     /**
      * Saves the preferred genres for a user.
      *
