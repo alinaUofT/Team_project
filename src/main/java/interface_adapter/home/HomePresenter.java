@@ -20,7 +20,8 @@ public class HomePresenter implements HomeOutputBoundary {
     private final SearchResultsViewModel searchResultsViewModel;
 
     public HomePresenter(ViewManagerModel viewManagerModel,
-                           WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel, SearchResultsViewModel searchResultsViewModel) {
+                           WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel,
+                         SearchResultsViewModel searchResultsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homeViewModel = homeViewModel;
         this.watchlistsViewModel = watchlistsViewModel;
