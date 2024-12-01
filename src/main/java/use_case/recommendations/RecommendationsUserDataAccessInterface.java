@@ -18,4 +18,11 @@ public interface RecommendationsUserDataAccessInterface {
      * @param user the user to save
      */
     void save(User user);
+
+    /**
+     * Gets the user with the given username.
+     * @param username the username to look for
+     * @return the user with the given username
+     */
+    User get(String username);
 }

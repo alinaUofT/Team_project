@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
+import entity.User;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsViewModel;
 
@@ -20,11 +21,11 @@ public class RecommendationsView extends JPanel implements ActionListener, Prope
     private final RecommendationsViewModel recommendationsViewModel;
     private RecommendationsController recommendationsController;
 
-    private final JPanel recommendationsPanel = new JPanel();
-
     private final JButton home;
+
     private final JButton refresh;
 
+    private final JPanel recommendationsPanel = new JPanel();
     private final JButton movie1;
     private final JButton movie2;
     private final JButton movie3;
@@ -32,15 +33,15 @@ public class RecommendationsView extends JPanel implements ActionListener, Prope
     public RecommendationsView(RecommendationsViewModel recommendationsViewModel) {
         this.recommendationsViewModel = recommendationsViewModel;
         this.viewName = recommendationsViewModel.getViewName();
+        this.recommendationsViewModel.addPropertyChangeListener(this);
 
-        recommendationsViewModel.addPropertyChangeListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JLabel title = new JLabel(recommendationsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel homeButton = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        this.home = new JButton(recommendationsViewModel.HOME_LABEL);
+        home = new JButton(recommendationsViewModel.HOME_LABEL);
         homeButton.add(home);
         home.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -48,10 +49,18 @@ public class RecommendationsView extends JPanel implements ActionListener, Prope
                 evt -> recommendationsController.switchToHomeView()
         );
 
-        this.refresh = new JButton(recommendationsViewModel.REFRESH_LABEL);
+        refresh = new JButton(recommendationsViewModel.REFRESH_LABEL);
         refresh.setAlignmentX(Component.BOTTOM_ALIGNMENT);
+        refresh.addActionListener(
+                evt -> {
+                    if (evt.getSource() == refresh) {
+                        final User currentUser = recommendationsViewModel.getState().getCurrentUser();
+                        recommendationsController.refreshRecommendations(currentUser);
+                    }
+                }
+        );
 
-        this.recommendationsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        recommendationsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // TODO: implement according to recommendations
         this.movie1 = new JButton("Movie 1");

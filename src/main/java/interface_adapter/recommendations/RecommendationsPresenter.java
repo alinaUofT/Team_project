@@ -7,6 +7,11 @@ import interface_adapter.home.HomeViewModel;
 import interface_adapter.movie.MovieViewModel;
 import use_case.recommendations.RecommendationsOutputBoundary;
 
+import java.util.List;
+
+/**
+ * Presenter for the Recommendations Use Case.
+ */
 public class RecommendationsPresenter implements RecommendationsOutputBoundary {
     private final RecommendationsViewModel recommendationsViewModel;
     private final HomeViewModel homeViewModel;
@@ -38,6 +43,12 @@ public class RecommendationsPresenter implements RecommendationsOutputBoundary {
     public void switchToMovieView(User currentUser, Movie movie) {
         // should switch to watchlist view which is not implemented
         viewManagerModel.setState(movieViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void refreshRecommendations() {
+        viewManagerModel.setState(recommendationsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }
