@@ -80,10 +80,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(title, BorderLayout.NORTH);
 
-        // add all components
-        this.add(homeButton);
-        this.add(title);
-
 //        // title and poster panel
 //        this.titleLabel = new JLabel(MovieViewModel.MOVIE_LABEL);
 //        // Center align the poster
@@ -108,7 +104,29 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             this.remove(this.getComponentCount() - 1);
         }
 
-        final JPanel infoPanel = createInfoPanel();
+//        final JPanel infoPanel = createInfoPanel();
+
+        final JPanel infoPanel = new JPanel();
+        final JLabel test = new JLabel("Test");
+        infoPanel.add(test);
+
+        // Labels and information for the movie
+        final String titleInfo = movieViewModel.getState().getTitle();
+        final String overviewInfo = movieViewModel.getState().getOverview();
+        final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
+        final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
+        final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
+        System.out.println(overviewInfo);
+
+        // Add all panels to the infoPanel
+        infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.OVERVIEW_LABEL, overviewInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.GENRE_LABEL, genreInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.OUR_RATINGS_LABEL, starRatingsInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.VOTER_AVERAGE_LABEL, voterAverageInfo));
+
+//        infoPanel.revalidate();
+        this.add(infoPanel);
 
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
         this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
@@ -117,6 +135,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         final JPanel bottomButtons = new JPanel();
         bottomButtons.add(watchedButton);
+        bottomButtons.add(leaveReviewButton);
         bottomButtons.add(addToListButton);
         bottomButtons.add(userReviewsButton);
 
@@ -160,12 +179,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
-         this.add(infoPanel);
          // this.add(posterPanel);
-         this.add(bottomButtons);
-         this.revalidate();
+        this.add(bottomButtons);
+        this.revalidate();
+        this.repaint();
     }
-
 
     /**
      * View for Add to List Pop-Up Window.
@@ -230,7 +248,8 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     // helper method to create the info panel
     private JPanel createInfoPanel() {
-        final JPanel infoPanel = new JPanel(new GridLayout(0, 1));
+        final JPanel infoPanel = new JPanel(new GridLayout());
+        System.out.println("createInfoPanel is called");
 
         // Labels and information for the movie
         final String titleInfo = movieViewModel.getState().getTitle();
@@ -238,6 +257,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
         final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
         final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
+        System.out.println(titleInfo);
 
         // Add all panels to the infoPanel
         infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
@@ -251,6 +271,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     // helper method to create the individual row panel
     private JPanel createInfoRow(String labelText, String infoText) {
+        System.out.println("createInfoRow is called");
         final JPanel rowPanel = new JPanel();
         rowPanel.add(new JLabel(labelText));
         rowPanel.add(new JLabel(infoText));
