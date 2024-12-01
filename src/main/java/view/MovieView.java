@@ -147,7 +147,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(watchedButton)) {
-                                movieController.switchToLeaveReviewView();
+                            movieController.switchToLeaveReviewView();
                         }
                     }
                 });
