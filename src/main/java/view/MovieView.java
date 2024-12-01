@@ -37,7 +37,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
-//    private final JButton backButton;
+    //    private final JButton backButton;
     private final JButton homeButton;
 
     private JButton watchedButton;
@@ -179,7 +179,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
-         // this.add(posterPanel);
+        // this.add(posterPanel);
         this.add(bottomButtons);
         this.revalidate();
         this.repaint();
@@ -319,5 +319,3 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 //            e.printStackTrace();
     }
 }
-
-
