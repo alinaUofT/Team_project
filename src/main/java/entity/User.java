@@ -37,6 +37,21 @@ public interface User {
      */
     ArrayList<UserWatchlist> getWatchlists();
 
+    UserWatchlist getWatchlist(String watchlistName);
+
+    /**
+     * Returns the user created watchlists of the user.
+     *
+     * @param watchlists watchlists of the user.
+     */
+    void setWatchlists(List<UserWatchlist> watchlists);
+
+    /**
+     * Returns the preferred genres of the user.
+     * @param preferredGenres preferred genres of the user.
+     */
+    void setPreferredGenres(Map<String, Integer> preferredGenres);
+
     /**
      * Adds new watchlist to user.
      * @param  watchlist watchlist to add
@@ -49,6 +64,12 @@ public interface User {
      * @return previously watched list
      */
     Watchlist getPwl();
+
+    /**
+     * Sets pwl.
+     * @param watchlist pwl
+     */
+    void setPwl(Watchlist watchlist);
 
     /**
      * Adds a genre to the list of preferred genres of this User.
@@ -85,4 +106,5 @@ public interface User {
      * @return map of preferred genres of the user.
      */
     Map<String, Integer> getPreferredGenres();
+
 }

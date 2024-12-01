@@ -3,7 +3,6 @@ package interface_adapter.home;
 import entity.User;
 import interface_adapter.ViewManagerModel;
 
-import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.search_results.SearchResultsViewModel;
 
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -18,17 +17,15 @@ public class HomePresenter implements HomeOutputBoundary {
     private final HomeViewModel homeViewModel;
     private final ViewManagerModel viewManagerModel;
     private final WatchlistsViewModel watchlistsViewModel;
-    private final RecommendationsViewModel recommendationsViewModel;
     private final SearchResultsViewModel searchResultsViewModel;
 
     public HomePresenter(ViewManagerModel viewManagerModel,
-                           WatchlistsViewModel watchlistsViewModel, RecommendationsViewModel recommendationsViewModel, HomeViewModel homeViewModel, SearchResultsViewModel searchResultsViewModel) {
+                           WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel,
+                         SearchResultsViewModel searchResultsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homeViewModel = homeViewModel;
         this.watchlistsViewModel = watchlistsViewModel;
-        this.recommendationsViewModel = recommendationsViewModel;
         this.searchResultsViewModel = searchResultsViewModel;
-
 
     }
 
@@ -41,16 +38,6 @@ public class HomePresenter implements HomeOutputBoundary {
         viewManagerModel.setState(watchlistsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
         watchlistsViewModel.firePropertyChanged();
-    }
-
-    /**
-     * Switches to the Recommendations View.
-     */
-    @Override
-    public void switchToRecommendationsView(User user) {
-        recommendationsViewModel.getState().setCurrentUser(user);
-        viewManagerModel.setState(recommendationsViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
     }
 
     /**

@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import entity.CommonMovie;
+import entity.CommonMovieFactory;
+import entity.Movie;
+import entity.MovieFactory;
+import okhttp3.*;
+import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import static okhttp3.RequestBody.create;
 
 /**
  * The methods to access the movie API.
@@ -76,6 +79,7 @@ public class APIMovieAccess {
 
     /**
      * The search function that finds all possible movies with a vague title.
+     *
      * @param query the search query that the user inputs.
      * @return a string containing all the search results or an empty string if there are no search results
      */
@@ -105,8 +109,7 @@ public class APIMovieAccess {
                 // Return the response as a string
                 return response.toString();
             }
-        }
-        catch (IOException noResultFound) {
+        } catch (IOException noResultFound) {
             // Log the error if needed and return an empty string
             return "";
         }
@@ -114,6 +117,7 @@ public class APIMovieAccess {
 
     /**
      * The filtered version of the search function which returns a list of info for 3 movies.
+     *
      * @param query the search query that the user inputs.
      * @return list of strings of the data
      */
@@ -163,6 +167,7 @@ public class APIMovieAccess {
 
     /**
      * The main method to test the TMDbClient.
+     *
      * @param args is the provided argument
      * @throws Exception if something bad happens
      */

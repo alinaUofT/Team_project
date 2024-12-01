@@ -51,4 +51,9 @@ public class MoviePresenter implements MovieOutputBoundary {
         viewManagerModel.setState(homeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    public void switchToLeaveReviewView() {
+        viewManagerModel.setState(movieViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }

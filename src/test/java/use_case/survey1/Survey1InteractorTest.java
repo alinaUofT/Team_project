@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class Survey1InteractorTest {
@@ -26,12 +25,6 @@ public class Survey1InteractorTest {
         userRepo.setCurrentUsername("Alice");
 
         Survey1OutputBoundary survey1presenter = new Survey1OutputBoundary() {
-
-            @Override
-            public void switchToSurveySecondPageView(User currentUser) {
-                assertEquals("Alice", currentUser.getName());
-                assertEquals(selectedGenres, currentUser.getPreferredGenres());
-            }
 
             @Override
             public void prepareSuccessView(Survey1OutputData survey1OutputData) {
@@ -66,10 +59,6 @@ public class Survey1InteractorTest {
         userRepo.setCurrentUsername("Alice");
 
         Survey1OutputBoundary survey1presenter = new Survey1OutputBoundary() {
-            @Override
-            public void switchToSurveySecondPageView(User currentUser) {
-                fail("Switch to second page should not occur in a failure scenario.");
-            }
 
             @Override
             public void prepareSuccessView(Survey1OutputData survey1OutputData) {
@@ -85,35 +74,5 @@ public class Survey1InteractorTest {
         Survey1InputBoundary survey1Interactor =
                 new Survey1Interactor(userRepo, survey1presenter, new CommonUserFactory());
         survey1Interactor.execute(survey1InputData, "Alice");
-    }
-
-    @Test
-    public void switchToSurveySecondPageViewTest() {
-        InMemoryUserDataAccessObject userRepo = new InMemoryUserDataAccessObject();
-        UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Alice", "password");
-        userRepo.save(user);
-        userRepo.setCurrentUsername("Alice");
-
-        Survey1OutputBoundary survey1presenter = new Survey1OutputBoundary() {
-            @Override
-            public void switchToSurveySecondPageView(User currentUser) {
-                assertEquals("Alice", currentUser.getName());
-            }
-
-            @Override
-            public void prepareSuccessView(Survey1OutputData survey1OutputData) {
-                fail("Success view should not be prepared in this scenario.");
-            }
-
-            @Override
-            public void prepareFailView(String error) {
-                fail("Failure view should not be prepared in this scenario.");
-            }
-        };
-
-        Survey1InputBoundary survey1Interactor =
-                new Survey1Interactor(userRepo, survey1presenter, new CommonUserFactory());
-        survey1Interactor.switchToSurveySecondPageView("Alice");
     }
 }

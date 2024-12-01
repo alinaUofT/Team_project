@@ -12,12 +12,14 @@ import java.util.List;
 import javax.swing.*;
 
 import entity.*;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.add_to_watchlist.AddToWatchlistController;
 import entity.CommonUserWatchlist;
 import entity.Movie;
 import entity.UserWatchlist;
 import entity.Watchlist;
 import interface_adapter.leave_review.LeaveReviewController;
+import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
@@ -35,11 +37,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
-    // buttons
     private final JButton backButton;
     private final JButton homeButton;
 
     private final JButton watchedButton;
+    private final JButton leaveReviewButton;
     private final JButton addToListButton;
     private final JButton userReviewsButton;
 
@@ -103,6 +105,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         // bottom buttons
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
+        this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
         this.backButton = new JButton(MovieViewModel.BACK_BUTTON_LABEL);
@@ -115,8 +118,8 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         // add all components
         this.add(homeButton);
         this.add(title);
-        this.add(infoPanel);
-//        this.add(posterPanel);
+        // this.add(infoPanel);
+        // this.add(posterPanel);
         this.add(bottomButtons);
 
         watchedButton.addActionListener(
@@ -131,26 +134,23 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
                             final String movieTitle = currentState.getTitle();
 
-                            addToWatchlistController.execute(currUser, pwl, movieTitle);
-                            watchedButton.setText(MovieViewModel.LEAVE_REVIEW_LABEL);
-                            for (ActionListener al : watchedButton.getActionListeners()) {
-                                watchedButton.removeActionListener(al);
-                            }
-                            watchedButton.addActionListener(
-                                    new ActionListener() {
-                                        public void actionPerformed(ActionEvent evt) {
-                                            if (evt.getSource().equals(watchedButton)) {
-                                                // TODO: execute leave review use case (Wyatt)
-                                                // it will probably be too many lines when you implement this which isn't allowed
-                                                // you might need to create a helper function
-                                            }
-                                        }
-                                    }
-                            );
+                            addToWatchlistController.execute(currUser, pwl.getListName(), movieTitle);
+
+                            bottomButtons.remove(watchedButton);
+                            bottomButtons.add(leaveReviewButton);
                         }
                     }
                 }
         );
+
+        leaveReviewButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(watchedButton)) {
+                            movieController.switchToLeaveReviewView();
+                        }
+                    }
+                });
 
         addToListButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -192,7 +192,8 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                             final MovieState currentState = movieViewModel.getState();
                             final User currUser = currentState.getCurrentUser();
 
-                            addToWatchlistController.execute(currUser, watchlist, currentMovie.getTitle());
+                            addToWatchlistController.execute(currUser,
+                                    watchlist.getListName(), currentMovie.getTitle());
 
                             listButton.setEnabled(false);
                         }

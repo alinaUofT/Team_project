@@ -18,16 +18,12 @@ public class CommonUser implements User {
 
     private final String name;
     private final String password;
-    // TODO update the interface
-
-    // I don't think storing login status is useful.
-    // We store current user in the view states already
-    // because we need to access their instance attributes.
 
     private boolean loginStatus;
     private Map<String, Integer> preferredGenres = new HashMap<>();
-    private Watchlist pwl = new CommonWatchlist();
-    private ArrayList<UserWatchlist> watchlists = new ArrayList<UserWatchlist>();
+    private CommonUserWatchlistFactory watchlistFactory;
+    private Watchlist pwl;
+    private ArrayList<UserWatchlist> watchlists;
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
@@ -40,6 +36,13 @@ public class CommonUser implements User {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
+
+        // initializing watchlists for the user
+        this.watchlists = new ArrayList();
+
+        // pwl as default separate watchlist
+        this.watchlistFactory = new CommonUserWatchlistFactory();
+        this.pwl = watchlistFactory.create("Previously Watched");
 
         final GenreMap genreMap = new GenreMap();
         for (String genre : genreMap.keySet()) {
@@ -71,6 +74,11 @@ public class CommonUser implements User {
         return this.pwl;
     }
 
+    @Override
+    public void setPwl(Watchlist watchlist) {
+        this.pwl = watchlist;
+    }
+
     /**
      * Returns the user created watchlists of the user.
      *
@@ -82,6 +90,22 @@ public class CommonUser implements User {
     }
 
     @Override
+    public UserWatchlist getWatchlist(String watchlistName) {
+        UserWatchlist target = null;
+        for (UserWatchlist watchlist : watchlists) {
+            if (watchlist.getListName().equals(watchlistName)) {
+                target = watchlist;
+            }
+        }
+        return target;
+    }
+
+    @Override
+    public void setWatchlists(List<UserWatchlist> watchlists) {
+        this.watchlists = new ArrayList<>(watchlists);
+    }
+
+    @Override
     public void addWatchlist(UserWatchlist watchlist) {
         this.watchlists.add(watchlist);
     }
@@ -89,6 +113,11 @@ public class CommonUser implements User {
     @Override
     public Map<String, Integer> getPreferredGenres() {
         return this.preferredGenres;
+    }
+
+    @Override
+    public void setPreferredGenres(Map<String, Integer> preferredGenres) {
+        this.preferredGenres = preferredGenres;
     }
 
     /**

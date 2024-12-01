@@ -12,20 +12,31 @@ import entity.User;
  */
 public class MovieState {
     private User currentUser;
-
+    private Movie currentMovie;
+    private boolean watched;
     private String title = "";
     private String posterPath = "";
     private String overview = "";
-    private String voteAverage = "";
+    private String externalStarRating = "";
     private List<String> genres = new ArrayList<>();
 
-    private int starRating;
-    private String reviews = "";
+    private Double starRating;
+    private List<String> reviews;
 
-    private CommonMovie currentMovie;
     private String movieError;
 
     public MovieState() {
+    }
+
+    public void update(User currentUser, Movie currentMovie, boolean watched) {
+        this.currentUser = currentUser;
+        this.currentMovie = currentMovie;
+        this.watched = watched;
+        this.title = currentMovie.getTitle();
+        this.starRating = currentMovie.getStarRatings();
+        this.reviews = currentMovie.getUserReviews();
+        this.externalStarRating = currentMovie.getVoterAverage();
+        this.genres = currentMovie.getGenres();
     }
 
     public User getCurrentUser() {
@@ -40,7 +51,7 @@ public class MovieState {
         this.currentMovie = currentMovie;
     }
 
-    public CommonMovie getCurrentMovie() {
+    public Movie getCurrentMovie() {
         return this.currentMovie;
     }
 
@@ -71,11 +82,15 @@ public class MovieState {
     }
 
     public void setVoteAverage(String voteAverage) {
-        this.voteAverage = voteAverage;
+        this.externalStarRating = voteAverage;
     }
 
-    public String getVoteAverage() {
-        return voteAverage;
+    public List<String> getReviews() {
+        return reviews;
+    }
+
+    public String getExternalStarRating() {
+        return externalStarRating;
     }
 
     public void setGenres(List<String> genres) {
@@ -118,7 +133,7 @@ public class MovieState {
                 + ", title='" + title
                 + ", starRating=" + starRating
                 + ", reviews=" + reviews
-                + ", externalStarRating='" + voteAverage
+                + ", externalStarRating='" + externalStarRating
                 + ", genres=" + genres
                 + '}';
 

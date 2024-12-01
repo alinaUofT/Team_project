@@ -8,9 +8,7 @@ import java.util.List;
  */
 public class CommonWatchlist implements Watchlist {
 
-    // TODO Find or write more specific exceptions to throw
-
-    private final String listName = "pwl";
+    private final String listName = "Previously Watched";
     private final List<Movie> movies = new ArrayList<>();
 
     /**
@@ -70,6 +68,11 @@ public class CommonWatchlist implements Watchlist {
     @Override
     public Movie getMovie(int index) throws IndexOutOfBoundsException {
         return this.movies.get(index);
+    }
+
+    @Override
+    public List<Movie> getMovies() {
+        return movies;
     }
 
     /**

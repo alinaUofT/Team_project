@@ -24,9 +24,6 @@ import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
-import interface_adapter.recommendations.RecommendationsController;
-import interface_adapter.recommendations.RecommendationsPresenter;
-import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.my_reviews.MyReviewsController;
 import interface_adapter.my_reviews.MyReviewsPresenter;
 import interface_adapter.my_reviews.MyReviewsViewModel;
@@ -61,6 +58,8 @@ import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
+import interface_adapter.watchlists.delete.DeleteWatchlistController;
+import interface_adapter.watchlists.delete.DeleteWatchlistPresenter;
 import interface_adapter.watchlists.rename.RenameController;
 import interface_adapter.watchlists.rename.RenamePresenter;
 import use_case.add_to_watchlist.AddToWatchlistInputBoundary;
@@ -87,14 +86,11 @@ import use_case.movie.MovieOutputBoundary;
 import use_case.movie.MovieUserDataAccessInterface;
 import use_case.my_reviews.*;
 
-import use_case.search_results.SearchResultsDataAccessInterface;
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInteractor;
 import use_case.search_results.SearchResultsOutputBoundary;
 
-import use_case.recommendations.RecommendationsInputBoundary;
-import use_case.recommendations.RecommendationsInteractor;
-import use_case.recommendations.RecommendationsOutputBoundary;
+
 
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
@@ -113,12 +109,14 @@ import use_case.survey_second_page.SurveySecondPageOutputBoundary;
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
+import use_case.watchlists.delete.DeleteWatchlistInputBoundary;
+import use_case.watchlists.delete.DeleteWatchlistInteractor;
+import use_case.watchlists.delete.DeleteWatchlistOutputBoundary;
 import use_case.watchlists.rename.RenameInputBoundary;
 import use_case.watchlists.rename.RenameInteractor;
 import use_case.watchlists.rename.RenameOutputBoundary;
 import view.*;
 
-// import data_access.DBMovieDataAccessObject;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -126,11 +124,6 @@ import view.*;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
-// Checkstyle note: you can ignore the "Class Data Abstraction Coupling"
-//                  and the "Class Fan-Out Complexity" issues for this lab; we encourage
-//                  your team to think about ways to refactor the code to resolve these
-//                  if your team decides to work with this as your starter code
-//                  for your final project this term.
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
@@ -141,7 +134,6 @@ public class AppBuilder {
 
 
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    //    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
     private final DBSearchResultsDataAccessObject searchResultsDataAccess = new DBSearchResultsDataAccessObject();
 
     private SignupView signupView;
@@ -169,8 +161,6 @@ public class AppBuilder {
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
 
-    private RecommendationsViewModel recommendationsViewModel;
-    private RecommendationsView recommendationsView;
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
@@ -264,12 +254,6 @@ public class AppBuilder {
      * Adds the Survey1 View to the application.
      * @return this builder
      */
-    public AppBuilder addRecommendationsView() {
-        recommendationsViewModel = new RecommendationsViewModel();
-        recommendationsView = new RecommendationsView(recommendationsViewModel);
-        cardPanel.add(recommendationsView, recommendationsView.getViewName());
-        return this;
-    }
 
     /**
      * Adds the My_Reviews Use Case to the application.
@@ -278,11 +262,11 @@ public class AppBuilder {
     public AppBuilder addMyReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary myReviewsOutputBoundary =
+        final MyReviewsOutputBoundary myReviewsOutputBoundary =
                 new MyReviewsPresenter(myReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
-        final MyReviewsInputBoundary myReviewsInteractor = new My_ReviewsInteractor(
+        final MyReviewsInputBoundary myReviewsInteractor = new MyReviewsInteractor(
                 userDataAccessObject, myReviewsOutputBoundary);
 
         // Create the Controller
@@ -429,7 +413,7 @@ public class AppBuilder {
      */
     public AppBuilder addWatchlistUseCase() {
         final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel, watchlistViewModel);
+                watchlistsViewModel, homeViewModel, watchlistViewModel, searchResultsViewModel);
         final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
                 userDataAccessObject, watchlistOutputBoundary, userFactory);
 
@@ -443,8 +427,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addHomeUseCase() {
-        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel, watchlistsViewModel,
-                recommendationsViewModel, homeViewModel, searchResultsViewModel);
+        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel, watchlistsViewModel, homeViewModel, searchResultsViewModel);
 
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
@@ -513,21 +496,6 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Recommendations Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsUseCase() {
-        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
-                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
-        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
-                userDataAccessObject, recommendationsOutputBoundary, userFactory);
-
-        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
-        recommendationsView.setRecommendationsController(controller);
-        return this;
-    }
-
-    /**
      * Adds the Movie Use Case to the application.
      * @return this builder
      */
@@ -567,6 +535,21 @@ public class AppBuilder {
 
         final RenameController controller = new RenameController(renameInteractor);
         watchlistsView.setRenameController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Delete Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addDeleteUseCase() {
+        final DeleteWatchlistOutputBoundary deleteOutputBoundary = new DeleteWatchlistPresenter(
+                viewManagerModel, watchlistsViewModel);
+        final DeleteWatchlistInputBoundary deleteInteractor = new DeleteWatchlistInteractor(
+                userDataAccessObject, deleteOutputBoundary);
+
+        final DeleteWatchlistController controller = new DeleteWatchlistController(deleteInteractor);
+        watchlistsView.setDeleteController(controller);
         return this;
     }
 

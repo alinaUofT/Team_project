@@ -19,4 +19,6 @@ public interface RenameUserDataAccessInterface {
      * @param user the user to save
      */
     void save(User user);
+
+    boolean renameWatchlist(User user, int ind, String newName);
 }

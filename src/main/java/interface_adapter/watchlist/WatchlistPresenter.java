@@ -3,6 +3,7 @@ package interface_adapter.watchlist;
 import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
+import interface_adapter.search_results.SearchResultsViewModel;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.watchlist.WatchlistOutputBoundary;
 
@@ -15,14 +16,16 @@ public class WatchlistPresenter implements WatchlistOutputBoundary {
     private final HomeViewModel homeViewModel;
     private final ViewManagerModel viewManagerModel;
     private final WatchlistViewModel watchlistViewModel;
+    private final SearchResultsViewModel searchResultsViewModel;
 
     public WatchlistPresenter(ViewManagerModel viewManagerModel,
                               WatchlistsViewModel watchlistsViewModel, HomeViewModel homeViewModel,
-                              WatchlistViewModel watchlistViewModel) {
+                              WatchlistViewModel watchlistViewModel, SearchResultsViewModel searchResultsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.homeViewModel = homeViewModel;
         this.watchlistsViewModel = watchlistsViewModel;
         this.watchlistViewModel = watchlistViewModel;
+        this.searchResultsViewModel = searchResultsViewModel;
 
     }
 
@@ -53,6 +56,13 @@ public class WatchlistPresenter implements WatchlistOutputBoundary {
     public void switchToPWLView(User currentUser) {
         // should switch to watchlist view which is not implemented
         viewManagerModel.setState(homeViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToMovieSearchView(User currentUser) {
+        // should switch to watchlist view which is not implemented
+        viewManagerModel.setState(searchResultsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

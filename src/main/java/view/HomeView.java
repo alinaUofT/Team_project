@@ -41,11 +41,10 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
     private final JButton logOut;
 
-    // TODO: change the button names to reference the the HomeViewModel at the end
+
     private final JLabel search = new JLabel("Search");
 
     private JButton searchEnter = new JButton("Enter");
-    private JButton recommendations = new JButton("Recommendations");
     private JButton myWatchlists = new JButton("My Watchlists");
     private JButton myReviewsButton = new JButton("My Reviews");
 
@@ -83,16 +82,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         logOut.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         final JPanel bottomButtons = new JPanel();
-        recommendations = new JButton("Recommendations");
-        recommendations.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(recommendations)) {
-                        final String uname = homeViewModel.getState().getUsername();
-                        this.homeController.switchToRecommendationsView(uname);
-                    }
-                }
-        );
 
         myWatchlists = new JButton("My Watchlists");
         myWatchlists.addActionListener(
@@ -106,7 +95,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         );
 
         myReviewsButton = new JButton("My Reviews");
-        bottomButtons.add(recommendations);
         bottomButtons.add(myWatchlists);
         bottomButtons.add(myReviewsButton);
         // Add ActionListener to trigger the controller
@@ -142,20 +130,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
                 documentListenerHelper();
             }
         });
-
-//        changePassword.addActionListener(
-//                // This creates an anonymous subclass of ActionListener and instantiates it.
-//                evt -> {
-//                    if (evt.getSource().equals(changePassword)) {
-//                        final LoggedInState currentState = homeViewModel.getState();
-//
-//                        this.changePasswordController.execute(
-//                                currentState.getUsername(),
-//                                currentState.getPassword()
-//                        );
-//                    }
-//                }
-//        );
 
         logOut.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.

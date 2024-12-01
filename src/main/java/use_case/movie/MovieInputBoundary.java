@@ -15,4 +15,6 @@ public interface MovieInputBoundary {
      * Switches to the Home View.
      */
     void switchToHomeView();
+
+    void switchToLeaveReviewView();
 }
