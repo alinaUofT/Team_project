@@ -35,19 +35,8 @@ public class WatchlistInteractor implements WatchlistInputBoundary {
         userPresenter.switchToWatchlistsView(currentUser);
     }
 
-    /**
-     * Executes the switch to PWL view use case.
-     *
-     * @param currentUser user that is currently logged in
-     */
-    @Override
-    public void switchToPWL(User currentUser) {
-        userPresenter.switchToPWLView(currentUser);
-    }
-
     @Override
     public void switchToMovieSearchView(String username) {
-        final User currentUser = this.userDataAccessObject.get(username);
-        userPresenter.switchToMovieSearchView(currentUser);
+        userPresenter.switchToMovieSearchView(username);
     }
 }

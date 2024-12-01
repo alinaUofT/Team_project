@@ -6,5 +6,5 @@ public interface CreateWatchlistOutputBoundary {
 
     void prepareSuccessView(User user);
 
-//    void prepareFailView(String errorMessage);
+    void prepareFailView(String errorMessage);
 }

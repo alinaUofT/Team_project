@@ -1,6 +1,8 @@
 package interface_adapter.leave_review;
 
 import interface_adapter.ViewModel;
+import interface_adapter.watchlists.WatchlistsState;
+
 /**
  * The view model for the leave a review use case.
  */
@@ -10,6 +12,7 @@ public class LeaveReviewViewModel extends ViewModel<LeaveReviewState> {
 
     public LeaveReviewViewModel() {
         super("LeaveReviewsView");
+        setState(new LeaveReviewState());
     }
 
     public String getUsername() {

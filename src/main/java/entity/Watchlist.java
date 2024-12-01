@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 /**
  * The representation of a previously watched list in our program.
  */
@@ -30,6 +32,13 @@ public interface Watchlist {
     Movie getMovie(int index) throws IndexOutOfBoundsException;
 
     /**
+     * Get Movie at a given index in this watchlist.
+     * @param name of a Movie
+     * @return Movie with name
+     */
+    Movie getMoviebyName(String name);
+
+    /**
      * Get length of this watchlist.
      * @return length of the watchlist
      */
@@ -48,4 +57,10 @@ public interface Watchlist {
      * @throws Exception if the movie is not found in the list
      */
     void removeMovie(Movie movie) throws Exception;
+
+    /**
+     * Sets the name of the watchlist.
+     * @return list of movie
+     */
+    List<Movie> getMovies();
 }

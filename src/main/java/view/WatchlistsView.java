@@ -1,6 +1,7 @@
 package view;
 
 import entity.User;
+import entity.UserWatchlist;
 import entity.Watchlist;
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.watchlists.WatchlistsController;
@@ -17,6 +18,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,7 +103,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         while (this.watchlistButtons.getComponentCount() > 1) {
             this.watchlistButtons.remove(this.watchlistButtons.getComponentCount() - 1);
         }
-        final List<Watchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
+        final ArrayList<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
         System.out.println(watchlists.size());
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();

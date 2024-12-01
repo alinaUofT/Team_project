@@ -6,10 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import entity.MovieReview;
-import entity.User;
-import entity.UserWatchlist;
-import entity.Watchlist;
+import entity.*;
+import use_case.add_to_watchlist.AddToWatchlistDataAccessInterface;
+import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -17,7 +16,9 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
+
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
+import use_case.watchlist.WatchlistUserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 import use_case.watchlists.delete.DeleteWatchlistUserDataAccessInterface;
 import use_case.watchlists.rename.RenameUserDataAccessInterface;
@@ -36,9 +37,15 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         Survey1UserDataAccessInterface,
         SurveySecondPageDataAccessInterface,
         RenameUserDataAccessInterface,
-        DeleteWatchlistUserDataAccessInterface {
+        DeleteWatchlistUserDataAccessInterface,
+        WatchlistUserDataAccessInterface,
+        AddToWatchlistDataAccessInterface,
+        CreateWatchlistDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
+    private final Map<String, List<Watchlist>> userWatchlists = new HashMap<>();
+    private final Map<String, List<Movie>> watchlistMovies = new HashMap<>();
+    private final Map<String, List<Movie>> userPwl = new HashMap<>();
     private final Map<String, List<MovieReview>> userReviews = new HashMap<>();
     private String currentUsername;
 
@@ -96,6 +103,66 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         }
     }
 
+    @Override
+    public void savePwl(User user) {
+        // Check if the user already exists
+        if (!users.containsKey(user.getName())) {
+            throw new IllegalArgumentException("User not found: " + user.getName());
+        }
+
+        if (!userPwl.containsKey(user.getName())) {
+            userPwl.put(user.getName(), user.getPwl().getMovies());
+        }
+        else {
+            userPwl.put(user.getName(), user.getPwl().getMovies());
+        }
+    }
+
+    @Override
+    public boolean saveWatchlist(User user, UserWatchlist watchlist) {
+        boolean success = true;
+        if (!userWatchlists.containsKey(user.getName())) {
+            success = false;
+            throw new IllegalArgumentException("User not found: " + user.getName());
+        }
+
+        // Add the movie to the specific watchlist
+        userWatchlists.computeIfAbsent(watchlist.getListName(), k -> new ArrayList<>()).add(watchlist);
+        return success;
+    }
+
+    @Override
+    public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+        boolean success = true;
+        // Check if the user exists
+        if (!userWatchlists.containsKey(user.getName())) {
+            success = false;
+            throw new IllegalArgumentException("User not found: " + user.getName());
+        }
+
+        if (user.getWatchlist(watchlistName) == null) {
+            success = false;
+            throw new IllegalArgumentException("Watchlist not found: " + watchlistName);
+        }
+
+        // Add the movie to the specific watchlist
+        watchlistMovies.computeIfAbsent(watchlistName, k -> new ArrayList<>()).add(movie);
+        return success;
+    }
+
+    @Override
+    public boolean saveToPwl(User user, Movie movie) {
+        boolean success = true;
+        // Check if the user exists
+        if (!userPwl.containsKey(user.getName())) {
+            success = false;
+            throw new IllegalArgumentException("User not found: " + user.getName());
+        }
+
+        // Add the movie to the user's personal watchlist (Pwl)
+        userPwl.computeIfAbsent(user.getName(), k -> new ArrayList<>()).add(movie);
+        return success;
+    }
 
     // Add a review for a specific user
     public void addReview(User user, MovieReview review) {
@@ -109,8 +176,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return userReviews.getOrDefault(user.getName(), new ArrayList<>());
     }
 
-
-
     @Override
     public void setCurrentUsername(String name) {
         this.currentUsername = name;
@@ -122,7 +187,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public ArrayList<Watchlist> getWatchlists(User user) {
+    public ArrayList<UserWatchlist> getWatchlists(User user) {
         return user.getWatchlists();
     }
 

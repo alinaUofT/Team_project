@@ -41,11 +41,10 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
     private final JButton logOut;
 
-    // TODO: change the button names to reference the the HomeViewModel at the end
+
     private final JLabel search = new JLabel("Search");
 
-    private JButton searchEnter = new JButton("Enter");
-    private JButton recommendations = new JButton("Recommendations");
+    private JButton searchEnter = new JButton("Find Some Movies");
     private JButton myWatchlists = new JButton("My Watchlists");
     private JButton myReviewsButton = new JButton("My Reviews");
 
@@ -71,8 +70,8 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
         // create the search bar - contains the search label, the input field, and the enter button
         final JPanel searchBar = new JPanel();
-        searchBar.add(search);
-        searchBar.add(searchInputField);
+        // searchBar.add(search);
+        // searchBar.add(searchInputField);
         searchBar.add(searchEnter);
 
         username = new JLabel();
@@ -96,7 +95,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         );
 
         myReviewsButton = new JButton("My Reviews");
-        bottomButtons.add(recommendations);
         bottomButtons.add(myWatchlists);
         bottomButtons.add(myReviewsButton);
         // Add ActionListener to trigger the controller

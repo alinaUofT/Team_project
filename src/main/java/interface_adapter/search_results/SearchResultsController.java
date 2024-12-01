@@ -1,5 +1,6 @@
 package interface_adapter.search_results;
 
+import entity.CommonMovie;
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInputData;
 
@@ -32,7 +33,7 @@ public class SearchResultsController {
     /**
      * Executes the "switch to MovieView" Use Case.
      */
-    public void switchToMovieView() {
-        searchResultsInteractor.switchToMovieView();
+    public void switchToMovieView(String user, CommonMovie searchResult) {
+        searchResultsInteractor.switchToMovieView(user, searchResult);
     }
 }

@@ -10,5 +10,7 @@ public interface MovieFactory {
      * @param title the name of the new movie
      * @return the new movie
      */
-    Movie create(String title);
+    static Movie create(String title) {
+        return null;
+    }
 }

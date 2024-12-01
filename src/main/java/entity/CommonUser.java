@@ -23,7 +23,7 @@ public class CommonUser implements User {
     private Map<String, Integer> preferredGenres = new HashMap<>();
     private CommonUserWatchlistFactory watchlistFactory;
     private Watchlist pwl;
-    private ArrayList<Watchlist> watchlists = new ArrayList<Watchlist>();
+    private ArrayList<UserWatchlist> watchlists;
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
@@ -37,8 +37,10 @@ public class CommonUser implements User {
         this.password = password;
         this.loginStatus = false;
 
-        // initializing watchlists for the user and adding the default pwl
+        // initializing watchlists for the user
         this.watchlists = new ArrayList();
+
+        // pwl as default separate watchlist
         this.watchlistFactory = new CommonUserWatchlistFactory();
         this.pwl = watchlistFactory.create("Previously Watched");
 
@@ -72,19 +74,35 @@ public class CommonUser implements User {
         return this.pwl;
     }
 
+    @Override
+    public void setPwl(Watchlist watchlist) {
+        this.pwl = watchlist;
+    }
+
     /**
      * Returns the user created watchlists of the user.
      *
      * @return list of watchlists of the user.
      */
     @Override
-    public ArrayList<Watchlist> getWatchlists() {
+    public ArrayList<UserWatchlist> getWatchlists() {
         return this.watchlists;
     }
 
     @Override
-    public void setWatchlists(List<Watchlist> watchlists) {
-        this.watchlists = (ArrayList<Watchlist>) watchlists;
+    public UserWatchlist getWatchlist(String watchlistName) {
+        UserWatchlist target = null;
+        for (UserWatchlist watchlist : watchlists) {
+            if (watchlist.getListName().equals(watchlistName)) {
+                target = watchlist;
+            }
+        }
+        return target;
+    }
+
+    @Override
+    public void setWatchlists(List<UserWatchlist> watchlists) {
+        this.watchlists = new ArrayList<>(watchlists);
     }
 
     @Override

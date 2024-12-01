@@ -23,23 +23,28 @@ public class MovieInteractor implements MovieInputBoundary {
         final String movieTitle = movieInputData.getMovieTitle();
         final List<CommonMovie> results = movieInputData.getResults();
 
-//        CommonMovie searchedMovie = null;
-
         for (int i = 0; i < results.size(); i++) {
             if (results.get(i).getTitle().equals(movieTitle)) {
-                CommonMovie searchedMovie = results.get(i);
+                // get and store the data
+                final CommonMovie searchedMovie = results.get(i);
+                final String movieName = searchedMovie.getTitle();
+                final String posterPath = searchedMovie.getPoster();
+                final String overview = searchedMovie.getOverview();
+                final String voteAverage = searchedMovie.getVoterAverage();
+                final List<String> genres = searchedMovie.getGenres();
+
+                final MovieOutputData movieOutputData = new MovieOutputData(movieName,
+                        posterPath, overview, voteAverage, genres);
+
+                moviePresenter.prepareSuccessView(movieOutputData);
+
             }
         }
-
-//        final MovieOutputData movieOutputData = new MovieOutputData(movieTitle,
-//                posterPath, overview, voteAverage, genres);
-        // moviePresenter.switchToMovieView(movieOutputData);
-        moviePresenter.switchToMovieView();
     }
 
     @Override
     public void switchToHomeView() {
-//        moviePresenter.switchToHomeView();
+        moviePresenter.switchToHomeView();
     }
 
     public void switchToLeaveReviewView() {

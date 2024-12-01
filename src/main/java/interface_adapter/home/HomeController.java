@@ -21,6 +21,7 @@ public class HomeController {
         this.homeInteractor.switchToWatchlistsView(username);
     }
 
+
     /**
      * Returns a User with this username.
      * @param username username of the user
