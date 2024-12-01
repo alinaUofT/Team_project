@@ -41,7 +41,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
 
     private final JButton logOut;
 
-    // TODO: change the button names to reference the the HomeViewModel at the end
+
     private final JLabel search = new JLabel("Search");
 
     private JButton searchEnter = new JButton("Enter");

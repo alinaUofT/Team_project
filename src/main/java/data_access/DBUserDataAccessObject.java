@@ -34,6 +34,8 @@ import use_case.watchlists.rename.RenameUserDataAccessInterface;
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, HomeUserDataAccessInterface, MyReviewsDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface, LeaveReviewDataAccessInterface,
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
+        LeaveReviewDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
         CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface,
         DeleteWatchlistUserDataAccessInterface {
