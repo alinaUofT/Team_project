@@ -1,11 +1,11 @@
-package use_case.watchlists.rename;
+package use_case.watchlists.delete;
 
 import entity.User;
 
 /**
  * DAO for the Signup Use Case.
  */
-public interface RenameUserDataAccessInterface {
+public interface DeleteWatchlistUserDataAccessInterface {
 
     /**
      * Checks if the given username exists.
@@ -20,5 +20,6 @@ public interface RenameUserDataAccessInterface {
      */
     void save(User user);
 
-    boolean renameWatchlist(User user, int ind, String newName);
+    boolean deleteWatchlist(User user, int ind);
+
 }

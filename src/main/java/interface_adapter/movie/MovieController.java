@@ -1,5 +1,6 @@
 package interface_adapter.movie;
 
+import entity.CommonMovie;
 import use_case.movie.MovieInputBoundary;
 import use_case.movie.MovieInputData;
 
@@ -18,16 +19,10 @@ public class MovieController {
     /**
      * Executes the Movie Use Case.
      * @param movieName the title of the movie
-     * @param posterPath the poster path for the movie
-     * @param overview the overview of the movie
-     * @param voteAverage the average votes of the movie
-     * @param genres a list of the movies genres
+     * @param results the List of Common Movies form the search results
      */
-    public void execute(String movieName, String posterPath,
-                        String overview, int voteAverage,
-                        List<String> genres) {
-        final MovieInputData movieInputData = new MovieInputData(movieName, posterPath,
-                overview, voteAverage, genres);
+    public void execute(String movieName, List<CommonMovie> results) {
+        final MovieInputData movieInputData = new MovieInputData(movieName, results);
 
         movieUseCaseInteractor.execute(movieInputData);
     }
@@ -37,5 +32,9 @@ public class MovieController {
      */
     public void switchToHomeView() {
         movieUseCaseInteractor.switchToHomeView();
+    }
+
+    public void switchToLeaveReviewView() {
+        movieUseCaseInteractor.switchToLeaveReviewView();
     }
 }

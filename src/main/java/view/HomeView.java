@@ -133,20 +133,6 @@ public class HomeView extends JPanel implements PropertyChangeListener {
             }
         });
 
-//        changePassword.addActionListener(
-//                // This creates an anonymous subclass of ActionListener and instantiates it.
-//                evt -> {
-//                    if (evt.getSource().equals(changePassword)) {
-//                        final LoggedInState currentState = homeViewModel.getState();
-//
-//                        this.changePasswordController.execute(
-//                                currentState.getUsername(),
-//                                currentState.getPassword()
-//                        );
-//                    }
-//                }
-//        );
-
         logOut.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
