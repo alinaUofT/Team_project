@@ -139,18 +139,17 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        if ("movieTitles".equals(evt.getPropertyName()) || "posterPaths".equals(evt.getPropertyName())) {
-            final List<String> titles = searchResultsViewModel.getState().getMovieTitles();
-            final List<String> posters = searchResultsViewModel.getState().getPosterPaths();
+        final List<String> titles = searchResultsViewModel.getState().getMovieTitles();
+        final List<String> posters = searchResultsViewModel.getState().getPosterPaths();
 
-            results.removeAll();
-            for (int i = 0; i < titles.size(); i++) {
-                final JPanel moviePanel = createMoviePanel(titles.get(i), posters.get(i));
-                results.add(moviePanel);
-            }
-            results.revalidate();
-            results.repaint();
+        results.removeAll();
+        for (int i = 0; i < titles.size(); i++) {
+            final JPanel moviePanel = createMoviePanel(titles.get(i), posters.get(i));
+            results.add(moviePanel);
         }
+        results.revalidate();
+        results.repaint();
+
     }
 
     private void setFields(SearchResultsState state) {

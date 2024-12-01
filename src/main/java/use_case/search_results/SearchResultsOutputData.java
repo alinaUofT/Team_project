@@ -17,9 +17,10 @@ public class SearchResultsOutputData {
     public SearchResultsOutputData(String searchText, List<String> movieTitles,
                                    List<String> posterPaths, List<CommonMovie> results) {
         this.searchText = searchText;
-        this.results = results;
         this.movieTitles = movieTitles;
         this.posterPaths = posterPaths;
+        this.results = results;
+
     }
 
     public String getSearchText() {
