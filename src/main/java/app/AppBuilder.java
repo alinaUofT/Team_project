@@ -23,7 +23,6 @@ import interface_adapter.leave_review.LeaveReviewPresenter;
 import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 import interface_adapter.movie.MovieState;
-import interface_adapter.movie.MovieViewModel;
 import interface_adapter.recommendations.RecommendationsController;
 import interface_adapter.recommendations.RecommendationsPresenter;
 import interface_adapter.recommendations.RecommendationsViewModel;
@@ -89,7 +88,6 @@ import use_case.movie.MovieOutputBoundary;
 import use_case.movie.MovieUserDataAccessInterface;
 import use_case.my_reviews.*;
 
-import use_case.search_results.SearchResultsDataAccessInterface;
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInteractor;
 import use_case.search_results.SearchResultsOutputBoundary;
@@ -283,11 +281,11 @@ public class AppBuilder {
     public AppBuilder addMyReviewsUseCase() {
 
         //   Create the Presenter and link it to the ViewModel
-        final My_ReviewsOutputBoundary myReviewsOutputBoundary =
+        final MyReviewsOutputBoundary myReviewsOutputBoundary =
                 new MyReviewsPresenter(myReviewsViewModel, viewManagerModel);
 
         //  Create the Interactor
-        final MyReviewsInputBoundary myReviewsInteractor = new My_ReviewsInteractor(
+        final MyReviewsInputBoundary myReviewsInteractor = new MyReviewsInteractor(
                 userDataAccessObject, myReviewsOutputBoundary);
 
         // Create the Controller

@@ -75,6 +75,5 @@ public class MovieState {
                 + ", externalStarRating='" + externalStarRating
                 + ", genres=" + genres
                 + '}';
-
     }
 }

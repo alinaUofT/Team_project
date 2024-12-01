@@ -5,12 +5,12 @@ import entity.User;
 
 import java.util.List;
 
-public class My_ReviewsInteractor implements MyReviewsInputBoundary {
+public class MyReviewsInteractor implements MyReviewsInputBoundary {
     private final MyReviewsDataAccessInterface myReviewsDataAccessObject; // Handles data access
-    private final My_ReviewsOutputBoundary myReviewsPresenter; // Handles presenting the output
+    private final MyReviewsOutputBoundary myReviewsPresenter; // Handles presenting the output
 
-    public My_ReviewsInteractor(MyReviewsDataAccessInterface myReviewsDataAccessObject,
-                                My_ReviewsOutputBoundary myReviewsPresenter) {
+    public MyReviewsInteractor(MyReviewsDataAccessInterface myReviewsDataAccessObject,
+                               MyReviewsOutputBoundary myReviewsPresenter) {
         this.myReviewsDataAccessObject = myReviewsDataAccessObject;
         this.myReviewsPresenter = myReviewsPresenter;
     }

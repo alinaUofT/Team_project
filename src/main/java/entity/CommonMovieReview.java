@@ -7,24 +7,24 @@ public class CommonMovieReview implements MovieReview {
     private final Date date;
     private final double starRating;
     private final String content;
-    private final String movie_Title;
+    private final String movieTitle;
 
-    public CommonMovieReview(String user, Date date, Double starRating, String content, String movie_Title) {
+    public CommonMovieReview(String user, Date date, Double starRating, String content, String movieTitle) {
         this.userID = user;
         this.date = date;
         this.starRating = starRating;
         this.content = content;
-        this.movie_Title = movie_Title;
+        this.movieTitle = movieTitle;
 
     }
     // Overloaded constructor
 
-    public CommonMovieReview(String user, Date date, Double starRating, String movie_Title) {
+    public CommonMovieReview(String user, Date date, Double starRating, String movieTitle) {
         this.userID = user;
         this.date = date;
         this.starRating = starRating;
         this.content = null;
-        this.movie_Title = movie_Title;
+        this.movieTitle = movieTitle;
     }
 
     public Date getDate() {
@@ -44,7 +44,7 @@ public class CommonMovieReview implements MovieReview {
     }
 
     public String getMovieTitle() {
-        return this.movie_Title;
+        return this.movieTitle;
     }
 }
 
