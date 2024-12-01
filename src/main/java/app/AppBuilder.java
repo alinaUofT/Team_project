@@ -331,18 +331,14 @@ public class AppBuilder {
 
     public AppBuilder addLeaveReviewView() {
 
-        LeaveReviewState leaveReviewState = new LeaveReviewState(loggedInState, movieState);
-
-        LeaveReviewViewModel leaveReviewViewModel = new LeaveReviewViewModel();
-        leaveReviewViewModel.setState(leaveReviewState);
+        leaveReviewViewModel = new LeaveReviewViewModel();
 
         leaveReviewView = new LeaveReviewView(leaveReviewViewModel);
 
-        cardPanel.add(leaveReviewView, leaveReviewView.getName());
+        cardPanel.add(leaveReviewView, leaveReviewView.getViewName());
 
         return this;
     }
-
 
     public AppBuilder addLeaveReviewUseCase() {
 
@@ -501,7 +497,7 @@ public class AppBuilder {
      */
     public AppBuilder addMovieUseCase() {
         final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
-                movieViewModel, homeViewModel);
+                movieViewModel, homeViewModel, leaveReviewViewModel);
         final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
         final MovieController controller = new MovieController(movieInteractor);
         movieView.setMovieController(controller);
