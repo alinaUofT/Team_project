@@ -16,6 +16,8 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
+
+import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 import use_case.watchlists.delete.DeleteWatchlistUserDataAccessInterface;
@@ -33,6 +35,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         LogoutUserDataAccessInterface,
         WatchlistsUserDataAccessInterface,
         Survey1UserDataAccessInterface,
+        SurveySecondPageDataAccessInterface,
         RenameUserDataAccessInterface,
         DeleteWatchlistUserDataAccessInterface,
         WatchlistUserDataAccessInterface,
@@ -49,6 +52,11 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public boolean existsByName(String identifier) {
         return users.containsKey(identifier);
+    }
+
+    @Override
+    public boolean movieExists(String movie) {
+        return false;
     }
 
     @Override
