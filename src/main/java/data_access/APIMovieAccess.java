@@ -205,51 +205,6 @@ public class APIMovieAccess {
             return null;
         }
     }
-
-    /**
-     * Retrieves a list of movie genres from the API based on input genres.
-     *
-     * @param genreId1 the genre ID to search for
-     * @param genreId2 the genre ID to search for
-     * @param genreId3 the genre ID to search for
-     * @return a list of movies
-     * @throws IOException if an error occurs while making the request
-     */
-    public static List<Movie> recommendedMovies(int genreId1, int genreId2, int genreId3) throws IOException {
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        final MediaType mediaType = MediaType.parse("text/plain");
-        final RequestBody body = RequestBody.create(mediaType, "");
-        final Request request = new Request.Builder()
-                .url(BASE_URL + "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=" + genreId1 + "%2C%20" + genreId2 + "%2C%20" + genreId3 + "&api_key=" + API_KEY)
-                .method("GET", body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Unexpected code " + response);
-            }
-            // Get the response body as a string
-            final String responseBody = response.body().string();
-
-            // Parse the JSON response manually
-            final List<Movie> recMovies = new ArrayList<>();
-
-            // Convert response to JSONObject
-            final JSONObject jsonResponse = new JSONObject(responseBody);
-
-            // Get the 'results' array from the JSON response
-            final JSONArray results = jsonResponse.getJSONArray("results");
-
-            // Loop through the first 3 results and extract movie titles
-            for (int i = 0; i < Math.min(3, results.length()); i++) {
-                final JSONObject movie = results.getJSONObject(i);
-                final String title = movie.getString("title");
-                recMovies.add(CommonMovieFactory.create(title));
-            }
-            return recMovies;
-        }
-    }
 }
 
 // This is how we access specific fields for a movie, it is returned as a"json string" from the db we need

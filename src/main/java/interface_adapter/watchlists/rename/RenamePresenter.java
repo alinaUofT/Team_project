@@ -3,7 +3,6 @@ package interface_adapter.watchlists.rename;
 import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
-import interface_adapter.recommendations.RecommendationsViewModel;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.home.HomeOutputBoundary;
 import use_case.watchlists.rename.RenameOutputBoundary;

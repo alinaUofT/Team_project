@@ -20,7 +20,6 @@ import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
-import use_case.recommendations.RecommendationsUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
@@ -33,8 +32,7 @@ import use_case.watchlists.rename.RenameUserDataAccessInterface;
  */
 public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface, HomeUserDataAccessInterface, MyReviewsDataAccessInterface,
-        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface,
-        RecommendationsUserDataAccessInterface, LeaveReviewDataAccessInterface,
+        LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface, LeaveReviewDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
         CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface {
 
