@@ -40,15 +40,4 @@ public class Survey1Presenter implements Survey1OutputBoundary {
         viewManagerModel.setState(surveySecondPageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
-
-    /**
-     * Switch to Survey Second Page View.
-     */
-    @Override
-    public void switchToSurveySecondPageView(User user) {
-        surveySecondPageViewModel.getState().setCurrentUser(user);
-        viewManagerModel.setState(surveySecondPageViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-        surveySecondPageViewModel.firePropertyChanged();
-    }
 }
