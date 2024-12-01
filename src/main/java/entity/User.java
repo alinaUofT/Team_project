@@ -45,6 +45,12 @@ public interface User {
     void setWatchlists(List<Watchlist> watchlists);
 
     /**
+     * Returns the preferred genres of the user.
+     * @param preferredGenres preferred genres of the user.
+     */
+    void setPreferredGenres(Map<String, Integer> preferredGenres);
+
+    /**
      * Adds new watchlist to user.
      * @param  watchlist watchlist to add
      */
@@ -93,10 +99,4 @@ public interface User {
      */
     Map<String, Integer> getPreferredGenres();
 
-    /**
-     * Sets the preferred genres of the user.
-     *
-     * @param preferredGenres map of preferred genres of the user.
-     */
-    void setPreferredGenres(Map<String, Integer> preferredGenres);
 }

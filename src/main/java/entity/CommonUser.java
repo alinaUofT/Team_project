@@ -18,11 +18,6 @@ public class CommonUser implements User {
 
     private final String name;
     private final String password;
-    // TODO update the interface
-
-    // I don't think storing login status is useful.
-    // We store current user in the view states already
-    // because we need to access their instance attributes.
 
     private boolean loginStatus;
     private Map<String, Integer> preferredGenres = new HashMap<>();

@@ -110,6 +110,13 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     }
                 }
             }
+            else {
+                // Initialize the preferred genres with default values
+                final GenreMap genreMap = new GenreMap();
+                for (String genre : genreMap.keySet()) {
+                    preferredGenres.put(genre, 0);
+                }
+            }
 
             // Create and return the User object
             final User user = userFactory.create(name, password);
