@@ -1,5 +1,6 @@
 package use_case.movie;
 
+import entity.CommonMovie;
 import entity.Movie;
 
 import java.util.List;
@@ -20,13 +21,18 @@ public class MovieInteractor implements MovieInputBoundary {
     @Override
     public void execute(MovieInputData movieInputData) {
         final String movieTitle = movieInputData.getMovieTitle();
-        final String posterPath = movieInputData.getPosterPath();
-        final String overview = movieInputData.getOverview();
-        final int voteAverage = movieInputData.getVoteAverage();
-        final List<String> genres = movieInputData.getGenres();
+        final List<CommonMovie> results = movieInputData.getResults();
 
-        final MovieOutputData movieOutputData = new MovieOutputData(movieTitle,
-                posterPath, overview, voteAverage, genres);
+//        CommonMovie searchedMovie = null;
+
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).getTitle().equals(movieTitle)) {
+                CommonMovie searchedMovie = results.get(i);
+            }
+        }
+
+//        final MovieOutputData movieOutputData = new MovieOutputData(movieTitle,
+//                posterPath, overview, voteAverage, genres);
         // moviePresenter.switchToMovieView(movieOutputData);
         moviePresenter.switchToMovieView();
     }

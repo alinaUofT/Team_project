@@ -21,7 +21,6 @@ public class MovieState {
     private String movieError;
 
     public MovieState() {
-
     }
 
     public void update(User currentUser, Movie currentMovie, boolean watched) {
