@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import entity.User;
+import entity.UserWatchlist;
 import entity.Watchlist;
 import use_case.home.HomeUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
@@ -13,6 +14,9 @@ import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey1.Survey1UserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
+import use_case.watchlists.delete.DeleteWatchlistUserDataAccessInterface;
+import use_case.watchlists.rename.RenameUserDataAccessInterface;
+
 
 /**
  * In-memory implementation of the DAO for storing user data. This implementation does
@@ -23,7 +27,9 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         HomeUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         WatchlistsUserDataAccessInterface,
-        Survey1UserDataAccessInterface {
+        Survey1UserDataAccessInterface,
+        RenameUserDataAccessInterface,
+        DeleteWatchlistUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
@@ -98,4 +104,18 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public ArrayList<Watchlist> getWatchlists(User user) {
         return user.getWatchlists();
     }
+
+    @Override
+    public boolean deleteWatchlist(User user, int ind) {
+
+        return true;
+    }
+
+    @Override
+    public boolean renameWatchlist(User user, int ind, String newName) {
+        final UserWatchlist watchlist = (UserWatchlist) user.getWatchlists().get(ind);
+        watchlist.changeListName(newName);
+        return newName.equals(user.getWatchlists().get(ind).getListName());
+    }
+
 }
