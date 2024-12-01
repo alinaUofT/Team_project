@@ -1,118 +1,141 @@
 package use_case.watchlists;
 
 import data_access.InMemoryUserDataAccessObject;
+import entity.CommonUser;
 import entity.CommonUserFactory;
 import entity.User;
-import entity.UserFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import use_case.signup.*;
+import use_case.signup.SignupOutputBoundary;
+import use_case.signup.SignupOutputData;
+import use_case.watchlist.WatchlistUserDataAccessInterface;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 class WatchlistsInteractorTest {
 
     @Test
-    void successTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "password");
-        SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
-
+    void switchToHomeView() {
+        WatchlistsUserDataAccessInterface dataAccess = new InMemoryUserDataAccessObject();
         // This creates a successPresenter that tests whether the test case is as we expect.
-        SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
+        WatchlistsOutputBoundary switchToHomeViewPresenter = new WatchlistsOutputBoundary() {
+
+            /**
+             * Switches to the Logged In View.
+             */
             @Override
-            public void prepareSuccessView(SignupOutputData user) {
-                // 2 things to check: the output data is correct, and the user has been created in the DAO.
-                assertEquals("Paul", user.getUsername());
-                assertTrue(userRepository.existsByName("Paul"));
+            public void switchToHomeView() {
+
             }
 
+            /**
+             * Switches to the Watchlist View.
+             *
+             * @param currentUser user that is currently logged in
+             * @param ind         index that corresponds to the watchlist to switch to
+             */
             @Override
-            public void prepareFailView(String error) {
-                fail("Use case failure is unexpected.");
+            public void switchToWatchlistView(User currentUser, int ind) {
+                fail("switchToWatchlistView is not the method that should be called");
             }
 
+            /**
+             * Switches to the PWL View.
+             *
+             * @param currentUser user that is currently logged in
+             */
             @Override
-            public void switchToSurvey1View(String uname) {
-                // This is expected
-            }
-
-            @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToPWLView(User currentUser) {
+                fail("switchToPWLView is not the method that should be called");
             }
         };
 
-        SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new CommonUserFactory());
-        interactor.execute(inputData);
+        WatchlistsInputBoundary interactor = new WatchlistsInteractor(dataAccess, switchToHomeViewPresenter,
+                new CommonUserFactory());
+        interactor.switchToHomeView();
     }
 
     @Test
-    void failurePasswordMismatchTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "wrong");
-        SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
+    void switchToWatchlistView() {
+        WatchlistsUserDataAccessInterface dataAccess = new InMemoryUserDataAccessObject();
+        // This creates a successPresenter that tests whether the test case is as we expect.
+        WatchlistsOutputBoundary switchToWatchlistViewPresenter = new WatchlistsOutputBoundary() {
 
-        // This creates a presenter that tests whether the test case is as we expect.
-        SignupOutputBoundary failurePresenter = new SignupOutputBoundary() {
+            /**
+             * Switches to the Logged In View.
+             */
             @Override
-            public void prepareSuccessView(SignupOutputData user) {
-                // this should never be reached since the test case should fail
-                fail("Use case success is unexpected.");
+            public void switchToHomeView() {
+                fail("switchToHomeView is not the method that should be called");
             }
 
+            /**
+             * Switches to the Watchlist View.
+             *
+             * @param currentUser user that is currently logged in
+             * @param ind         index that corresponds to the watchlist to switch to
+             */
             @Override
-            public void prepareFailView(String error) {
-                assertEquals("Passwords don't match.", error);
+            public void switchToWatchlistView(User currentUser, int ind) {
+                assertEquals("Paul", currentUser.getName());
+                assertEquals(1, ind);
             }
 
+            /**
+             * Switches to the PWL View.
+             *
+             * @param currentUser user that is currently logged in
+             */
             @Override
-            public void switchToSurvey1View(String uname) {
-                // This is expected
-            }
-
-            @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToPWLView(User currentUser) {
+                fail("switchToPWLView is not the method that should be called");
             }
         };
 
-        SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());
-        interactor.execute(inputData);
+        WatchlistsInputBoundary interactor = new WatchlistsInteractor(dataAccess, switchToWatchlistViewPresenter,
+                new CommonUserFactory());
+        User user = new CommonUser("Paul", "pwd");
+        interactor.switchToWatchlistView(user, 1);
     }
 
     @Test
-    void failureUserExistsTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "wrong");
-        SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
+    void switchToPWL() {
+        WatchlistsUserDataAccessInterface dataAccess = new InMemoryUserDataAccessObject();
+        // This creates a successPresenter that tests whether the test case is as we expect.
+        WatchlistsOutputBoundary switchToPWLViewPresenter = new WatchlistsOutputBoundary() {
 
-        // Add Paul to the repo so that when we check later they already exist
-        UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Paul", "pwd");
-        userRepository.save(user);
-
-        // This creates a presenter that tests whether the test case is as we expect.
-        SignupOutputBoundary failurePresenter = new SignupOutputBoundary() {
+            /**
+             * Switches to the Logged In View.
+             */
             @Override
-            public void prepareSuccessView(SignupOutputData user) {
-                // this should never be reached since the test case should fail
-                fail("Use case success is unexpected.");
+            public void switchToHomeView() {
+                fail("switchToHomeView is not the method that should be called");
             }
 
+            /**
+             * Switches to the Watchlist View.
+             *
+             * @param currentUser user that is currently logged in
+             * @param ind         index that corresponds to the watchlist to switch to
+             */
             @Override
-            public void prepareFailView(String error) {
-                assertEquals("User already exists.", error);
+            public void switchToWatchlistView(User currentUser, int ind) {
+                fail("switchToPWLView is not the method that should be called");
             }
 
+            /**
+             * Switches to the PWL View.
+             *
+             * @param currentUser user that is currently logged in
+             */
             @Override
-            public void switchToSurvey1View(String uname) {
-                // This is expected
-            }
-
-            @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToPWLView(User currentUser) {
+                assertEquals("Paul", currentUser.getName());
             }
         };
 
-        SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());
-        interactor.execute(inputData);
+        WatchlistsInputBoundary interactor = new WatchlistsInteractor(dataAccess, switchToPWLViewPresenter,
+                new CommonUserFactory());
+        User user = new CommonUser("Paul", "pwd");
+        interactor.switchToPWL(user);
     }
 }
