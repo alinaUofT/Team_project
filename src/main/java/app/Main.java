@@ -27,7 +27,6 @@ public class Main {
                                             .addSearchResultsView()
                                             .addLeaveReviewView()
                                             .addSurveySecondPageView()
-                                            .addRecommendationsView()
                                             .addSearchResultsView()
 
                                             .addSignupUseCase()
@@ -41,7 +40,6 @@ public class Main {
                                             .addRenameUseCase()
                                             .addDeleteUseCase()
                                             .addMyReviewsUseCase()
-                                            .addRecommendationsUseCase()
                                             .addSurvey1UseCase()
                                             .addSearchResultsUseCase()
                                             .addMovieUseCase()

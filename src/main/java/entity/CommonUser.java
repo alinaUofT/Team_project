@@ -102,6 +102,11 @@ public class CommonUser implements User {
         return this.preferredGenres;
     }
 
+    @Override
+    public void setPreferredGenres(Map<String, Integer> preferredGenres) {
+        this.preferredGenres = preferredGenres;
+    }
+
     /**
      * Adds a genre to the list of preferred genres of this User.
      * @param genre a genre to add to the list

@@ -23,9 +23,7 @@ import interface_adapter.leave_review.LeaveReviewPresenter;
 import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 import interface_adapter.movie.MovieState;
-import interface_adapter.recommendations.RecommendationsController;
-import interface_adapter.recommendations.RecommendationsPresenter;
-import interface_adapter.recommendations.RecommendationsViewModel;
+import interface_adapter.movie.MovieViewModel;
 import interface_adapter.my_reviews.MyReviewsController;
 import interface_adapter.my_reviews.MyReviewsPresenter;
 import interface_adapter.my_reviews.MyReviewsViewModel;
@@ -91,10 +89,6 @@ import use_case.my_reviews.*;
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInteractor;
 import use_case.search_results.SearchResultsOutputBoundary;
-
-import use_case.recommendations.RecommendationsInputBoundary;
-import use_case.recommendations.RecommendationsInteractor;
-import use_case.recommendations.RecommendationsOutputBoundary;
 
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
@@ -171,9 +165,6 @@ public class AppBuilder {
 
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
-
-    private RecommendationsViewModel recommendationsViewModel;
-    private RecommendationsView recommendationsView;
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
@@ -260,17 +251,6 @@ public class AppBuilder {
         cardPanel.add(myReviewsView, myReviewsView.getViewName());
 
         // Step 4: Return the AppBuilder for chaining
-        return this;
-    }
-
-    /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsView() {
-        recommendationsViewModel = new RecommendationsViewModel();
-        recommendationsView = new RecommendationsView(recommendationsViewModel);
-        cardPanel.add(recommendationsView, recommendationsView.getViewName());
         return this;
     }
 
@@ -446,8 +426,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addHomeUseCase() {
-        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel, watchlistsViewModel,
-                recommendationsViewModel, homeViewModel, searchResultsViewModel);
+        final HomeOutputBoundary homeOutputBoundary = new HomePresenter(viewManagerModel, watchlistsViewModel, homeViewModel, searchResultsViewModel);
 
         final HomeInputBoundary homeInteractor = new HomeInteractor(
                 userDataAccessObject, homeOutputBoundary, userFactory);
@@ -512,21 +491,6 @@ public class AppBuilder {
         final SurveySecondPageController controller = new SurveySecondPageController(surveySecondPageInteractor);
         surveySecondPageView.setSurveySecondPageController(controller);
 
-        return this;
-    }
-
-    /**
-     * Adds the Recommendations Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addRecommendationsUseCase() {
-        final RecommendationsOutputBoundary recommendationsOutputBoundary = new RecommendationsPresenter(
-                viewManagerModel, recommendationsViewModel, movieViewModel, homeViewModel);
-        final RecommendationsInputBoundary recommendationsInteractor = new RecommendationsInteractor(
-                userDataAccessObject, recommendationsOutputBoundary, userFactory);
-
-        final RecommendationsController controller = new RecommendationsController(recommendationsInteractor);
-        recommendationsView.setRecommendationsController(controller);
         return this;
     }
 

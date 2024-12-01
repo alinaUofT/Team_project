@@ -22,13 +22,10 @@ public class HomeController {
     }
 
     /**
-     * Executes the "switch to RecommendationsView" Use Case.
-     * @param username of the currently logged in user
+     * Returns a User with this username.
+     * @param username username of the user
+     * @return User with this username
      */
-    public void switchToRecommendationsView(String username) {
-        this.homeInteractor.switchToRecommendationsView(username);
-    }
-
     public User getUser(String username){
         return homeInteractor.getUser(username);
     }
