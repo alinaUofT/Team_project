@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import entity.CommonMovie;
+import entity.CommonMovieFactory;
+import entity.Movie;
+import entity.MovieFactory;
+import okhttp3.*;
+import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import static okhttp3.RequestBody.create;
 
 /**
  * The methods to access the movie API.
@@ -76,6 +79,7 @@ public class APIMovieAccess {
 
     /**
      * The search function that finds all possible movies with a vague title.
+     *
      * @param query the search query that the user inputs.
      * @return a string containing all the search results or an empty string if there are no search results
      */
@@ -105,8 +109,7 @@ public class APIMovieAccess {
                 // Return the response as a string
                 return response.toString();
             }
-        }
-        catch (IOException noResultFound) {
+        } catch (IOException noResultFound) {
             // Log the error if needed and return an empty string
             return "";
         }
@@ -114,6 +117,7 @@ public class APIMovieAccess {
 
     /**
      * The filtered version of the search function which returns a list of info for 3 movies.
+     *
      * @param query the search query that the user inputs.
      * @return list of strings of the data
      */
@@ -163,6 +167,7 @@ public class APIMovieAccess {
 
     /**
      * The main method to test the TMDbClient.
+     *
      * @param args is the provided argument
      * @throws Exception if something bad happens
      */
@@ -198,6 +203,51 @@ public class APIMovieAccess {
         catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Retrieves a list of movie genres from the API based on input genres.
+     *
+     * @param genreId1 the genre ID to search for
+     * @param genreId2 the genre ID to search for
+     * @param genreId3 the genre ID to search for
+     * @return a list of movies
+     * @throws IOException if an error occurs while making the request
+     */
+    public static List<Movie> recommendedMovies(int genreId1, int genreId2, int genreId3) throws IOException {
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        final MediaType mediaType = MediaType.parse("text/plain");
+        final RequestBody body = RequestBody.create(mediaType, "");
+        final Request request = new Request.Builder()
+                .url(BASE_URL + "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=" + genreId1 + "%2C%20" + genreId2 + "%2C%20" + genreId3 + "&api_key=" + API_KEY)
+                .method("GET", body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            // Get the response body as a string
+            final String responseBody = response.body().string();
+
+            // Parse the JSON response manually
+            final List<Movie> recMovies = new ArrayList<>();
+
+            // Convert response to JSONObject
+            final JSONObject jsonResponse = new JSONObject(responseBody);
+
+            // Get the 'results' array from the JSON response
+            final JSONArray results = jsonResponse.getJSONArray("results");
+
+            // Loop through the first 3 results and extract movie titles
+            for (int i = 0; i < Math.min(3, results.length()); i++) {
+                final JSONObject movie = results.getJSONObject(i);
+                final String title = movie.getString("title");
+                recMovies.add(CommonMovieFactory.create(title));
+            }
+            return recMovies;
         }
     }
 }
