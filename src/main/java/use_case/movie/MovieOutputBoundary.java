@@ -7,8 +7,9 @@ public interface MovieOutputBoundary {
 
     /**
      * Prepares the success view for the Movie Use Case.
+     * @param movieOutputData the output data of the movie
      */
-    void switchToMovieView();
+    void prepareSuccessView(MovieOutputData movieOutputData);
 
     /**
      * Switches to the Home View.

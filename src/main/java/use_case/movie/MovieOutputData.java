@@ -10,11 +10,11 @@ public class MovieOutputData {
     private final String movieName;
     private final String posterPath;
     private final String overview;
-    private final int voteAverage;
+    private final String voteAverage;
     private final List<String> genres;
 
     public MovieOutputData(String movieName, String posterPath,
-                           String overview, int voteAverage,
+                           String overview, String voteAverage,
                            List<String> genres) {
 
         this.movieName = movieName;
@@ -36,7 +36,7 @@ public class MovieOutputData {
         return overview;
     }
 
-    public int getVoteAverage() {
+    public String getVoteAverage() {
         return voteAverage;
     }
 

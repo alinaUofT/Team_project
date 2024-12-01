@@ -473,7 +473,7 @@ public class AppBuilder {
         final SearchResultsOutputBoundary searchResultsOutputBoundary = new SearchResultsPresenter(viewManagerModel,
                 searchResultsViewModel, homeViewModel, movieViewModel);
         final SearchResultsInputBoundary searchResultsInteractor = new SearchResultsInteractor(searchResultsDataAccess,
-                searchResultsOutputBoundary);
+                searchResultsOutputBoundary, userDataAccessObject);
         final SearchResultsController controller = new SearchResultsController(searchResultsInteractor);
         searchResultsView.setSearchResultsController(controller);
         return this;

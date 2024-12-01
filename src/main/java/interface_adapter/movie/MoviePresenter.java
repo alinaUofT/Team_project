@@ -3,6 +3,7 @@ package interface_adapter.movie;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
 import use_case.movie.MovieOutputBoundary;
+import use_case.movie.MovieOutputData;
 
 /**
  * The Presenter for the Login Use Case.
@@ -22,10 +23,20 @@ public class MoviePresenter implements MovieOutputBoundary {
     }
 
     @Override
-    public void switchToMovieView() {
-        // On success, user clicks, switch to the movie view.
-        viewManagerModel.setState(movieViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+    public void prepareSuccessView(MovieOutputData movieOutputData) {
+        // On success, when the user clicks see more, the movie panel should be updated
+
+        // Access the current state from the ViewModel
+        final MovieState movieState = movieViewModel.getState();
+
+        // Update the state
+        movieState.setTitle(movieOutputData.getMovieName());
+        movieState.setPosterPath(movieOutputData.getPosterPath());
+        movieState.setOverview(movieOutputData.getOverview());
+        movieState.setVoteAverage(movieOutputData.getVoteAverage());
+        movieState.setGenres(movieOutputData.getGenres());
+
+        movieViewModel.firePropertyChanged();
     }
 
     @Override
