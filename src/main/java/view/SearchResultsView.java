@@ -92,7 +92,7 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
 
     /**
      * Create a panel for an individual movie.
-     * @param searchResult the commonmovie that was searched
+     * @param searchResult the common movie that was searched
      * @param posterPath the poster path of the given movie
      */
     private JPanel createMoviePanel(CommonMovie searchResult, String posterPath) {
