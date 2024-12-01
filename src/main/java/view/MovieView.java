@@ -12,12 +12,14 @@ import java.util.List;
 import javax.swing.*;
 
 import entity.*;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.add_to_watchlist.AddToWatchlistController;
 import entity.CommonUserWatchlist;
 import entity.Movie;
 import entity.UserWatchlist;
 import entity.Watchlist;
 import interface_adapter.leave_review.LeaveReviewController;
+import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
@@ -35,7 +37,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
-    // buttons
     private final JButton backButton;
     private final JButton homeButton;
 
@@ -136,13 +137,12 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                             for (ActionListener al : watchedButton.getActionListeners()) {
                                 watchedButton.removeActionListener(al);
                             }
-                            watchedButton.addActionListener(
+
+                            watchedButton.addActionListener (
                                     new ActionListener() {
                                         public void actionPerformed(ActionEvent evt) {
                                             if (evt.getSource().equals(watchedButton)) {
-                                                // TODO: execute leave review use case (Wyatt)
-                                                // it will probably be too many lines when you implement this which isn't allowed
-                                                // you might need to create a helper function
+                                                    movieController.switchToLeaveReviewView();
                                             }
                                         }
                                     }
@@ -174,9 +174,9 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         final MovieState currentState = movieViewModel.getState();
 
-        final ArrayList<UserWatchlist> watchlists = currentState.getCurrentUser().getWatchlists();
+        final ArrayList<Watchlist> watchlists = currentState.getCurrentUser().getWatchlists();
 
-        for (UserWatchlist watchlist : watchlists) {
+        for (Watchlist watchlist : watchlists) {
             final String listName = watchlist.getListName();
             final JButton listButton = new JButton(listName);
             final Movie currentMovie = currentState.getCurrentMovie();

@@ -8,7 +8,7 @@ import java.util.List;
 public class CommonMovieFactory implements MovieFactory {
 
     @Override
-    public Movie create(String title) {
+    public static Movie create(String title) {
         return new CommonMovie(title);
     }
 }

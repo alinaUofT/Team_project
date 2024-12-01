@@ -44,7 +44,14 @@ public class GenreMap {
     /**
      * @return Array of genre names.
      */
-    public String[] keySet () {
+    public String[] keySet() {
         return genreMap.values().toArray(new String[0]);
+    }
+
+    /**
+     * @return Array of genre IDs.
+     */
+    public Iterable<? extends Map.Entry<Integer, String>> entrySet() {
+        return genreMap.entrySet();
     }
 }

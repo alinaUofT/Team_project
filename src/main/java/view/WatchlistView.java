@@ -1,5 +1,6 @@
 package view;
 
+import entity.User;
 import entity.Watchlist;
 import interface_adapter.watchlist.WatchlistController;
 import interface_adapter.watchlist.WatchlistViewModel;
@@ -56,23 +57,12 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
         topLine.add(home);
 
         this.addMovie = new JButton(watchlistViewModel.ADD_MOVIE_LABEL);
-        // TODO create the createWatchlistController
-        //        createWatchlist.addActionListener(
-        //                evt -> createWatchlistController.execute()
-        //        );
         addMovie.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(addMovie);
         addMovie.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(addMovie)) {
-//                            createNewListPopUpView();
-                            // TODO: if (result == JOptionPane.YES_OPTION) add new list to user's existing lists
-                        }
-                    }
-                }
+                evt -> watchlistController.switchToMovieSearchView(watchlistViewModel.getState().getCurrentUser())
         );
+
         this.movieButtons = new JPanel();
         this.movieButtons.setLayout(new BoxLayout(this.movieButtons, BoxLayout.Y_AXIS));
         this.add(this.movieButtons);

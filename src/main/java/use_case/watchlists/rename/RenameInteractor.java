@@ -24,8 +24,8 @@ public class RenameInteractor implements RenameInputBoundary {
      */
     @Override
     public void execute(RenameInputData ranameInputData) {
-//        TODO save to the database
-        final UserWatchlist watchlist = ranameInputData.getCurrentUser().getWatchlists().get(ranameInputData.getIndex());
+        // TODO save to the database
+        final UserWatchlist watchlist = (UserWatchlist) ranameInputData.getCurrentUser().getWatchlists().get(ranameInputData.getIndex());
         watchlist.changeListName(ranameInputData.getNewListName());
         userPresenter.execute();
     }

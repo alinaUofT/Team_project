@@ -20,9 +20,9 @@ public class SurveySecondPageView extends JPanel implements ActionListener, Prop
     private String viewName = "";
     private final SurveySecondPageViewModel surveySecondPageViewModel;
 
-    private final JTextField firstMovie = new JTextField(15);
-    private final JTextField secondMovie = new JTextField(15);
-    private final JTextField thirdMovie = new JTextField(15);
+    private final JTextField firstMovie = new JTextField(30);
+    private final JTextField secondMovie = new JTextField(30);
+    private final JTextField thirdMovie = new JTextField(30);
 
     private final JButton enter1;
     private final JButton enter2;
@@ -122,7 +122,8 @@ public class SurveySecondPageView extends JPanel implements ActionListener, Prop
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Button not implemented yet.");
+        JOptionPane.showMessageDialog(
+                this, "Button not implemented yet.");
     }
 
     @Override

@@ -80,7 +80,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
                         // 1. get the state out of the survey1ViewModel.
                         // 2. Execute the submit Controller.
                         final String uname = survey1ViewModel.getState().getUsername();
-                        this.submitController.switchToSurveySecondPageView(uname);
+                        this.submitController.execute(selectedGenres, uname);
                     }
                 }
         );

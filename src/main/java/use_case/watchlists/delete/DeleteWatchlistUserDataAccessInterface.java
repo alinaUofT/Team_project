@@ -1,14 +1,11 @@
-package use_case.watchlists;
+package use_case.watchlists.delete;
 
 import entity.User;
-import entity.Watchlist;
-
-import java.util.List;
 
 /**
  * DAO for the Signup Use Case.
  */
-public interface WatchlistsUserDataAccessInterface {
+public interface DeleteWatchlistUserDataAccessInterface {
 
     /**
      * Checks if the given username exists.
@@ -22,11 +19,4 @@ public interface WatchlistsUserDataAccessInterface {
      * @param user the user to save
      */
     void save(User user);
-
-    /**
-     * Saves the user.
-     * @param user the user to get watchlists from
-     */
-    List<Watchlist> getWatchlists(User user);
-
 }

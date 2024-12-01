@@ -35,7 +35,14 @@ public interface User {
      *
      * @return list of watchlists of the user.
      */
-    ArrayList<UserWatchlist> getWatchlists();
+    ArrayList<Watchlist> getWatchlists();
+
+    /**
+     * Returns the user created watchlists of the user.
+     *
+     * @param watchlists watchlists of the user.
+     */
+    void setWatchlists(List<Watchlist> watchlists);
 
     /**
      * Adds new watchlist to user.
@@ -85,4 +92,11 @@ public interface User {
      * @return map of preferred genres of the user.
      */
     Map<String, Integer> getPreferredGenres();
+
+    /**
+     * Sets the preferred genres of the user.
+     *
+     * @param preferredGenres map of preferred genres of the user.
+     */
+    void setPreferredGenres(Map<String, Integer> preferredGenres);
 }

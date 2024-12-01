@@ -5,12 +5,12 @@ import java.util.stream.Collectors;
 
 import interface_adapter.ViewManagerModel;
 import use_case.my_reviews.MyReviewsOutputData;
-import use_case.my_reviews.My_ReviewsOutputBoundary;
+import use_case.my_reviews.MyReviewsOutputBoundary;
 
 /**
  * The Presenter for the "my reviews" use case.
  */
-public class MyReviewsPresenter implements My_ReviewsOutputBoundary {
+public class MyReviewsPresenter implements MyReviewsOutputBoundary {
     private final MyReviewsViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
@@ -55,11 +55,18 @@ public class MyReviewsPresenter implements My_ReviewsOutputBoundary {
     }
 
     @Override
+    public void prepareFailView(String msg) {
+            viewManagerModel.setState("Error");
+            viewManagerModel.firePropertyChanged();
+        }
+
+
+    @Override
     public void prepareNoReviewsView(String message) {
         viewModel.setState(null);
         viewModel.firePropertyChanged();
         this.viewManagerModel.setState(viewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
-}
 
+}

@@ -26,8 +26,9 @@ public class CommonUser implements User {
 
     private boolean loginStatus;
     private Map<String, Integer> preferredGenres = new HashMap<>();
-    private Watchlist pwl = new CommonWatchlist();
-    private ArrayList<UserWatchlist> watchlists = new ArrayList<UserWatchlist>();
+    private CommonUserWatchlistFactory watchlistFactory;
+    private Watchlist pwl;
+    private ArrayList<Watchlist> watchlists = new ArrayList<Watchlist>();
 
     private List<MovieReview> ratingsAndReviews = new ArrayList<>();
 
@@ -40,6 +41,11 @@ public class CommonUser implements User {
         this.name = name;
         this.password = password;
         this.loginStatus = false;
+
+        // initializing watchlists for the user and adding the default pwl
+        this.watchlists = new ArrayList();
+        this.watchlistFactory = new CommonUserWatchlistFactory();
+        this.pwl = watchlistFactory.create("Previously Watched");
 
         final GenreMap genreMap = new GenreMap();
         for (String genre : genreMap.keySet()) {
@@ -77,8 +83,13 @@ public class CommonUser implements User {
      * @return list of watchlists of the user.
      */
     @Override
-    public ArrayList<UserWatchlist> getWatchlists() {
+    public ArrayList<Watchlist> getWatchlists() {
         return this.watchlists;
+    }
+
+    @Override
+    public void setWatchlists(List<Watchlist> watchlists) {
+        this.watchlists = (ArrayList<Watchlist>) watchlists;
     }
 
     @Override

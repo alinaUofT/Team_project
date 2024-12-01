@@ -1,6 +1,5 @@
 package use_case.watchlist;
 
-import data_access.DBUserDataAccessObject;
 import entity.User;
 import entity.UserFactory;
 
@@ -44,5 +43,11 @@ public class WatchlistInteractor implements WatchlistInputBoundary {
     @Override
     public void switchToPWL(User currentUser) {
         userPresenter.switchToPWLView(currentUser);
+    }
+
+    @Override
+    public void switchToMovieSearchView(String username) {
+        final User currentUser = this.userDataAccessObject.get(username);
+        userPresenter.switchToMovieSearchView(currentUser);
     }
 }
