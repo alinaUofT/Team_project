@@ -12,15 +12,27 @@ import entity.User;
 public class MovieState {
     private User currentUser;
     private Movie currentMovie;
+    private boolean watched;
     private String title = "";
-    private int starRating;
-    private String reviews = "";
+    private Double starRating;
+    private List<String> reviews;
     private String externalStarRating = "";
     private List<String> genres = new ArrayList<>();
     private String movieError;
 
     public MovieState() {
 
+    }
+
+    public void update(User currentUser, Movie currentMovie, boolean watched) {
+        this.currentUser = currentUser;
+        this.currentMovie = currentMovie;
+        this.watched = watched;
+        this.title = currentMovie.getTitle();
+        this.starRating = currentMovie.getStarRatings();
+        this.reviews = currentMovie.getUserReviews();
+        this.externalStarRating = currentMovie.getVoterAverage();
+        this.genres = currentMovie.getGenres();
     }
 
     public User getCurrentUser() {
@@ -44,7 +56,7 @@ public class MovieState {
         return String.valueOf(starRating);
     }
 
-    public String getReviews() {
+    public List<String> getReviews() {
         return reviews;
     }
 

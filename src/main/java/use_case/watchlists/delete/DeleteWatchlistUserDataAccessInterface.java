@@ -19,4 +19,7 @@ public interface DeleteWatchlistUserDataAccessInterface {
      * @param user the user to save
      */
     void save(User user);
+
+    boolean deleteWatchlist(User user, int ind);
+
 }
