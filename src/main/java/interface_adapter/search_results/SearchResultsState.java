@@ -1,5 +1,7 @@
 package interface_adapter.search_results;
 
+import entity.CommonMovie;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,8 @@ public class SearchResultsState {
     private String searchError;
     private List<String> movieTitles;
     private List<String> posterPaths;
+    private List<CommonMovie> results;
+    private String username;
 
     public void setSearchTitle(String searchTitle) {
         this.searchTitle = searchTitle;
@@ -41,6 +45,22 @@ public class SearchResultsState {
 
     public void setPosterPaths(List<String> posterPaths) {
         this.posterPaths = posterPaths;
+    }
+
+    public void setResults(List<CommonMovie> results) {
+        this.results = results;
+    }
+
+    public List<CommonMovie> getResults() {
+        return results;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
 }

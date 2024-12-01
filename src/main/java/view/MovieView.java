@@ -30,20 +30,20 @@ import interface_adapter.watchlists.WatchlistsState;
  */
 public class MovieView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private final String viewName = "Movie Information";
+    private final String viewName;
 
     private final MovieViewModel movieViewModel;
     private MovieController movieController;
     private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
-    private final JButton backButton;
+//    private final JButton backButton;
     private final JButton homeButton;
 
-    private final JButton watchedButton;
-    private final JButton leaveReviewButton;
-    private final JButton addToListButton;
-    private final JButton userReviewsButton;
+    private JButton watchedButton;
+    private JButton leaveReviewButton;
+    private JButton addToListButton;
+    private JButton userReviewsButton;
 
     // labels for info
 //    private final JLabel titleLabel;
@@ -55,6 +55,8 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     public MovieView(MovieViewModel movieViewModel) {
         this.movieViewModel = movieViewModel;
+
+        this.viewName = movieViewModel.getViewName();
 
         // Register as an observer
         this.movieViewModel.addPropertyChangeListener(this);
@@ -78,6 +80,10 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(title, BorderLayout.NORTH);
 
+        // add all components
+        this.add(homeButton);
+        this.add(title);
+
 //        // title and poster panel
 //        this.titleLabel = new JLabel(MovieViewModel.MOVIE_LABEL);
 //        // Center align the poster
@@ -89,38 +95,30 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 //        this.genreLabel = new JLabel(MovieViewModel.GENRE_LABEL);
 //        this.ourRatingsLabel = new JLabel(MovieViewModel.OUR_RATINGS_LABEL);
 //        this.voterAverageLabel = new JLabel(MovieViewModel.VOTER_AVERAGE_LABEL);
-//
-//        final JPanel infoPanel = new JPanel();
-//        infoPanel.add(titleLabel);
-//        infoPanel.add(overviewLabel);
-//        infoPanel.add(genreLabel);
-//        infoPanel.add(ourRatingsLabel);
-//        infoPanel.add(voterAverageLabel);
+//\
 
 //        // Poster Panel
 //        final JPanel posterPanel = new JPanel();
 //        posterPanel.add(this.posterLabel);
 
+    }
+
+    private void updateMovieView() {
+        while (this.getComponentCount() > 2) {
+            this.remove(this.getComponentCount() - 1);
+        }
+
         final JPanel infoPanel = createInfoPanel();
 
-        // bottom buttons
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
         this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
-        this.backButton = new JButton(MovieViewModel.BACK_BUTTON_LABEL);
 
         final JPanel bottomButtons = new JPanel();
         bottomButtons.add(watchedButton);
         bottomButtons.add(addToListButton);
         bottomButtons.add(userReviewsButton);
-
-        // add all components
-        this.add(homeButton);
-        this.add(title);
-        // this.add(infoPanel);
-        // this.add(posterPanel);
-        this.add(bottomButtons);
 
         watchedButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -161,7 +159,13 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                         }
                     }
                 });
+
+         this.add(infoPanel);
+         // this.add(posterPanel);
+         this.add(bottomButtons);
+         this.revalidate();
     }
+
 
     /**
      * View for Add to List Pop-Up Window.
@@ -233,7 +237,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         final String overviewInfo = movieViewModel.getState().getOverview();
         final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
         final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
-        final String voterAverageInfo = movieViewModel.getState().getVoteAverage();
+        final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
 
         // Add all panels to the infoPanel
         infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
@@ -260,13 +264,9 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final MovieState state = (MovieState) evt.getNewValue();
-        setFields(state);
+        updateMovieView();
     }
 
-    private void setFields(MovieState state) {
-        //
-    }
 
     public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
         this.leaveReviewController = leaveReviewController;

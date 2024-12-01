@@ -1,6 +1,7 @@
 package interface_adapter.search_results;
 
 import entity.CommonMovie;
+import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.movie.MovieViewModel;
@@ -52,23 +53,12 @@ public class SearchResultsPresenter implements SearchResultsOutputBoundary {
      * Switches to the Movie View.
      */
     @Override
-    public void switchToMovieView(SearchResultsOutputData searchResultsOutputData, String movieTitle) {
-        // Get the results from the output data
-        final List<CommonMovie> results = searchResultsOutputData.getResults();
-
-//        movieViewModel.
-//
-//        // Access the data to update the movie title
-//
-//
-//        // Update the state
-//
-//        // Update the state
-//        movieViewModel.getState().setTitle();
-
-        viewManagerModel.setState(movieViewModel.getViewName());
+    public void switchToMovieView(User currentUser, CommonMovie searchResult, boolean watched) {
+        movieViewModel.getState().update(currentUser, searchResult, watched);
+        movieViewModel.firePropertyChanged();
 
         // Notify the view of changes
+        viewManagerModel.setState(movieViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -81,6 +71,7 @@ public class SearchResultsPresenter implements SearchResultsOutputBoundary {
         searchResultsState.setSearchTitle(searchResultsOutputData.getSearchText());
         searchResultsState.setMovieTitles(searchResultsOutputData.getMovieTitles());
         searchResultsState.setPosterPaths(searchResultsOutputData.getPosterPaths());
+        searchResultsState.setResults(searchResultsOutputData.getResults());
 
         // Notify the view of changes
         searchResultsViewModel.firePropertyChanged();

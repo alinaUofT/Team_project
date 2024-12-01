@@ -45,7 +45,9 @@ public class HomePresenter implements HomeOutputBoundary {
      */
     @Override
     public void switchToSearchResultsView(String query) {
+        // TODO Fix the search bar
         searchResultsViewModel.getState().setSearchTitle(query);
+        searchResultsViewModel.getState().setUsername(homeViewModel.getState().getUsername());
         viewManagerModel.setState(searchResultsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

@@ -1,5 +1,8 @@
 package use_case.search_results;
 
+import entity.CommonMovie;
+import entity.User;
+
 /**
  * The output boundary for the Search Results Use Case.
  */
@@ -18,10 +21,11 @@ public interface SearchResultsOutputBoundary {
 
     /**
      * Switches to the Movie View.
-     * @param searchResultsOutputData the output data
-     *
+     * @param currentUser the current user
+     * @param searchResult the current searched movie
+     * @param watched if the movie has been watched
      */
-    void switchToMovieView(SearchResultsOutputData searchResultsOutputData, String movieTitle);
+    void switchToMovieView(User currentUser, CommonMovie searchResult, boolean watched);
 
     /**
      * Prepares the success view for the Search results Case.

@@ -109,16 +109,12 @@ public class MovieState {
         return movieError;
     }
 
-    public void setStarRating(int starRating) {
+    public void setStarRating(Double starRating) {
         this.starRating = starRating;
     }
 
     public String getStarRating() {
         return String.valueOf(starRating);
-    }
-
-    public String getReviews() {
-        return reviews;
     }
 
     /**
@@ -128,14 +124,14 @@ public class MovieState {
      */
     @Override
     public String toString() {
-        return "MovieState{"
-                + "currentUser='" + currentUser
-                + ", title='" + title
-                + ", starRating=" + starRating
-                + ", reviews=" + reviews
-                + ", externalStarRating='" + externalStarRating
-                + ", genres=" + genres
-                + '}';
-
+//        return "MovieState{"
+//                + "currentUser='" + currentUser
+//                + ", title='" + title
+//                + ", starRating=" + starRating
+//                + ", reviews=" + reviews
+//                + ", externalStarRating='" + externalStarRating
+//                + ", genres=" + genres
+//                + '}';
+        return null;
     }
 }

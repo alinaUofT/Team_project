@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import java.util.List;
 
+import entity.CommonMovie;
 import interface_adapter.search_results.SearchResultsController;
 import interface_adapter.search_results.SearchResultsState;
 import interface_adapter.search_results.SearchResultsViewModel;
@@ -74,10 +75,11 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         this.results = new JPanel();
         final List<String> movies = searchResultsViewModel.getState().getMovieTitles();
         final List<String> posterPaths = searchResultsViewModel.getState().getPosterPaths();
+        final List<CommonMovie> searchResults = searchResultsViewModel.getState().getResults();
 
         if (movies != null) {
             for (int i = 0; i < movies.size(); i++) {
-                results.add(createMoviePanel(movies.get(i), posterPaths.get(i)));
+                results.add(createMoviePanel(searchResults.get(i), posterPaths.get(i)));
             }
         }
 
@@ -90,10 +92,10 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
 
     /**
      * Create a panel for an individual movie.
-     * @param movieTitle the title of the given movie
+     * @param searchResult the commonmovie that was searched
      * @param posterPath the poster path of the given movie
      */
-    private JPanel createMoviePanel(String movieTitle, String posterPath) {
+    private JPanel createMoviePanel(CommonMovie searchResult, String posterPath) {
         final JPanel moviePanel = new JPanel();
         moviePanel.setLayout(new BorderLayout(10, 10));
 
@@ -103,13 +105,15 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         posterLabel.setPreferredSize(new Dimension(100, 150));
 
         // Create and add the movie title
-        final JLabel titleLabel = new JLabel(movieTitle);
+        final JLabel titleLabel = new JLabel(searchResult.getTitle());
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Add "See More" button
         final JButton seeMoreButton = new JButton(searchResultsViewModel.SEE_MORE_LABEL);
+        final String user = searchResultsViewModel.getState().getUsername();
+
         seeMoreButton.addActionListener(
-                evt -> searchResultsController.switchToMovieView()
+                evt -> searchResultsController.switchToMovieView(user, searchResult)
         );
 
         // Arrange components
@@ -141,10 +145,11 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
 
         final List<String> titles = searchResultsViewModel.getState().getMovieTitles();
         final List<String> posters = searchResultsViewModel.getState().getPosterPaths();
+        final List<CommonMovie> searchedResults = searchResultsViewModel.getState().getResults();
 
         results.removeAll();
         for (int i = 0; i < titles.size(); i++) {
-            final JPanel moviePanel = createMoviePanel(titles.get(i), posters.get(i));
+            final JPanel moviePanel = createMoviePanel(searchedResults.get(i), posters.get(i));
             results.add(moviePanel);
         }
         results.revalidate();
