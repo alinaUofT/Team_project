@@ -60,7 +60,7 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         // creates the enter button, which has its functionality in actionPerformed
         this.enter = new JButton(SearchResultsViewModel.ENTER_LABEL);
         enter.addActionListener(evt -> {
-            String searchText = searchInputField.getText();
+            final String searchText = searchInputField.getText();
             searchResultsController.execute(searchText);
         });
 

@@ -20,7 +20,6 @@ public class MovieState {
     private String movieError;
 
     public MovieState() {
-
     }
 
     public User getCurrentUser() {

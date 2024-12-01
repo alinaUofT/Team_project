@@ -35,7 +35,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private AddToWatchlistController addToWatchlistController;
 
     // buttons
-
     private final JButton backButton;
     private final JButton homeButton;
 
@@ -44,57 +43,64 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private final JButton userReviewsButton;
 
     // labels for info
-    private final JLabel titleLabel;
-    private final JLabel posterLabel;
-    private final JLabel overviewLabel;
-    private final JLabel genreLabel;
-    private final JLabel ourRatingsLabel;
-    private final JLabel voterAverageLabel;
+//    private final JLabel titleLabel;
+//    private final JLabel posterLabel;
+//    private final JLabel overviewLabel;
+//    private final JLabel genreLabel;
+//    private final JLabel ourRatingsLabel;
+//    private final JLabel voterAverageLabel;
 
     public MovieView(MovieViewModel movieViewModel) {
         this.movieViewModel = movieViewModel;
+
+        // Register as an observer
         this.movieViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel(MovieViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Set the main layout to BorderLayout
+        this.setLayout(new BorderLayout());
 
-        // Home button section
+        // creates the home button and its functionality
         this.homeButton = new JButton(MovieViewModel.HOME_LABEL);
         homeButton.addActionListener(
                 evt -> movieController.switchToHomeView()
         );
 
-        final JPanel homePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Fixed the naming
-        homePanel.add(this.homeButton);
-        homePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.add(homePanel);
+        // Home button panel on the left
+        final JPanel home = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        home.add(homeButton);
+        this.add(home, BorderLayout.WEST);
 
-        // title and poster panel
+        // create title on centre top
+        final JLabel title = new JLabel(MovieViewModel.TITLE_LABEL);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(title, BorderLayout.NORTH);
 
-        this.titleLabel = new JLabel(MovieViewModel.MOVIE_LABEL);
-        // Center align the poster
-        this.posterLabel = new JLabel();
-        this.posterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        // title and poster panel
+//        this.titleLabel = new JLabel(MovieViewModel.MOVIE_LABEL);
+//        // Center align the poster
+//        this.posterLabel = new JLabel();
+//        this.posterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//
+//        // middle panel with info about movie
+//        this.overviewLabel = new JLabel(MovieViewModel.OVERVIEW_LABEL);
+//        this.genreLabel = new JLabel(MovieViewModel.GENRE_LABEL);
+//        this.ourRatingsLabel = new JLabel(MovieViewModel.OUR_RATINGS_LABEL);
+//        this.voterAverageLabel = new JLabel(MovieViewModel.VOTER_AVERAGE_LABEL);
+//
+//        final JPanel infoPanel = new JPanel();
+//        infoPanel.add(titleLabel);
+//        infoPanel.add(overviewLabel);
+//        infoPanel.add(genreLabel);
+//        infoPanel.add(ourRatingsLabel);
+//        infoPanel.add(voterAverageLabel);
 
-        // middle panel with info about movie
-        this.overviewLabel = new JLabel(MovieViewModel.OVERVIEW_LABEL);
-        this.genreLabel = new JLabel(MovieViewModel.GENRE_LABEL);
-        this.ourRatingsLabel = new JLabel(MovieViewModel.OUR_RATINGS_LABEL);
-        this.voterAverageLabel = new JLabel(MovieViewModel.VOTER_AVERAGE_LABEL);
+//        // Poster Panel
+//        final JPanel posterPanel = new JPanel();
+//        posterPanel.add(this.posterLabel);
 
-        final JPanel infoPanel = new JPanel();
-        infoPanel.add(titleLabel);
-        infoPanel.add(overviewLabel);
-        infoPanel.add(genreLabel);
-        infoPanel.add(ourRatingsLabel);
-        infoPanel.add(voterAverageLabel);
-
-        // Poster Panel
-        final JPanel posterPanel = new JPanel();
-        posterPanel.add(this.posterLabel);
+        final JPanel infoPanel = createMovieInfoPanel();
 
         // bottom buttons
-        // TODO add functionality for the bottom buttons
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
@@ -109,7 +115,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         this.add(homeButton);
         this.add(title);
         this.add(infoPanel);
-        this.add(posterPanel);
+//        this.add(posterPanel);
         this.add(bottomButtons);
 
         watchedButton.addActionListener(
@@ -214,6 +220,68 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         JOptionPane.showOptionDialog(this, panel, "My Lists", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
 
+    }
+
+    private JPanel createMovieInfoPanel() {
+        final JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(0, 1));
+
+        // TODO add the poster
+
+        // Labels for the information
+        final JLabel title = new JLabel(MovieViewModel.MOVIE_LABEL);
+        final JLabel overview = new JLabel(MovieViewModel.OVERVIEW_LABEL);
+        final JLabel genres = new JLabel(MovieViewModel.GENRE_LABEL);
+        final JLabel ourRatings = new JLabel(MovieViewModel.OUR_RATINGS_LABEL);
+        final JLabel voterAverage = new JLabel(MovieViewModel.VOTER_AVERAGE_LABEL);
+
+        // information to be displayed
+        final JLabel titleInfo = new JLabel(movieViewModel.getState().getCurrentMovie().getTitle());
+//        final JLabel posterInfo = new JLabel(movieViewModel.getState().getCurrentMovie().getPoster());
+        final JLabel overviewInfo = new JLabel(movieViewModel.getState().getCurrentMovie().getOverview());
+
+        final List<String> genresList = movieViewModel.getState().getCurrentMovie().getGenres();
+        String tempGenre = "";
+        for (int i = 0; i < genresList.getItemCount(); i++) {
+            final String c = genresList.getItem(i);
+            tempGenre = tempGenre + ", " + c;
+        }
+        final JLabel genreInfo = new JLabel(tempGenre);
+        final JLabel starRatingsInfo = new JLabel(String.valueOf(movieViewModel.getState()
+                .getCurrentMovie().getStarRatings()));
+        final JLabel voterAverageInfo = new JLabel(movieViewModel.getState().getCurrentMovie().getVoterAverage());
+
+        final JPanel titlePanel = new JPanel();
+        titlePanel.add(title);
+        titlePanel.add(titleInfo);
+
+        // TODO: Add poster
+//        final JPanel posterPanel = new JPanel();
+
+        final JPanel overviewPanel = new JPanel();
+        overviewPanel.add(overview);
+        overviewPanel.add(overviewInfo);
+
+        final JPanel genresPanel = new JPanel();
+        genresPanel.add(genres);
+        genresPanel.add(genreInfo);
+
+        final JPanel starRatingsPanel = new JPanel();
+        starRatingsPanel.add(ourRatings);
+        starRatingsPanel.add(starRatingsInfo);
+
+        final JPanel voterAveragePanel = new JPanel();
+        voterAveragePanel.add(voterAverage);
+        voterAveragePanel.add(voterAverageInfo);
+
+        // adding each of these
+        infoPanel.add(titlePanel);
+        infoPanel.add(overviewPanel);
+        infoPanel.add(genresPanel);
+        infoPanel.add(starRatingsPanel);
+        infoPanel.add(voterAveragePanel);
+
+        return infoPanel;
     }
 
     @Override
