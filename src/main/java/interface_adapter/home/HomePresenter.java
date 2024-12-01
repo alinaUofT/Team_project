@@ -26,6 +26,7 @@ public class HomePresenter implements HomeOutputBoundary {
         this.homeViewModel = homeViewModel;
         this.watchlistsViewModel = watchlistsViewModel;
         this.searchResultsViewModel = searchResultsViewModel;
+
     }
 
     /**

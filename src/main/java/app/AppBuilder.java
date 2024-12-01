@@ -115,7 +115,6 @@ import use_case.watchlists.rename.RenameInteractor;
 import use_case.watchlists.rename.RenameOutputBoundary;
 import view.*;
 
-// import data_access.DBMovieDataAccessObject;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -123,11 +122,6 @@ import view.*;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
-// Checkstyle note: you can ignore the "Class Data Abstraction Coupling"
-//                  and the "Class Fan-Out Complexity" issues for this lab; we encourage
-//                  your team to think about ways to refactor the code to resolve these
-//                  if your team decides to work with this as your starter code
-//                  for your final project this term.
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
@@ -138,7 +132,6 @@ public class AppBuilder {
 
 
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    //    private final DBMovieDataAccessObject movieDBAccessObject = new DBMovieDataAccessObject(movieFactory);
     private final DBSearchResultsDataAccessObject searchResultsDataAccess = new DBSearchResultsDataAccessObject();
 
     private SignupView signupView;
@@ -165,6 +158,7 @@ public class AppBuilder {
 
     private SearchResultsView searchResultsView;
     private SearchResultsViewModel searchResultsViewModel;
+
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
@@ -253,6 +247,11 @@ public class AppBuilder {
         // Step 4: Return the AppBuilder for chaining
         return this;
     }
+
+    /**
+     * Adds the Survey1 View to the application.
+     * @return this builder
+     */
 
     /**
      * Adds the My_Reviews Use Case to the application.
