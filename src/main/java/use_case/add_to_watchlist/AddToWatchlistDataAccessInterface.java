@@ -2,6 +2,7 @@ package use_case.add_to_watchlist;
 
 import entity.Movie;
 import entity.User;
+import entity.UserWatchlist;
 import entity.Watchlist;
 
 /**
@@ -11,11 +12,18 @@ public interface AddToWatchlistDataAccessInterface {
 
     /**
      * Gets username.
-     * @param watchlist watchlist
+     * @param watchlistName watchlist
      * @param user user
      * @param movie movie to add
+     * @return success
      */
-    void saveToWatchlist(User user, Watchlist watchlist, Movie movie);
+    boolean saveToWatchlist(User user, String watchlistName, Movie movie);
 
-    void saveToPwl(User user, Movie movie);
+    /**
+     * Gets username.
+     * @param user user
+     * @param movie movie to add
+     * @return success
+     */
+    boolean saveToPwl(User user, Movie movie);
 }

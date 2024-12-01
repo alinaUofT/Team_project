@@ -11,7 +11,7 @@ import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 
 public class LeaveReviewView extends JPanel implements PropertyChangeListener {
-    private final String viewName = "LeaveReviewsView";
+    private String viewName;
     private final LeaveReviewViewModel viewModel;
     private final JPanel leaveReviewPanel;
     private final JButton submitButton;
@@ -25,6 +25,7 @@ public class LeaveReviewView extends JPanel implements PropertyChangeListener {
     public LeaveReviewView(LeaveReviewViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addPropertyChangeListener(this);
+        this.viewName = viewModel.getViewName();
 
         this.setLayout(new BorderLayout());
 
@@ -157,6 +158,9 @@ public class LeaveReviewView extends JPanel implements PropertyChangeListener {
     private int wordCount(String text) {
         if (text.isEmpty()) return 0;
         return text.split("\\s+").length;
+    }
+    public String getViewName() {
+        return this.viewName;
     }
 
     public double getSelectedRating() {
