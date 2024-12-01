@@ -30,20 +30,12 @@ public class Survey1Interactor implements Survey1InputBoundary {
         user.addPreferredGenres(selectedGenres);
         final boolean success = this.userDataAccessObject.savePreferredGenres(user, user.getPreferredGenres());
 
+        System.out.println("Survey1Interactor:execute:success: " + success);
         if (success) {
             survey1Presenter.prepareSuccessView(survey1OutputData);
         }
         else {
             survey1Presenter.prepareFailView("Failed to save preferred genres.");
         }
-    }
-
-    /**
-     * Executes the switch to Survey Second Page use case.
-     */
-    @Override
-    public void switchToSurveySecondPageView(String username) {
-        final User curentUser = this.userDataAccessObject.get(username);
-        survey1Presenter.switchToSurveySecondPageView(curentUser);
     }
 }

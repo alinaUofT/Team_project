@@ -2,10 +2,7 @@ package data_access;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
@@ -100,9 +97,26 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     }
                 }
             }
+
+            // Retrieve the user's preferred genres
+            final Map<String, Integer> preferredGenres = new HashMap<>();
+            final List<Document> preferredGenresDocs = userDocument.getList("preferredGenres", Document.class);
+
+            if (preferredGenresDocs != null) {
+                for (Document genreDoc : preferredGenresDocs) {
+                    final List<String> genreNames = genreDoc.getList("genreNames", String.class);
+                    final List<Integer> genreScores = genreDoc.getList("weight", Integer.class);
+
+                    for (int i = 0; i < genreNames.size(); i++) {
+                        preferredGenres.put(genreNames.get(i), genreScores.get(i));
+                    }
+                }
+            }
+
             // Create and return the User object
             final User user = userFactory.create(name, password);
             user.setWatchlists(watchlists);
+            user.setPreferredGenres(preferredGenres);
 
             return user;
         }
@@ -171,16 +185,30 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     public boolean savePreferredGenres(User user, Map<String, Integer> preferredGenres) {
         boolean success = false;
         try {
+            // Create a document representing the user's preferred genres
+            final GenreMap genreMap = new GenreMap();
+            final List<String> genreNames = Arrays.stream(genreMap.keySet()).toList();
+
+            final List<Object> weight = new ArrayList<>();
+            for (Integer score : preferredGenres.values()) {
+                weight.add(score);
+            }
+
+            final Document preferredGenresDoc = new Document()
+                    .append("genreNames", genreNames)
+                    .append("weight", weight);
+
             collection.updateOne(
                     new Document("userId", user.getName()),
-                    new Document("$set", new Document("preferredGenres", preferredGenres)),
-                    new UpdateOptions().upsert(true)
+                    new Document("$push", new Document("preferredGenres", preferredGenresDoc))
+
             );
             success = true;
         }
         catch (Exception e) {
             System.out.println("Error adding preferred genres: " + e.getMessage());
         }
+        System.out.println("Preferred genres saved successfully!");
         return success;
     }
 
