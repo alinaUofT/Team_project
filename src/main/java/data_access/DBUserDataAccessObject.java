@@ -71,8 +71,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             final String name = userDocument.getString(USERNAME);
             final String password = userDocument.getString(PASSWORD);
 
+            final User user = userFactory.create(name, password);
+
             // Retrieve the watchlists
-            final List<Watchlist> watchlists = new ArrayList<>();
+            final List<UserWatchlist> watchlists = new ArrayList<>();
             final List<Document> watchlistDocuments = userDocument.getList(WATCHLIST, Document.class);
             if (watchlistDocuments != null) {
                 for (Document watchlistDoc : watchlistDocuments) {
@@ -94,6 +96,27 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                         }
                     }
                 }
+            }
+            user.setWatchlists(watchlists);
+
+            // Retrieve PWL
+            final Document pwlDoc = userDocument.get("previouslyWatched", Document.class);
+            if (pwlDoc != null) {
+                final String pwlName = pwlDoc.getString(WATCHLIST_NAME);
+                final UserWatchlist pwl = watchlistFactory.create(pwlName);
+
+                final List<String> pwlMovies = pwlDoc.getList(MOVIES, String.class);
+                if (pwlMovies != null && !pwlMovies.isEmpty()) {
+                    for (String movieName : pwlMovies) {
+                        final Movie movie = movieFactory.create(movieName);
+                        try {
+                            pwl.addMovie(movie);
+                        } catch (Exception e) {
+                            System.out.println("Movie not added to PWL: " + e.getMessage());
+                        }
+                    }
+                }
+                user.setPwl(pwl);
             }
 
             // Retrieve the user's preferred genres
@@ -117,10 +140,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     preferredGenres.put(genre, 0);
                 }
             }
-
-            // Create and return the User object
-            final User user = userFactory.create(name, password);
-            user.setWatchlists(watchlists);
             user.setPreferredGenres(preferredGenres);
 
             return user;
@@ -216,7 +235,61 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         return success;
     }
 
+    @Override
+    public void savePwl(User user) {
+        try {
+            // Create a document representing the review
+            final Document pwlDoc = new Document()
+                    .append(WATCHLIST_NAME, user.getPwl().getListName())
+                    .append(MOVIES, user.getPwl().getMovies());
 
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$set", new Document("previouslyWatched", pwlDoc))
+            );
+        } catch (Exception e) {
+            System.err.println("Error adding pwl to user: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void saveToPwl(User user, Movie movie) {
+        try {
+            // Find the user's document in the collection
+            final Document userDoc = collection.find(new Document("userId", user.getName())).first();
+
+            if (userDoc != null) {
+                final Document pwlDoc = userDoc.get("previouslyWatched", Document.class);
+
+                if (pwlDoc != null) {
+                    pwlDoc.append(MOVIES, movie.getTitle());
+                    // Update the watchlist by adding the new movie
+                    collection.updateOne(
+                            new Document("userId", user.getName()),
+                            new Document("$push", new Document("previouslyWatched.movies", movie.getTitle()))
+                    );
+                    System.out.println("Movie added to watchlist successfully!");
+                }
+                else {
+                    // If the PWL doesn't exist, create it and add the movie
+                    final Document newPwlDoc = new Document()
+                            .append("watchlistName", "Previously Watched")
+                            .append("movies", Arrays.asList(movie.getTitle()));
+                    collection.updateOne(
+                            new Document("userId", user.getName()),
+                            new Document("$set", new Document("previouslyWatched", newPwlDoc))
+                    );
+                    System.out.println("Previously Watched List created and movie added!");
+                }
+            }
+            else {
+                System.err.println("User not found.");
+            }
+        }
+        catch (Exception e) {
+            System.err.println("Error adding movie to previously watched list: " + e.getMessage());
+        }
+    }
 
     /**
      * Saves the preferred genres for a user.
@@ -299,12 +372,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public ArrayList<Watchlist> getWatchlists(User user) {
-        // Initialize the factory to create watchlist objects
-        final CommonUserWatchlistFactory watchlistFactory = new CommonUserWatchlistFactory();
+    public ArrayList<UserWatchlist> getWatchlists(User user) {
 
         // Prepare the list to hold the user's watchlists
-        final ArrayList<Watchlist> watchlists = new ArrayList<>();
+        final ArrayList<UserWatchlist> watchlists = new ArrayList<>();
 
         // Query the "Users" collection to find the user and their reviews
         final Document userDoc = collection.find(new Document("userId", user.getName())).first();
@@ -320,7 +391,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     final List<Movie> movies = watchlistDoc.getList("movies", Movie.class);
 
                     // Use the factory to create the Watchlist
-                    final Watchlist watchlist;
+                    final UserWatchlist watchlist;
                     watchlist = watchlistFactory.create(watchlistName);
 
                     if (!movies.isEmpty()) {

@@ -18,11 +18,5 @@ public interface UserWatchlist extends Watchlist {
      * @return list name
      */
     String getListName();
-
-    /**
-     * Sets the name of the watchlist.
-     * @return list of movie
-     */
-    List<Movie> getMovies();
 }
 
