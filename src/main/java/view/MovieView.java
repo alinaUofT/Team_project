@@ -91,9 +91,12 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
                     addToWatchlistController.execute(currUser, currUser.getPwl(),
                             currentState.getCurrentMovie());
+
                     bottomButtons.remove(watchedButton);
+                    bottomButtons.add(leaveReviewButton);
+
                     bottomButtons.revalidate();
-                    //                            bottomButtons.add(leaveReviewButton);
+                    bottomButtons.repaint();
                 }
         );
 

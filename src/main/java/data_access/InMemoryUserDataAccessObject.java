@@ -155,7 +155,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public boolean saveToPwl(User user, Movie movie) {
         boolean success = true;
         // Check if the user exists
-        if (!userPwl.containsKey(user.getName())) {
+        if (!users.containsKey(user.getName())) {
             success = false;
             throw new IllegalArgumentException("User not found: " + user.getName());
         }

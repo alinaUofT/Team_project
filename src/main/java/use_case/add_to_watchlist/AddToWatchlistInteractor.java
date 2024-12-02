@@ -24,10 +24,16 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
             watchlist.addMovie(movie);
         }
         catch (Exception e) {
-            System.err.println("Movie is already in the list: " + e.getMessage());
+            throw new IllegalArgumentException("Movie is already in this list");
         }
-        userDataAccessObject.saveToPwl(user, movie);
-        addToWatchlistPresenter.prepareSuccessView(user);
+        final boolean saveSuccessful = userDataAccessObject.saveToPwl(user, movie);
+
+        if (saveSuccessful) {
+            addToWatchlistPresenter.prepareSuccessView(user);
+        }
+        else {
+            addToWatchlistPresenter.prepareFailView("Failed to save movie.");
+        }
     }
 
     @Override
@@ -40,9 +46,14 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
             System.err.println("Movie is already in the list: " + e.getMessage());
         }
 
-        userDataAccessObject.saveToWatchlist(user, ind, movie);
+        final boolean saveSuccessful = userDataAccessObject.saveToWatchlist(user, ind, movie);
 
-        addToWatchlistPresenter.prepareSuccessView(user);
+        if (saveSuccessful) {
+            addToWatchlistPresenter.prepareSuccessView(user);
+        }
+        else {
+            addToWatchlistPresenter.prepareFailView("Failed to save movie.");
+        }
     }
 
 }
