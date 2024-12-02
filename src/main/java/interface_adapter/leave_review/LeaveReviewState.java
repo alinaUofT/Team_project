@@ -1,11 +1,11 @@
 package interface_adapter.leave_review;
 
-import interface_adapter.home.LoggedInState;
-import interface_adapter.movie.MovieState;
-
+/**
+ * State for LeaveReview Use Case.
+ */
 public class LeaveReviewState {
     private String username;
-    private String moviename;
+    private String movieName;
 
     public String getUsername() {
         return this.username;
@@ -15,11 +15,11 @@ public class LeaveReviewState {
         this.username = username;
     }
 
-    public void setMoviename(String moviename) {
-        this.moviename = moviename;
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
     }
 
     public String getMovieName() {
-        return this.moviename;
+        return this.movieName;
     }
 }

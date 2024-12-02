@@ -9,13 +9,11 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
 
     private final AddToWatchlistDataAccessInterface userDataAccessObject;
     private final AddToWatchlistOutputBoundary addToWatchlistPresenter;
-    private final CommonMovieFactory commonMovieFactory;
 
     public AddToWatchlistInteractor(AddToWatchlistDataAccessInterface userDataAccessObject,
                                     AddToWatchlistOutputBoundary addToWatchlistPresenter) {
         this.userDataAccessObject = userDataAccessObject;
         this.addToWatchlistPresenter = addToWatchlistPresenter;
-        this.commonMovieFactory = new CommonMovieFactory();
     }
 
     @Override
@@ -23,7 +21,7 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
         try {
             watchlist.addMovie(movie);
         }
-        catch (Exception e) {
+        catch (Exception exc) {
             throw new IllegalArgumentException("Movie is already in this list");
         }
         final boolean saveSuccessful = userDataAccessObject.saveToPwl(user, movie);
@@ -42,8 +40,8 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
         try {
             watchlist.addMovie(movie);
         }
-        catch (Exception e) {
-            System.err.println("Movie is already in the list: " + e.getMessage());
+        catch (Exception exc) {
+            System.err.println("Movie is already in the list: " + exc.getMessage());
         }
 
         final boolean saveSuccessful = userDataAccessObject.saveToWatchlist(user, ind, movie);

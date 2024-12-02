@@ -8,8 +8,6 @@ import interface_adapter.movie.MovieViewModel;
 import use_case.search_results.SearchResultsOutputBoundary;
 import use_case.search_results.SearchResultsOutputData;
 
-import java.util.List;
-
 /**
  * The Presenter for the Search Results Use Case.
  */
