@@ -47,7 +47,10 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
         genreButtonsPanel.setPreferredSize(new Dimension(450, 200));
         for (String genre : genreMap.keySet()) {
             final JButton button = new JButton(genre);
-
+            button.setBackground(new Color(238, 232, 170));
+            button.setOpaque(true);
+            button.setBorderPainted(false);
+            button.setForeground(Color.BLACK);
             // styling
             button.setPreferredSize(new Dimension(110, 40));
             button.setBorder(new EtchedBorder(EtchedBorder.RAISED));
@@ -63,6 +66,10 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
         submit = new JButton("Submit");
         submit.setPreferredSize(new Dimension(100, 40));
+        submit.setBackground(new Color(173, 216, 230));
+        submit.setOpaque(true);
+        submit.setBorderPainted(false);
+        submit.setForeground(Color.BLACK);
 
         // Disable submit initially
         submit.setEnabled(false);
@@ -93,7 +100,7 @@ public class Survey1View extends JPanel implements PropertyChangeListener {
 
     // Method to add action listeners to genre buttons
     private void addGenreButton(JButton button, String genre) {
-        final Color selectedGreen = new Color(14, 220, 14);
+        final Color selectedGreen = new Color(170, 220, 150);
         button.addActionListener(e -> {
             if (selectedGenres.contains(genre)) {
                 // If the genre is already selected, deselect it

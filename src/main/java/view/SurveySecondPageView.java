@@ -41,13 +41,26 @@ public class SurveySecondPageView extends JPanel implements ActionListener, Prop
         this.viewName = surveySecondPageViewModel.getViewName();
 
         this.enter1 = new JButton(surveySecondPageViewModel.ENTER_LABEL);
+        enter1.setBackground(new Color(173, 216, 230));
+        enter1.setOpaque(true);
+        enter1.setBorderPainted(false);
+        enter1.setForeground(Color.BLACK);
         this.enter2 = new JButton(surveySecondPageViewModel.ENTER_LABEL);
+        enter2.setBackground(new Color(173, 216, 230));
+        enter2.setOpaque(true);
+        enter2.setBorderPainted(false);
+        enter2.setForeground(Color.BLACK);
         this.enter3 = new JButton(surveySecondPageViewModel.ENTER_LABEL);
+        enter3.setBackground(new Color(173, 216, 230));
+        enter3.setOpaque(true);
+        enter3.setBorderPainted(false);
+        enter3.setForeground(Color.BLACK);
 
         this.submit = new JButton(surveySecondPageViewModel.SUBMIT_LABEL);
         this.skip = new JButton(surveySecondPageViewModel.SKIP_LABEL);
 
         final JLabel title = new JLabel("Enter 3 of your favorite movies");
+        title.setFont(new Font("Ariel", Font.PLAIN, 15));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         submit.setEnabled(false);
