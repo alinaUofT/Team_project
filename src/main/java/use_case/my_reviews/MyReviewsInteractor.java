@@ -1,9 +1,9 @@
 package use_case.my_reviews;
 
+import java.util.List;
+
 import entity.MovieReview;
 import entity.User;
-
-import java.util.List;
 
 public class MyReviewsInteractor implements MyReviewsInputBoundary {
     private final MyReviewsDataAccessInterface myReviewsDataAccessObject; // Handles data access
@@ -20,20 +20,20 @@ public class MyReviewsInteractor implements MyReviewsInputBoundary {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null.");
         }
-
-        // Retrieve the list of reviews for the user
-        List<MovieReview> reviews = myReviewsDataAccessObject.getReviews(user);
+        final List<MovieReview> reviews = myReviewsDataAccessObject.getReviews(user);
         // turn this into a piece of My_ReviewsOutputData
-        final MyReviewsOutputData my_ReviewsOutputData = new MyReviewsOutputData(reviews);
+        final MyReviewsOutputData myReviewsOutputData = new MyReviewsOutputData(reviews);
 
         if (reviews.isEmpty()) {
             // No reviews found for the user
             myReviewsPresenter.prepareNoReviewsView("No reviews yet.");
-        } else {
+        }
+        else {
             // Pass the retrieved reviews to the presenter
-            myReviewsPresenter.prepareMyReviewsView(my_ReviewsOutputData);
+            myReviewsPresenter.prepareMyReviewsView(myReviewsOutputData);
         }
     }
+
     // implement the "go back" use case on the "my_ReviewsView" page
     public void goBack(){
         myReviewsPresenter.goBack();

@@ -77,6 +77,7 @@ public class LeaveReviewView extends JPanel implements PropertyChangeListener {
             String review = reviewTextArea.getText().trim();
             if (selectedRating != 0) {
                 if (wordCount(review) <= maxWords) {
+                    JOptionPane.showMessageDialog(this, "Review submitted!");
                     if (review.isEmpty()) {
                         controller.leaveReview(viewModel.getUsername(), selectedRating, viewModel.getMovieName());
                     } else {
