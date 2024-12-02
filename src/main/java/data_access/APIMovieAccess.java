@@ -10,16 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import entity.CommonMovie;
-import entity.CommonMovieFactory;
-import entity.Movie;
-import entity.MovieFactory;
-import okhttp3.*;
-import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static okhttp3.RequestBody.create;
+import entity.CommonMovie;
+import entity.Movie;
+import okhttp3.*;
 
 /**
  * The methods to access the movie API.
@@ -109,7 +105,8 @@ public class APIMovieAccess {
                 // Return the response as a string
                 return response.toString();
             }
-        } catch (IOException noResultFound) {
+        }
+        catch (IOException noResultFound) {
             // Log the error if needed and return an empty string
             return "";
         }
@@ -138,11 +135,12 @@ public class APIMovieAccess {
 
                 final JSONObject movie = resultsArray.getJSONObject(i);
 
-                // Extract movie details
-                final String title = movie.getString("title");
-                final String posterPath = movie.getString("poster_path");
-                final String overview = movie.getString("overview");
-                final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+            // Extract movie details
+            final int movieId = movie.getInt("id");
+            final String title = movie.getString("title");
+            final String posterPath = movie.getString("poster_path");
+            final String overview = movie.getString("overview");
+            final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
 
                 // get the genre IDs in an array
                 final JSONArray genreID = movie.getJSONArray("genre_ids");
@@ -165,6 +163,51 @@ public class APIMovieAccess {
         }
         // return the final list
         return searchResults;
+    }
+
+    /**
+     * The filtered version of the search function which returns a list of info for 3 movies.
+     *
+     * @param query the search query that the user inputs.
+     * @param id id
+     * @return list of strings of the data
+     */
+    public Movie searchByID(String query, int id) {
+        final String responseString = searchMovie(query);
+
+        final CommonMovie result = new CommonMovie(query);
+
+        // Parse the JSON response string into a JSONObject
+        final JSONObject jsonObject = new JSONObject(responseString);
+
+        // Get results array
+        final JSONArray resultsArray = jsonObject.getJSONArray("results");
+
+        // Iterate through the first 3 three movies
+        for (int i = 0; i < resultsArray.length(); i++) {
+            final JSONObject movie = resultsArray.getJSONObject(i);
+
+            // Extract movie details
+            final int movieId = movie.getInt("id");
+            if (movieId == id) {
+                final String posterPath = movie.getString("poster_path");
+                final String overview = movie.getString("overview");
+                final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+                // get the genre IDs in an array
+                final JSONArray genreID = movie.getJSONArray("genre_ids");
+                // get the associated genres in a list using the Hashmap
+                final List<String> genreList = new ArrayList<>();
+                for (int j = 0; j < genreID.length(); j++) {
+                    final int genreNum = genreID.getInt(j);
+                    final String genre = GENRE_MAP.get(genreNum);
+                    genreList.add(genre);
+                }
+                // create a movie with the title, and update the information
+                result.setInformation(posterPath, overview, voteAverage, genreList, movieId);
+            }
+        }
+        // return the final list
+        return result;
     }
 
     /**
@@ -202,34 +245,10 @@ public class APIMovieAccess {
             }
             return response.body().string();
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (IOException exception) {
+            exception.printStackTrace();
             return null;
         }
     }
 }
-
-// This is how we access specific fields for a movie, it is returned as a"json string" from the db we need
-    // to then parse it into a json object using the jsonobject method, then we can access the fields
-    // like usual key value pairs. (dont forget the import for jsonobject).
-    //
-//        public static void main(String[] args) {
-//            // Example JSON response (as a raw string)
-//            String jsonResponse = "{\"title\":\"Cars\",\"release_date\":\"2006-06-09\",\"overview\":\"A hotshot race car discovers the true meaning of friendship.\"}";
-//
-//            // Parse the raw JSON string into a JSONObject
-//            JSONObject jsonObject = new JSONObject(jsonResponse);
-//
-//            // Access specific fields
-//            String title = jsonObject.getString("title");
-//            String releaseDate = jsonObject.getString("release_date");
-//            String overview = jsonObject.getString("overview");
-//
-//            // Print the values
-//            System.out.println("Title: " + title);
-//            System.out.println("Release Date: " + releaseDate);
-//            System.out.println("Overview: " + overview);
-//        }
-//    }
-
 

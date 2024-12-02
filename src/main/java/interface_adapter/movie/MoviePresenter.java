@@ -5,7 +5,6 @@ import interface_adapter.home.HomeViewModel;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 import use_case.movie.MovieOutputBoundary;
 import use_case.movie.MovieOutputData;
-import view.LeaveReviewView;
 
 /**
  * The Presenter for the Login Use Case.
@@ -56,10 +55,10 @@ public class MoviePresenter implements MovieOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    @Override
     public void switchToLeaveReviewView() {
-        System.out.println("Presenter reached");
         leaveReviewViewModel.getState().setUsername(movieViewModel.getState().getCurrentUser().getName());
-        leaveReviewViewModel.getState().setMoviename(movieViewModel.getState().getCurrentMovie().getTitle());
+        leaveReviewViewModel.getState().setMovieName(movieViewModel.getState().getCurrentMovie().getTitle());
         viewManagerModel.setState(leaveReviewViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

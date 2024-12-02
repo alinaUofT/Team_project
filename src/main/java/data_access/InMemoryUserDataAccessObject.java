@@ -1,7 +1,6 @@
 package data_access;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +9,11 @@ import entity.*;
 import use_case.add_to_watchlist.AddToWatchlistDataAccessInterface;
 import use_case.create_watchlist.CreateWatchlistDataAccessInterface;
 import use_case.home.HomeUserDataAccessInterface;
-import use_case.leave_a_review.LeaveReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.my_reviews.MyReviewsDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
-import use_case.survey1.Survey1UserDataAccessInterface;
+import use_case.survey_one.Survey1UserDataAccessInterface;
 
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
@@ -132,7 +130,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+    public boolean saveToWatchlist(User user, int ind, Movie movie) {
+        final String watchlistName = user.getWatchlists().get(ind).getListName();
         boolean success = true;
         // Check if the user exists
         if (!users.containsKey(user.getName())) {
@@ -154,7 +153,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public boolean saveToPwl(User user, Movie movie) {
         boolean success = true;
         // Check if the user exists
-        if (!userPwl.containsKey(user.getName())) {
+        if (!users.containsKey(user.getName())) {
             success = false;
             throw new IllegalArgumentException("User not found: " + user.getName());
         }

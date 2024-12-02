@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import interface_adapter.ViewManagerModel;
-import use_case.my_reviews.MyReviewsOutputData;
 import use_case.my_reviews.MyReviewsOutputBoundary;
+import use_case.my_reviews.MyReviewsOutputData;
 
 /**
  * The Presenter for the "my reviews" use case.
@@ -44,10 +44,7 @@ public class MyReviewsPresenter implements MyReviewsOutputBoundary {
         this.viewManagerModel.firePropertyChanged();
     }
 
-    /**
-     * go back from the "my reviews" screen.
-     * */
-
+    @Override
     public void goBack() {
         viewManagerModel.setState("logged in");
         viewManagerModel.firePropertyChanged();
@@ -56,10 +53,9 @@ public class MyReviewsPresenter implements MyReviewsOutputBoundary {
 
     @Override
     public void prepareFailView(String msg) {
-            viewManagerModel.setState("Error");
-            viewManagerModel.firePropertyChanged();
-        }
-
+        viewManagerModel.setState("Error");
+        viewManagerModel.firePropertyChanged();
+    }
 
     @Override
     public void prepareNoReviewsView(String message) {

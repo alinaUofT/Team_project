@@ -1,7 +1,5 @@
 package interface_adapter.login;
 
-import entity.UserFactory;
-
 /**
  * The state for the Login View Model.
  */
@@ -31,7 +29,6 @@ public class LoginState {
     }
 
     public void setPassword(String password) {
-        this.password = password; }
-
-
+        this.password = password;
+    }
 }

@@ -1,4 +1,4 @@
-package use_case.survey1;
+package use_case.survey_one;
 
 import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;

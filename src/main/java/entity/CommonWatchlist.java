@@ -9,7 +9,11 @@ import java.util.List;
 public class CommonWatchlist implements Watchlist {
 
     private final String listName = "Previously Watched";
-    private final List<Movie> movies = new ArrayList<>();
+    private final List<Movie> movies;
+
+    public CommonWatchlist() {
+        this.movies = new ArrayList<>();
+    }
 
     /**
      * Get the name of this watchlist.

@@ -1,5 +1,6 @@
 package interface_adapter.add_to_watchlist;
 
+import entity.Movie;
 import entity.User;
 import entity.Watchlist;
 import use_case.add_to_watchlist.AddToWatchlistInputBoundary;
@@ -17,10 +18,20 @@ public class AddToWatchlistController {
     /**
      * The controller for the Add To Watchlist Use Case.
      * @param user User adding to watchlist.
-     * @param watchlistName watchlist to add to
+     * @param watchlist watchlist to add to
      * @param movie The movie being added to watchlist.
      */
-    public void execute(User user, String watchlistName, String movie) {
-        useCaseInteractor.execute(user, watchlistName, movie);
+    public void execute(User user, Watchlist watchlist, Movie movie) {
+        useCaseInteractor.execute(user, watchlist, movie);
+    }
+
+    /**
+     * The controller for the Add To Watchlist Use Case.
+     * @param user User adding to watchlist.
+     * @param ind index of watchlist to add to
+     * @param movie The movie being added to watchlist.
+     */
+    public void execute(User user, int ind, Movie movie) {
+        useCaseInteractor.execute(user, ind, movie);
     }
 }

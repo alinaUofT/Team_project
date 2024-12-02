@@ -71,36 +71,51 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
         // create the bottom buttoms and their panel and Functionality
-
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
+        watchedButton.setBackground(new Color(238, 232, 170));
+        watchedButton.setOpaque(true);
+        watchedButton.setBorderPainted(false);
+        watchedButton.setForeground(Color.BLACK);
+
         this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
+        leaveReviewButton.setBackground(new Color(238, 232, 170));
+        leaveReviewButton.setOpaque(true);
+        leaveReviewButton.setBorderPainted(false);
+        leaveReviewButton.setForeground(Color.BLACK);
+
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
+        addToListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToListButton.setBackground(new Color(173, 216, 230));
+        addToListButton.setOpaque(true);
+        addToListButton.setBorderPainted(false);
+        addToListButton.setForeground(Color.BLACK);
+
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
+        userReviewsButton.setBackground(new Color(200, 210, 250));
+        userReviewsButton.setOpaque(true);
+        userReviewsButton.setBorderPainted(false);
+        userReviewsButton.setForeground(Color.BLACK);
 
         final JPanel bottomButtons = new JPanel();
         bottomButtons.add(watchedButton);
-        bottomButtons.add(leaveReviewButton);
         bottomButtons.add(addToListButton);
         bottomButtons.add(userReviewsButton);
 
         watchedButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(watchedButton)) {
-                            final MovieState currentState = movieViewModel.getState();
-                            final User currUser = currentState.getCurrentUser();
+                evt -> {
+                    final MovieState currentState = movieViewModel.getState();
+                    final User currUser = currentState.getCurrentUser();
 
-                            final Watchlist pwl = currUser.getPwl();
+                    addToWatchlistController.execute(currUser, currUser.getPwl(),
+                            currentState.getCurrentMovie());
 
-                            final String movieTitle = currentState.getTitle();
+                    bottomButtons.remove(watchedButton);
+                    bottomButtons.add(leaveReviewButton);
 
-                            addToWatchlistController.execute(currUser, pwl.getListName(), movieTitle);
-
-                            bottomButtons.remove(watchedButton);
-                            bottomButtons.add(leaveReviewButton);
-                        }
-                    }
+                    bottomButtons.revalidate();
+                    bottomButtons.repaint();
                 }
         );
 
@@ -196,15 +211,25 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel panel = new JPanel(new BorderLayout());
 
         final JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         final MovieState currentState = movieViewModel.getState();
 
         final ArrayList<UserWatchlist> watchlists = currentState.getCurrentUser().getWatchlists();
 
-        for (UserWatchlist watchlist : watchlists) {
-            final String listName = watchlist.getListName();
-            final JButton listButton = new JButton(listName);
+        for (int i = 0; i < watchlists.size(); i++) {
+            final int ind = i;
+            final UserWatchlist watchlist = watchlists.get(i);
+            final JButton listButton = new JButton(watchlist.getListName());
+            listButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            listButton.setBackground(new Color(173, 216, 230));
+            listButton.setOpaque(true);
+            listButton.setBorderPainted(false);
+            listButton.setForeground(Color.BLACK);
+            listButton.setPreferredSize(new Dimension(150, 40));
+            listButton.setMinimumSize(new Dimension(150, 40));
+            listButton.setMaximumSize(new Dimension(150, 40));
+
             final Movie currentMovie = currentState.getCurrentMovie();
 
             if (watchlist.contains(currentMovie)) {
@@ -213,16 +238,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             else {
                 listButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(listButton)) {
+                        final User currUser = currentState.getCurrentUser();
 
-                            final MovieState currentState = movieViewModel.getState();
-                            final User currUser = currentState.getCurrentUser();
+                        addToWatchlistController.execute(currUser, ind, currentMovie);
 
-                            addToWatchlistController.execute(currUser,
-                                    watchlist.getListName(), currentMovie.getTitle());
-
-                            listButton.setEnabled(false);
-                        }
+                        listButton.setEnabled(false);
                     }
                 });
             }
@@ -245,11 +265,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         panel.add(buttonPanel, BorderLayout.CENTER);
         panel.add(closeButton, BorderLayout.SOUTH);
 
+        panel.setPreferredSize(new Dimension(300, 500));
+
         JOptionPane.showOptionDialog(this, panel, "My Lists", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
-
     }
-
 
     public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
         this.leaveReviewController = leaveReviewController;

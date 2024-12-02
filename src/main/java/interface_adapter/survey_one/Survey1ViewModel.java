@@ -1,4 +1,4 @@
-package interface_adapter.survey1;
+package interface_adapter.survey_one;
 
 import interface_adapter.ViewModel;
 
