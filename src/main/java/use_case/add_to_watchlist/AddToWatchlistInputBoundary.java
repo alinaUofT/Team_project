@@ -1,15 +1,24 @@
 package use_case.add_to_watchlist;
 
+import entity.Movie;
 import entity.User;
 import entity.Watchlist;
 
 public interface AddToWatchlistInputBoundary {
 
     /**
-     * Executes the signup use case.
+     * Executes the add to watchlist use case.
      * @param user user
-     * @param watchlistName watchlist
-     * @param movieTitle movie name
+     * @param watchlist watchlist
+     * @param movie movie
      */
-    void execute(User user, String watchlistName, String movieTitle);
+    void execute(User user, Watchlist watchlist, Movie movie);
+
+    /**
+     * Executes the add to watchlist use case.
+     * @param user user
+     * @param ind index of watchlist
+     * @param movie movie
+     */
+    void execute(User user, int ind, Movie movie);
 }

@@ -333,38 +333,22 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+    public boolean saveToWatchlist(User user, int ind, Movie movie) {
         boolean success = false;
         try {
             // Find the user's document in the collection
             final Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
             if (userDoc != null) {
-                // Retrieve the user's watchlists
-                final List<Document> userWatchlists = (List<Document>) userDoc.get(WATCHLIST);
+                final String path = WATCHLIST + "." + ind + ".movies";
 
-                // Find the specific watchlist by name
-                Document targetWatchlist = null;
-                for (Document doc : userWatchlists) {
-                    if (doc.getString(WATCHLIST_NAME).equals(watchlistName)) {
-                        targetWatchlist = doc;
-                        break;
-                    }
-                }
-
-                if (targetWatchlist != null) {
-                    // Update the watchlist by adding the new movie
-                    collection.updateOne(
-                            new Document("userId", user.getName())
-                                    .append("watchlists.watchlistName", watchlistName),
-                            new Document("$push", new Document("watchlists.$.movies", movie.getTitle()))
-                    );
-                    System.out.println("Movie added to watchlist successfully!");
-                    success = true;
-                }
-                else {
-                    System.err.println("Watchlist not found.");
-                }
+                // Update the watchlist by adding the new movie
+                collection.updateOne(
+                        new Document("userId", user.getName()),
+                        new Document("$push", new Document(path, movie.getTitle()))
+                );
+                System.out.println("Movie added to watchlist successfully!");
+                success = true;
             }
             else {
                 System.err.println("User not found.");

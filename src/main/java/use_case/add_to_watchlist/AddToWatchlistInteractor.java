@@ -19,22 +19,29 @@ public class AddToWatchlistInteractor implements AddToWatchlistInputBoundary {
     }
 
     @Override
-    public void execute(User user, String watchlistName, String movieTitle) {
-        final Movie movie = commonMovieFactory.create(movieTitle);
-
+    public void execute(User user, Watchlist watchlist, Movie movie) {
         try {
-            user.getWatchlist(watchlistName).addMovie(movie);
+            watchlist.addMovie(movie);
+        }
+        catch (Exception e) {
+            System.err.println("Movie is already in the list: " + e.getMessage());
+        }
+        userDataAccessObject.saveToPwl(user, movie);
+        addToWatchlistPresenter.prepareSuccessView(user);
+    }
+
+    @Override
+    public void execute(User user, int ind, Movie movie) {
+        final UserWatchlist watchlist = user.getWatchlists().get(ind);
+        try {
+            watchlist.addMovie(movie);
         }
         catch (Exception e) {
             System.err.println("Movie is already in the list: " + e.getMessage());
         }
 
-        if (watchlistName == user.getPwl().getListName()) {
-            userDataAccessObject.saveToPwl(user, movie);
-        }
-        else {
-            userDataAccessObject.saveToWatchlist(user, watchlistName, movie);
-        }
+        userDataAccessObject.saveToWatchlist(user, ind, movie);
+
         addToWatchlistPresenter.prepareSuccessView(user);
     }
 
