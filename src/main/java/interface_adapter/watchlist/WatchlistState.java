@@ -37,7 +37,7 @@ public class WatchlistState {
     public void updateState(User user, int watchlistInd) {
         this.currentUser = user.getName();
         this.watchlistIndex = watchlistInd;
-        this.watchlist = user.getWatchlists().get(watchlistIndex);
+        this.watchlist = user.getWatchlists().get(watchlistInd);
         this.watchlistName = this.watchlist.getListName();
 
     }

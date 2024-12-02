@@ -116,7 +116,6 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             this.watchlistButtons.remove(this.watchlistButtons.getComponentCount() - 1);
         }
         final ArrayList<UserWatchlist> watchlists = watchlistsViewModel.getState().getCurrentUser().getWatchlists();
-        System.out.println(watchlists.size());
         for (int i = 0; i < watchlists.size(); i++) {
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));

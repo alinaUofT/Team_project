@@ -1,5 +1,7 @@
 package view;
 
+import entity.CommonMovie;
+import entity.Movie;
 import entity.User;
 import entity.Watchlist;
 import interface_adapter.watchlist.WatchlistController;
@@ -11,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * The View for the screen showing a content of a watchlist.
@@ -91,14 +94,15 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
 
     private void updateWatchlist() {
         this.title.setText(this.watchlistViewModel.getState().getWatchlistName());
-        while (this.movieButtons.getComponentCount() > 0) {
-            this.movieButtons.remove(this.movieButtons.getComponentCount() - 1);
-        }
-        final Watchlist movies = watchlistViewModel.getState().getWatchlist();
+        this.movieButtons.removeAll();
+//        while (this.movieButtons.getComponentCount() > 0) {
+//            this.movieButtons.remove(this.movieButtons.getComponentCount() - 1);
+//        }
+        final List<Movie> movies = watchlistViewModel.getState().getWatchlist().getMovies();
         for (int i = 0; i < movies.size(); i++) {
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-            final JButton movie = new JButton(movies.getMovie(i).getTitle());
+            final JButton movie = new JButton(movies.get(i).getTitle());
             final int ind = i;
             movie.addActionListener(
                     evt -> {
@@ -122,7 +126,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             );
             buttons.add(remove);
             this.movieButtons.add(buttons);
+            this.movieButtons.revalidate();
+            this.movieButtons.repaint();
             this.revalidate();
+            this.repaint();
         }
     }
 
@@ -147,6 +154,6 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        this.updateWatchlist();
+        updateWatchlist();
     }
 }
