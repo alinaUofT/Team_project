@@ -131,7 +131,9 @@ public class APIMovieAccess {
 
         // Iterate through the first 3 three movies
         for (int i = 0; i < NUM_MOVIE; i++) {
-            final JSONObject movie = resultsArray.getJSONObject(i);
+            if (!resultsArray.isEmpty()) {
+
+                final JSONObject movie = resultsArray.getJSONObject(i);
 
             // Extract movie details
             final int movieId = movie.getInt("id");
@@ -140,22 +142,23 @@ public class APIMovieAccess {
             final String overview = movie.getString("overview");
             final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
 
-            // get the genre IDs in an array
-            final JSONArray genreID = movie.getJSONArray("genre_ids");
+                // get the genre IDs in an array
+                final JSONArray genreID = movie.getJSONArray("genre_ids");
 
-            // get the associated genres in a list using the Hashmap
-            final List<String> genreList = new ArrayList<>();
+                // get the associated genres in a list using the Hashmap
+                final List<String> genreList = new ArrayList<>();
 
-            for (int j = 0; j < genreID.length(); j++) {
-                final int genreNum = genreID.getInt(j);
-                final String genre = GENRE_MAP.get(genreNum);
-                genreList.add(genre);
+                for (int j = 0; j < genreID.length(); j++) {
+                    final int genreNum = genreID.getInt(j);
+                    final String genre = GENRE_MAP.get(genreNum);
+                    genreList.add(genre);
+                }
+
+                // create a movie with the title, and update the information
+                final CommonMovie result = new CommonMovie(title);
+                result.setInformation(posterPath, overview, voteAverage, genreList);
+                searchResults.add(result);
             }
-
-            // create a movie with the title, and update the information
-            final CommonMovie result = new CommonMovie(title);
-            result.setInformation(posterPath, overview, voteAverage, genreList, movieId);
-            searchResults.add(result);
 
         }
         // return the final list

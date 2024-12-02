@@ -55,6 +55,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         this.homeViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Movies4U");
+        title.setFont(new Font("Georgia", Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         searchEnter.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -25,7 +25,6 @@ public class MovieInteractor implements MovieInputBoundary {
 
         for (int i = 0; i < results.size(); i++) {
             if (results.get(i).getTitle().equals(movieTitle)) {
-                // get and store the data
                 final CommonMovie searchedMovie = results.get(i);
                 final String movieName = searchedMovie.getTitle();
                 final String posterPath = searchedMovie.getPoster();
