@@ -2,6 +2,9 @@ package entity;
 
 import java.util.Date;
 
+/**
+ * The interface defining methods that all MovieReview objects must implement.
+ */
 public interface MovieReview {
 
     /**

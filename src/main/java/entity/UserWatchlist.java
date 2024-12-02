@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.List;
-
 /**
  * The representation of a watchlist in our program.
  */

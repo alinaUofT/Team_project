@@ -32,6 +32,8 @@ public class SearchResultsController {
 
     /**
      * Executes the "switch to MovieView" Use Case.
+     * @param user the user who is searching a movie
+     * @param searchResult the result of the search query.
      */
     public void switchToMovieView(String user, CommonMovie searchResult) {
         searchResultsInteractor.switchToMovieView(user, searchResult);

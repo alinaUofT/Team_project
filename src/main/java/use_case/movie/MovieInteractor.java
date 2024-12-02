@@ -1,9 +1,8 @@
 package use_case.movie;
 
-import entity.CommonMovie;
-import entity.Movie;
-
 import java.util.List;
+
+import entity.CommonMovie;
 
 /**
  * The Movie Interactor.

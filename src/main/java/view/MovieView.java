@@ -5,25 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
 
 import entity.*;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.add_to_watchlist.AddToWatchlistController;
-import entity.CommonUserWatchlist;
 import entity.Movie;
 import entity.UserWatchlist;
-import entity.Watchlist;
+import interface_adapter.add_to_watchlist.AddToWatchlistController;
 import interface_adapter.leave_review.LeaveReviewController;
-import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.movie.MovieController;
 import interface_adapter.movie.MovieState;
 import interface_adapter.movie.MovieViewModel;
-import interface_adapter.watchlists.WatchlistsState;
 
 /**
  * The View for when the user views a movie.
@@ -45,6 +38,10 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private JButton addToListButton;
     private JButton userReviewsButton;
 
+    /**
+     * The view for a movie.
+     * @param movieViewModel the view model for our movie screen.
+     */
     public MovieView(MovieViewModel movieViewModel) {
         this.movieViewModel = movieViewModel;
         this.viewName = movieViewModel.getViewName();
@@ -140,8 +137,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         titlePanel.add(titleLabel2);
         this.add(titlePanel, BorderLayout.NORTH);
 
-
-        // create and add info panel
         this.infoPanel = new JPanel();
         infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
@@ -170,11 +165,7 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     }
 
-    // helper method to create the individual row panel
     private JPanel createInfoRow(String labelText, String infoText) {
-//        final JPanel rowPanel = new JPanel();
-//        rowPanel.add(new JLabel(labelText));
-//        rowPanel.add(new JLabel(infoText));
 
         final JPanel rowPanel = new JPanel(new BorderLayout());
         rowPanel.add(new JLabel(labelText), BorderLayout.NORTH);
@@ -261,7 +252,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             }
         });
 
-        // Add items to panel
         panel.add(buttonPanel, BorderLayout.CENTER);
         panel.add(closeButton, BorderLayout.SOUTH);
 
@@ -288,5 +278,3 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     }
 
 }
-
-

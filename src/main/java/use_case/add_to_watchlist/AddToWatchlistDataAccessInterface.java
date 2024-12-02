@@ -1,9 +1,8 @@
+
 package use_case.add_to_watchlist;
 
 import entity.Movie;
 import entity.User;
-import entity.UserWatchlist;
-import entity.Watchlist;
 
 /**
  * DAO for the Add To Watchlist Use Case.

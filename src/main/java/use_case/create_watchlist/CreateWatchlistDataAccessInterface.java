@@ -3,6 +3,9 @@ package use_case.create_watchlist;
 import entity.User;
 import entity.UserWatchlist;
 
+/**
+ * The create watchlist interface.
+ */
 public interface CreateWatchlistDataAccessInterface {
 
     /**
