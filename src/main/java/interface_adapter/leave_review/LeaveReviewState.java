@@ -4,19 +4,22 @@ import interface_adapter.home.LoggedInState;
 import interface_adapter.movie.MovieState;
 
 public class LeaveReviewState {
-    private final LoggedInState loggedInState;
-    private final MovieState movieState;
-
-    public LeaveReviewState(LoggedInState loggedInState, MovieState movieState) {
-        this.loggedInState = loggedInState;
-        this.movieState = movieState;
-    }
+    private String username;
+    private String moviename;
 
     public String getUsername() {
-        return loggedInState.getUsername();
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMoviename(String moviename) {
+        this.moviename = moviename;
     }
 
     public String getMovieName() {
-        return movieState.getTitle();
+        return this.moviename;
     }
 }

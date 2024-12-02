@@ -47,21 +47,11 @@ public class WatchlistPresenter implements WatchlistOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    /**
-     * Switches to the PWL View.
-     *
-     * @param currentUser user that is currently logged in
-     */
     @Override
-    public void switchToPWLView(User currentUser) {
+    public void switchToMovieSearchView(String currentUser) {
         // should switch to watchlist view which is not implemented
-        viewManagerModel.setState(homeViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void switchToMovieSearchView(User currentUser) {
-        // should switch to watchlist view which is not implemented
+        searchResultsViewModel.getState().setUsername(currentUser);
+//        searchResultsViewModel.firePropertyChanged();
         viewManagerModel.setState(searchResultsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

@@ -2,6 +2,7 @@ package use_case.create_watchlist;
 
 import data_access.InMemoryUserDataAccessObject;
 import entity.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
@@ -20,13 +21,13 @@ public class CreateWatchlistInteractorTest {
         CreateWatchlistOutputBoundary presenter = new CreateWatchlistOutputBoundary() {
             @Override
             public void prepareSuccessView(User user) {
-                assertNotNull(user.getWatchlist("Favorites"));
-                assertEquals("Favorites", user.getWatchlist("Favorites").getListName());
+                Assertions.assertNotNull(user.getWatchlist("Favorites"));
+                Assertions.assertEquals("Favorites", user.getWatchlist("Favorites").getListName());
             }
 
             @Override
             public void prepareFailView(String errorMessage) {
-                fail("Failure view should not be prepared in a successful scenario.");
+                Assertions.fail("Failure view should not be prepared in a successful scenario.");
             }
         };
 
@@ -41,7 +42,7 @@ public class CreateWatchlistInteractorTest {
         InMemoryUserDataAccessObject userRepo = new InMemoryUserDataAccessObject() {
             @Override
             public boolean saveWatchlist(User user, UserWatchlist watchlist) {
-                return false; // Simulate a failure
+                return false;
             }
         };
 

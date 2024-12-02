@@ -1,7 +1,6 @@
 package use_case.watchlist;
 
 import entity.User;
-import entity.UserFactory;
 
 /**
  * The Watchlists Interactor.
@@ -9,14 +8,11 @@ import entity.UserFactory;
 public class WatchlistInteractor implements WatchlistInputBoundary {
     private final WatchlistUserDataAccessInterface userDataAccessObject;
     private final WatchlistOutputBoundary userPresenter;
-    private final UserFactory userFactory;
 
     public WatchlistInteractor(WatchlistUserDataAccessInterface watchlistDataAccessInterface,
-                               WatchlistOutputBoundary watchlistOutputBoundary,
-                               UserFactory userFactory) {
+                               WatchlistOutputBoundary watchlistOutputBoundary) {
         this.userDataAccessObject = watchlistDataAccessInterface;
         this.userPresenter = watchlistOutputBoundary;
-        this.userFactory = userFactory;
     }
 
     @Override
@@ -35,19 +31,8 @@ public class WatchlistInteractor implements WatchlistInputBoundary {
         userPresenter.switchToWatchlistsView(currentUser);
     }
 
-    /**
-     * Executes the switch to PWL view use case.
-     *
-     * @param currentUser user that is currently logged in
-     */
-    @Override
-    public void switchToPWL(User currentUser) {
-        userPresenter.switchToPWLView(currentUser);
-    }
-
     @Override
     public void switchToMovieSearchView(String username) {
-        final User currentUser = this.userDataAccessObject.get(username);
-        userPresenter.switchToMovieSearchView(currentUser);
+        userPresenter.switchToMovieSearchView(username);
     }
 }

@@ -1,6 +1,7 @@
 package use_case.signup;
 
 import data_access.DBUserDataAccessObject;
+import entity.CommonUserFactory;
 import entity.User;
 import entity.UserFactory;
 
@@ -10,14 +11,11 @@ import entity.UserFactory;
 public class SignupInteractor implements SignupInputBoundary {
     private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
-    private final UserFactory userFactory;
 
     public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
-                            SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory) {
+                            SignupOutputBoundary signupOutputBoundary) {
         this.userDataAccessObject = signupDataAccessInterface;
         this.userPresenter = signupOutputBoundary;
-        this.userFactory = userFactory;
     }
 
     @Override
@@ -29,6 +27,7 @@ public class SignupInteractor implements SignupInputBoundary {
             userPresenter.prepareFailView("Passwords don't match.");
         }
         else {
+            final UserFactory userFactory = new CommonUserFactory();
             final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
             userDataAccessObject.save(user);
             userDataAccessObject.savePwl(user);

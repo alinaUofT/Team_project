@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class WatchlistInteractorTest {
 
     @Test
-    void switchToHomeView() {
+    void switchToHomeViewTest() {
         WatchlistUserDataAccessInterface dataAccess = new InMemoryUserDataAccessObject();
         WatchlistOutputBoundary homeViewPresenter = new WatchlistOutputBoundary() {
 
@@ -26,17 +26,12 @@ class WatchlistInteractorTest {
             }
 
             @Override
-            public void switchToPWLView(User currentUser) {
-                fail("switchToPWLView is not the method that should be called");
-            }
-
-            @Override
-            public void switchToMovieSearchView(User currentUser) {
+            public void switchToMovieSearchView(String currentUser) {
                 fail("switchToMovieSearchView is not the method that should be called");
             }
         };
 
-        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, homeViewPresenter, new CommonUserFactory());
+        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, homeViewPresenter);
         interactor.switchToHomeView();
     }
 
@@ -58,49 +53,13 @@ class WatchlistInteractorTest {
             }
 
             @Override
-            public void switchToPWLView(User currentUser) {
-                fail("switchToPWLView is not the method that should be called");
-            }
-
-            @Override
-            public void switchToMovieSearchView(User currentUser) {
+            public void switchToMovieSearchView(String currentUser) {
                 fail("switchToMovieSearchView is not the method that should be called");
             }
         };
 
-        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, watchlistsViewPresenter, new CommonUserFactory());
+        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, watchlistsViewPresenter);
         interactor.switchToWatchlistsView("Alice");
-    }
-
-    @Test
-    void switchToPWLView() {
-        WatchlistUserDataAccessInterface dataAccess = new InMemoryUserDataAccessObject();
-        WatchlistOutputBoundary pwlViewPresenter = new WatchlistOutputBoundary() {
-
-            @Override
-            public void switchToHomeView() {
-                fail("switchToHomeView is not the method that should be called");
-            }
-
-            @Override
-            public void switchToWatchlistsView(User currentUser) {
-                fail("switchToWatchlistsView is not the method that should be called");
-            }
-
-            @Override
-            public void switchToPWLView(User currentUser) {
-                assertEquals("Alice", currentUser.getName());
-            }
-
-            @Override
-            public void switchToMovieSearchView(User currentUser) {
-                fail("switchToMovieSearchView is not the method that should be called");
-            }
-        };
-
-        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, pwlViewPresenter, new CommonUserFactory());
-        User user = new CommonUser("Alice", "pwd");
-        interactor.switchToPWL(user);
     }
 
     @Test
@@ -121,17 +80,12 @@ class WatchlistInteractorTest {
             }
 
             @Override
-            public void switchToPWLView(User currentUser) {
-                fail("switchToPWLView is not the method that should be called");
-            }
-
-            @Override
-            public void switchToMovieSearchView(User currentUser) {
-                assertEquals("Alice", currentUser.getName());
+            public void switchToMovieSearchView(String currentUser) {
+                assertEquals("Alice", currentUser);
             }
         };
 
-        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, movieSearchPresenter, new CommonUserFactory());
+        WatchlistInputBoundary interactor = new WatchlistInteractor(dataAccess, movieSearchPresenter);
         interactor.switchToMovieSearchView("Alice");
     }
 }
