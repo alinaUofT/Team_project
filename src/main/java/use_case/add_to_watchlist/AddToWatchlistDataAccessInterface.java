@@ -12,12 +12,12 @@ public interface AddToWatchlistDataAccessInterface {
 
     /**
      * Gets username.
-     * @param watchlistName watchlist
+     * @param ind watchlist index
      * @param user user
      * @param movie movie to add
      * @return success
      */
-    boolean saveToWatchlist(User user, String watchlistName, Movie movie);
+    boolean saveToWatchlist(User user, int ind, Movie movie);
 
     /**
      * Gets username.

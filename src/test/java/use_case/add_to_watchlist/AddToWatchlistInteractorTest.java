@@ -52,7 +52,7 @@ class AddToWatchlistInteractorTest {
 
         InMemoryUserDataAccessObject userRepo = new InMemoryUserDataAccessObject() {
             @Override
-            public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+            public boolean saveToWatchlist(User user, int ind, Movie movie) {
                 return false;
             }
         };

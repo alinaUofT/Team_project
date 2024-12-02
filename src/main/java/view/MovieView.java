@@ -85,22 +85,15 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         watchedButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(watchedButton)) {
-                            final MovieState currentState = movieViewModel.getState();
-                            final User currUser = currentState.getCurrentUser();
+                evt -> {
+                    final MovieState currentState = movieViewModel.getState();
+                    final User currUser = currentState.getCurrentUser();
 
-                            final Watchlist pwl = currUser.getPwl();
-
-                            final String movieTitle = currentState.getTitle();
-
-                            addToWatchlistController.execute(currUser, pwl.getListName(), movieTitle);
-
-                            bottomButtons.remove(watchedButton);
-                            bottomButtons.add(leaveReviewButton);
-                        }
-                    }
+                    addToWatchlistController.execute(currUser, currUser.getPwl(),
+                            currentState.getCurrentMovie());
+                    bottomButtons.remove(watchedButton);
+                    bottomButtons.revalidate();
+                    //                            bottomButtons.add(leaveReviewButton);
                 }
         );
 
@@ -197,15 +190,16 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel panel = new JPanel(new BorderLayout());
 
         final JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         final MovieState currentState = movieViewModel.getState();
 
         final ArrayList<UserWatchlist> watchlists = currentState.getCurrentUser().getWatchlists();
 
-        for (UserWatchlist watchlist : watchlists) {
-            final String listName = watchlist.getListName();
-            final JButton listButton = new JButton(listName);
+        for (int i = 0; i < watchlists.size(); i++) {
+            final int ind = i;
+            final UserWatchlist watchlist = watchlists.get(i);
+            final JButton listButton = new JButton(watchlist.getListName());
             final Movie currentMovie = currentState.getCurrentMovie();
 
             if (watchlist.contains(currentMovie)) {
@@ -214,16 +208,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             else {
                 listButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(listButton)) {
+                        final User currUser = currentState.getCurrentUser();
 
-                            final MovieState currentState = movieViewModel.getState();
-                            final User currUser = currentState.getCurrentUser();
+                        addToWatchlistController.execute(currUser, ind, currentMovie);
 
-                            addToWatchlistController.execute(currUser,
-                                    watchlist.getListName(), currentMovie.getTitle());
-
-                            listButton.setEnabled(false);
-                        }
+                        listButton.setEnabled(false);
                     }
                 });
             }

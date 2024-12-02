@@ -132,7 +132,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
+    public boolean saveToWatchlist(User user, int ind, Movie movie) {
+        final String watchlistName = user.getWatchlists().get(ind).getListName();
         boolean success = true;
         // Check if the user exists
         if (!users.containsKey(user.getName())) {
