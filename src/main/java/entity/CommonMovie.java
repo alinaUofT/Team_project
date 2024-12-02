@@ -18,6 +18,7 @@ public class CommonMovie implements Movie, Comparable {
 
     private final List<String> userReviews;
     private final Double starRating;
+    private int movieId;
 
     // Constructor with default values
     public CommonMovie(String title) {
@@ -28,11 +29,18 @@ public class CommonMovie implements Movie, Comparable {
     }
 
     @Override
-    public void setInformation(String posterPaths, String overviews, String voteAverages, List<String> genresList) {
+    public void setInformation(String posterPaths, String overviews, String voteAverages, List<String> genresList,
+                               int movieId) {
         this.posterPath = posterPaths;
         this.overview = overviews;
         this.voterAverage = voteAverages;
         this.genres = genresList;
+        this.movieId = movieId;
+    }
+
+    @Override
+    public int getMovieId() {
+        return movieId;
     }
 
     @Override

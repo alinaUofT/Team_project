@@ -138,6 +138,7 @@ public class APIMovieAccess {
             final JSONObject movie = resultsArray.getJSONObject(i);
 
             // Extract movie details
+            final int movieId = movie.getInt("id");
             final String title = movie.getString("title");
             final String posterPath = movie.getString("poster_path");
             final String overview = movie.getString("overview");
@@ -157,12 +158,58 @@ public class APIMovieAccess {
 
             // create a movie with the title, and update the information
             final CommonMovie result = new CommonMovie(title);
-            result.setInformation(posterPath, overview, voteAverage, genreList);
+            result.setInformation(posterPath, overview, voteAverage, genreList, movieId);
             searchResults.add(result);
 
         }
         // return the final list
         return searchResults;
+    }
+
+    public Movie searchByID(String query, int id) {
+        final String responseString = searchMovie(query);
+
+        final CommonMovie result = new CommonMovie(query);
+
+        // Parse the JSON response string into a JSONObject
+        final JSONObject jsonObject = new JSONObject(responseString);
+
+        // Get results array
+        final JSONArray resultsArray = jsonObject.getJSONArray("results");
+
+        // Iterate through the first 3 three movies
+        for (int i = 0; i < resultsArray.length(); i++) {
+            final JSONObject movie = resultsArray.getJSONObject(i);
+
+            // Extract movie details
+            final int movieId = movie.getInt("id");
+            if (movieId == id) {
+                final String title = movie.getString("title");
+                final String posterPath = movie.getString("poster_path");
+                final String overview = movie.getString("overview");
+                final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+
+                // get the genre IDs in an array
+                final JSONArray genreID = movie.getJSONArray("genre_ids");
+
+                // get the associated genres in a list using the Hashmap
+                final List<String> genreList = new ArrayList<>();
+
+                for (int j = 0; j < genreID.length(); j++) {
+                    final int genreNum = genreID.getInt(j);
+                    final String genre = GENRE_MAP.get(genreNum);
+                    genreList.add(genre);
+                }
+
+                // create a movie with the title, and update the information
+
+                result.setInformation(posterPath, overview, voteAverage, genreList, movieId);
+
+            }
+
+        }
+        // return the final list
+        return result;
     }
 
     /**
