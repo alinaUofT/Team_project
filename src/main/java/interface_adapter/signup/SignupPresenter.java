@@ -4,7 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.survey_one.Survey1ViewModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
 

@@ -6,6 +6,9 @@ import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.create_watchlist.CreateWatchlistOutputBoundary;
 
+/**
+ * Presenter for Create Watchlist Use Case.
+ */
 public class CreateWatchlistPresenter implements CreateWatchlistOutputBoundary {
     private ViewManagerModel viewManagerModel;
     private WatchlistsViewModel watchlistsViewModel;

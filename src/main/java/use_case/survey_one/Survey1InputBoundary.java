@@ -1,4 +1,4 @@
-package use_case.survey1;
+package use_case.survey_one;
 
 /**
  * Input Boundary for actions which are related to first step of survey.

@@ -12,7 +12,6 @@ public class LeaveReviewPresenter implements LeaveReviewOutputBoundary {
     private final LeaveReviewViewModel viewModel;
     private final ViewManagerModel viewManagerModel;
 
-
     public LeaveReviewPresenter(LeaveReviewViewModel viewModel, ViewManagerModel viewManagerModel) {
         this.viewModel = viewModel;
         this.viewManagerModel = viewManagerModel;

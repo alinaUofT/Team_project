@@ -109,7 +109,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         pwl.setOpaque(true);
         pwl.setBorderPainted(false);
         pwl.setForeground(Color.BLACK);
-        pwl.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        pwl.setAlignmentX(Component.CENTER_ALIGNMENT);
         pwl.addActionListener(evt -> {
             final User currentUser = watchlistsViewModel.getState().getCurrentUser();
             watchlistsController.goToPWL(currentUser);
@@ -157,6 +157,9 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             rename.setOpaque(true);
             rename.setBorderPainted(false);
             rename.setForeground(Color.BLACK);
+            rename.setPreferredSize(new Dimension(150, 40));
+            rename.setMinimumSize(new Dimension(150, 40));
+            rename.setMaximumSize(new Dimension(150, 40));
             rename.addActionListener(
                     evt -> renameListPopUpView(watchlists.get(ind).getListName(), ind)
             );
@@ -166,7 +169,9 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             delete.setOpaque(true);
             delete.setBorderPainted(false);
             delete.setForeground(Color.BLACK);
-
+            delete.setPreferredSize(new Dimension(150, 40));
+            delete.setMinimumSize(new Dimension(150, 40));
+            delete.setMaximumSize(new Dimension(150, 40));
             delete.addActionListener(
                     evt -> deleteListPopUpView(watchlists.get(ind).getListName(), ind)
             );

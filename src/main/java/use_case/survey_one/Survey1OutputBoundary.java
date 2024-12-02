@@ -1,6 +1,4 @@
-package use_case.survey1;
-
-import entity.User;
+package use_case.survey_one;
 
 /**
  * The output boundary for the Survey1 Use Case.
