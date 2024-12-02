@@ -38,32 +38,31 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private LoginController loginController;
 
     public LoginView(LoginViewModel loginViewModel) {
-
-        // styling
-        final Font font = new Font("Georgia", Font.PLAIN, 20);
-
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setFont(new Font("Georgia", Font.BOLD, 24));
+
+        final JLabel greetings = new JLabel("Welcome Back!");
+        greetings.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        greetings.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JLabel userNameLabel = new JLabel("Username");
-        userNameLabel.setFont(font);
+
         final LabelTextPanel usernameInfo = new LabelTextPanel(
                 userNameLabel, usernameInputField);
         final JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(font);
+
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 passwordLabel, passwordInputField);
 
         final JPanel buttons = new JPanel();
         toSignUp = new JButton("Create an account");
-        toSignUp.setFont(font);
+
         buttons.add(toSignUp);
         logIn = new JButton("Log in");
-        logIn.setFont(font);
+
         buttons.add(logIn);
 
         logIn.addActionListener(
@@ -140,19 +139,15 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         // styling
         this.setPreferredSize(new Dimension(450, 500));
-        final Color backcolor = new Color(255, 255, 255);
-        this.setBackground(backcolor);
-        title.setBackground(backcolor);
-        usernameInfo.setBackground(backcolor);
-        passwordInfo.setBackground(backcolor);
-        buttons.setBackground(backcolor);
+        final JLabel blank = new JLabel(" ");
 
         this.add(title);
+        this.add(blank);
+        this.add(greetings);
         this.add(usernameInfo);
         this.add(usernameErrorField);
         this.add(passwordInfo);
         this.add(buttons);
-
     }
 
     /**
