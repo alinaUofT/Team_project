@@ -30,15 +30,26 @@ public class MovieState {
     public MovieState() {
     }
 
-    public void update(User currentUser, Movie currentMovie, boolean watched) {
-        this.currentUser = currentUser;
-        this.currentMovie = currentMovie;
-        this.watched = watched;
+    /**
+     * Executes the Search Results Use Case.
+     * @param aCurrentUser the current user
+     * @param aCurrentMovie the current movie
+     * @param watchedData if the movie was watched
+     *
+     */
+    public void update(User aCurrentUser, Movie aCurrentMovie, boolean watchedData) {
+        this.currentUser = aCurrentUser;
+        this.currentMovie = aCurrentMovie;
+        this.watched = watchedData;
+
         this.title = currentMovie.getTitle();
-        this.starRating = currentMovie.getStarRatings();
-        this.reviews = currentMovie.getUserReviews();
+        this.posterPath = currentMovie.getPoster();
+        this.overview = currentMovie.getOverview();
         this.externalStarRating = currentMovie.getVoterAverage();
         this.genres = currentMovie.getGenres();
+
+        this.starRating = currentMovie.getStarRatings();
+        this.reviews = currentMovie.getUserReviews();
     }
 
     public User getCurrentUser() {

@@ -37,32 +37,23 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
     private LeaveReviewController leaveReviewController;
     private AddToWatchlistController addToWatchlistController;
 
-    //    private final JButton backButton;
     private final JButton homeButton;
+    private final JPanel infoPanel;
 
     private JButton watchedButton;
     private JButton leaveReviewButton;
     private JButton addToListButton;
     private JButton userReviewsButton;
 
-    // labels for info
-//    private final JLabel titleLabel;
-//    private final JLabel posterLabel;
-//    private final JLabel overviewLabel;
-//    private final JLabel genreLabel;
-//    private final JLabel ourRatingsLabel;
-//    private final JLabel voterAverageLabel;
-
     public MovieView(MovieViewModel movieViewModel) {
         this.movieViewModel = movieViewModel;
-
         this.viewName = movieViewModel.getViewName();
 
         // Register as an observer
         this.movieViewModel.addPropertyChangeListener(this);
 
         // Set the main layout to BorderLayout
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // creates the home button and its functionality
         this.homeButton = new JButton(MovieViewModel.HOME_LABEL);
@@ -77,56 +68,9 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
         // create title on centre top
         final JLabel title = new JLabel(MovieViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(title, BorderLayout.NORTH);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
-//        // title and poster panel
-//        this.titleLabel = new JLabel(MovieViewModel.MOVIE_LABEL);
-//        // Center align the poster
-//        this.posterLabel = new JLabel();
-//        this.posterLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-//
-//        // middle panel with info about movie
-//        this.overviewLabel = new JLabel(MovieViewModel.OVERVIEW_LABEL);
-//        this.genreLabel = new JLabel(MovieViewModel.GENRE_LABEL);
-//        this.ourRatingsLabel = new JLabel(MovieViewModel.OUR_RATINGS_LABEL);
-//        this.voterAverageLabel = new JLabel(MovieViewModel.VOTER_AVERAGE_LABEL);
-//\
-
-//        // Poster Panel
-//        final JPanel posterPanel = new JPanel();
-//        posterPanel.add(this.posterLabel);
-
-    }
-
-    private void updateMovieView() {
-        while (this.getComponentCount() > 2) {
-            this.remove(this.getComponentCount() - 1);
-        }
-
-//        final JPanel infoPanel = createInfoPanel();
-
-        final JPanel infoPanel = new JPanel();
-        final JLabel test = new JLabel("Test");
-        infoPanel.add(test);
-
-        // Labels and information for the movie
-        final String titleInfo = movieViewModel.getState().getTitle();
-        final String overviewInfo = movieViewModel.getState().getOverview();
-        final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
-        final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
-        final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
-        System.out.println(overviewInfo);
-
-        // Add all panels to the infoPanel
-        infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.OVERVIEW_LABEL, overviewInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.GENRE_LABEL, genreInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.OUR_RATINGS_LABEL, starRatingsInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.VOTER_AVERAGE_LABEL, voterAverageInfo));
-
-//        infoPanel.revalidate();
-        this.add(infoPanel);
+        // create the bottom buttoms and their panel and Functionality
 
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
         this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
@@ -173,10 +117,77 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 });
 
-        // this.add(posterPanel);
-        this.add(bottomButtons);
-        this.revalidate();
-        this.repaint();
+        this.add(bottomButtons, BorderLayout.NORTH);
+
+        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JLabel titleLabel2 = new JLabel(MovieViewModel.TITLE_LABEL);
+        titleLabel2.setFont(new Font("SansSerif", Font.BOLD, 18));
+        titlePanel.add(titleLabel2);
+        this.add(titlePanel, BorderLayout.NORTH);
+
+//        this.add(title, BorderLayout.NORTH);
+
+        // create and add info panel
+        this.infoPanel = new JPanel();
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50)); // Top, Left, Bottom, Right
+
+        this.add(infoPanel, BorderLayout.CENTER);
+
+    }
+
+    // helper method to create the info panel
+    private void createInfoPanel() {
+        // Labels and information for the movie
+        final String titleInfo = movieViewModel.getState().getTitle();
+        final String overviewInfo = movieViewModel.getState().getOverview();
+        final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
+        final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
+        final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
+
+        // Add all panels to the infoPanel
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.OVERVIEW_LABEL, overviewInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.GENRE_LABEL, genreInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.OUR_RATINGS_LABEL, starRatingsInfo));
+        infoPanel.add(createInfoRow(MovieViewModel.VOTER_AVERAGE_LABEL, voterAverageInfo));
+
+        this.add(infoPanel, BorderLayout.CENTER);
+
+    }
+
+    // helper method to create the individual row panel
+    private JPanel createInfoRow(String labelText, String infoText) {
+//        final JPanel rowPanel = new JPanel();
+//        rowPanel.add(new JLabel(labelText));
+//        rowPanel.add(new JLabel(infoText));
+
+        final JPanel rowPanel = new JPanel(new BorderLayout());
+        rowPanel.add(new JLabel(labelText), BorderLayout.NORTH);
+
+        final JTextArea infoArea = new JTextArea(infoText);
+        infoArea.setLineWrap(true);
+        infoArea.setWrapStyleWord(true);
+        infoArea.setEditable(false);
+        infoArea.setBackground(rowPanel.getBackground());
+
+        rowPanel.add(infoArea, BorderLayout.CENTER);
+
+        return rowPanel;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        infoPanel.removeAll();
+
+        createInfoPanel();
+
+        infoPanel.revalidate();
+        infoPanel.repaint();
     }
 
     /**
@@ -240,48 +251,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 
     }
 
-    // helper method to create the info panel
-    private JPanel createInfoPanel() {
-        final JPanel infoPanel = new JPanel(new GridLayout());
-        System.out.println("createInfoPanel is called");
-
-        // Labels and information for the movie
-        final String titleInfo = movieViewModel.getState().getTitle();
-        final String overviewInfo = movieViewModel.getState().getOverview();
-        final String genreInfo = String.join(", ", movieViewModel.getState().getGenres());
-        final String starRatingsInfo = String.valueOf(movieViewModel.getState().getStarRating());
-        final String voterAverageInfo = movieViewModel.getState().getExternalStarRating();
-        System.out.println(titleInfo);
-
-        // Add all panels to the infoPanel
-        infoPanel.add(createInfoRow(MovieViewModel.MOVIE_LABEL, titleInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.OVERVIEW_LABEL, overviewInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.GENRE_LABEL, genreInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.OUR_RATINGS_LABEL, starRatingsInfo));
-        infoPanel.add(createInfoRow(MovieViewModel.VOTER_AVERAGE_LABEL, voterAverageInfo));
-
-        return infoPanel;
-    }
-
-    // helper method to create the individual row panel
-    private JPanel createInfoRow(String labelText, String infoText) {
-        System.out.println("createInfoRow is called");
-        final JPanel rowPanel = new JPanel();
-        rowPanel.add(new JLabel(labelText));
-        rowPanel.add(new JLabel(infoText));
-        return rowPanel;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        updateMovieView();
-    }
-
 
     public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
         this.leaveReviewController = leaveReviewController;
@@ -313,3 +282,5 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
 //            e.printStackTrace();
     }
 }
+
+

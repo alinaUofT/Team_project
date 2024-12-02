@@ -44,7 +44,7 @@ public class MovieInteractor implements MovieInputBoundary {
 
     @Override
     public void switchToHomeView() {
-//        moviePresenter.switchToHomeView();
+        moviePresenter.switchToHomeView();
     }
 
     public void switchToLeaveReviewView() {

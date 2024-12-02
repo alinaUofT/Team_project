@@ -1,5 +1,6 @@
 package use_case.survey_second_page;
 
+import entity.MovieFactory;
 import entity.UserFactory;
 
 /**
@@ -24,20 +25,11 @@ public class SurveySecondPageInteractor implements SurveySecondPageInputBoundary
         final String secondMovie = surveySecondPageInputData.getSecondMovie();
         final String thirdMovie = surveySecondPageInputData.getThirdMovie();
 
-        if (!userDataAccessObject.movieExists(firstMovie) || !userDataAccessObject.movieExists(secondMovie)
-                || !userDataAccessObject.movieExists(thirdMovie)) {
-
-            if (!userDataAccessObject.movieExists(firstMovie)) {
-                surveySecondPagePresenter.prepareFailView(firstMovie + ": Movie not found.");
-            }
-            if (!userDataAccessObject.movieExists(secondMovie)) {
-                surveySecondPagePresenter.prepareFailView(secondMovie + ": Movie not found.");
-            }
-            if (!userDataAccessObject.movieExists(thirdMovie)) {
-                surveySecondPagePresenter.prepareFailView(thirdMovie + ": Movie not found.");
-            }
+        if (firstMovie.isEmpty() || secondMovie.isEmpty() || thirdMovie.isEmpty()) {
+            surveySecondPagePresenter.prepareFailView("nonExistentMovie: Movie not found.");
         }
         else {
+
             // TODO: implement add to playlist
             final SurveySecondPageOutputData surveySecondPageOutputData = new SurveySecondPageOutputData(firstMovie,
                     secondMovie, thirdMovie, false);
