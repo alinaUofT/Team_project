@@ -42,7 +42,6 @@ public class CommonWatchlist implements Watchlist {
     public void addMovie(Movie movie) throws Exception {
         if (!this.movies.contains(movie)) {
             this.movies.add(movie);
-            System.out.println("Movie added");
         }
         else {
             throw new Exception("Movie is already in this list");

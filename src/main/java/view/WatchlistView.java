@@ -82,12 +82,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
 //            this.movieButtons.remove(this.movieButtons.getComponentCount() - 1);
 //        }
         final List<Movie> movies = watchlistViewModel.getState().getWatchlist().getMovies();
-        System.out.println(movies.size());
         for (int i = 0; i < movies.size(); i++) {
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton movie = new JButton(movies.get(i).getTitle());
-            System.out.println(movies.get(i).getTitle());
             final int ind = i;
             movie.addActionListener(
                     evt -> {

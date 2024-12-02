@@ -88,14 +88,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                             final Movie movie = movieFactory.create(movieName);
                             try {
                                 watchlist.addMovie(movie);
-                                System.out.println(movie.getTitle());
                             }
                             catch (Exception e) {
                                 System.out.println("Movie not saved: " + e.getMessage());
                             }
                         }
                     }
-                    System.out.println("movies from DB size:" + watchlist.size());
                     watchlists.add(watchlist);
                 }
             }
