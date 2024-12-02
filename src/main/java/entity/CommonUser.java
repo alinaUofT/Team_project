@@ -102,7 +102,7 @@ public class CommonUser implements User {
 
     @Override
     public void setWatchlists(List<UserWatchlist> watchlists) {
-        this.watchlists = new ArrayList<>(watchlists);
+        this.watchlists = (ArrayList<UserWatchlist>) watchlists;
     }
 
     @Override

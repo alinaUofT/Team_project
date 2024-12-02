@@ -81,7 +81,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     final String watchlistName = watchlistDoc.getString(WATCHLIST_NAME);
                     // create watchlist
                     final UserWatchlist watchlist = watchlistFactory.create(watchlistName);
-                    watchlists.add(watchlist);
 
                     final List<String> movies = watchlistDoc.getList(MOVIES, String.class);
                     if (!movies.isEmpty()) {
@@ -95,6 +94,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                             }
                         }
                     }
+                    watchlists.add(watchlist);
                 }
             }
             user.setWatchlists(watchlists);
