@@ -2,12 +2,9 @@ package interface_adapter.create_watchlist;
 
 import entity.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.watchlist.WatchlistState;
-import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlists.WatchlistsState;
 import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.create_watchlist.CreateWatchlistOutputBoundary;
-import use_case.create_watchlist.CreateWatchlistOutputData;
 
 public class CreateWatchlistPresenter implements CreateWatchlistOutputBoundary {
     private ViewManagerModel viewManagerModel;
