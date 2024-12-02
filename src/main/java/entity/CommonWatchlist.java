@@ -9,7 +9,11 @@ import java.util.List;
 public class CommonWatchlist implements Watchlist {
 
     private final String listName = "Previously Watched";
-    private final List<Movie> movies = new ArrayList<>();
+    private final List<Movie> movies;
+
+    public CommonWatchlist() {
+        this.movies = new ArrayList<>();
+    }
 
     /**
      * Get the name of this watchlist.
@@ -38,6 +42,7 @@ public class CommonWatchlist implements Watchlist {
     public void addMovie(Movie movie) throws Exception {
         if (!this.movies.contains(movie)) {
             this.movies.add(movie);
+            System.out.println("Movie added");
         }
         else {
             throw new Exception("Movie is already in this list");
