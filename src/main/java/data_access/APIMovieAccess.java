@@ -124,7 +124,6 @@ public class APIMovieAccess {
     public static List<CommonMovie> formatedSearchedMovies(String query) {
         final String responseString = searchMovie(query);
 
-        final List<Object> searchedMovies = new ArrayList<>();
         final List<CommonMovie> searchResults = new ArrayList<>();
 
         // Parse the JSON response string into a JSONObject
@@ -135,30 +134,33 @@ public class APIMovieAccess {
 
         // Iterate through the first 3 three movies
         for (int i = 0; i < NUM_MOVIE; i++) {
-            final JSONObject movie = resultsArray.getJSONObject(i);
+            if (!resultsArray.isEmpty()) {
 
-            // Extract movie details
-            final String title = movie.getString("title");
-            final String posterPath = movie.getString("poster_path");
-            final String overview = movie.getString("overview");
-            final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+                final JSONObject movie = resultsArray.getJSONObject(i);
 
-            // get the genre IDs in an array
-            final JSONArray genreID = movie.getJSONArray("genre_ids");
+                // Extract movie details
+                final String title = movie.getString("title");
+                final String posterPath = movie.getString("poster_path");
+                final String overview = movie.getString("overview");
+                final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
 
-            // get the associated genres in a list using the Hashmap
-            final List<String> genreList = new ArrayList<>();
+                // get the genre IDs in an array
+                final JSONArray genreID = movie.getJSONArray("genre_ids");
 
-            for (int j = 0; j < genreID.length(); j++) {
-                final int genreNum = genreID.getInt(j);
-                final String genre = GENRE_MAP.get(genreNum);
-                genreList.add(genre);
+                // get the associated genres in a list using the Hashmap
+                final List<String> genreList = new ArrayList<>();
+
+                for (int j = 0; j < genreID.length(); j++) {
+                    final int genreNum = genreID.getInt(j);
+                    final String genre = GENRE_MAP.get(genreNum);
+                    genreList.add(genre);
+                }
+
+                // create a movie with the title, and update the information
+                final CommonMovie result = new CommonMovie(title);
+                result.setInformation(posterPath, overview, voteAverage, genreList);
+                searchResults.add(result);
             }
-
-            // create a movie with the title, and update the information
-            final CommonMovie result = new CommonMovie(title);
-            result.setInformation(posterPath, overview, voteAverage, genreList);
-            searchResults.add(result);
 
         }
         // return the final list

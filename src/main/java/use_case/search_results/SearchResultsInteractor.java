@@ -27,29 +27,29 @@ public class SearchResultsInteractor implements SearchResultsInputBoundary {
     public void execute(SearchResultsInputData searchResultsInputData) {
         final String searchText = searchResultsInputData.getSearchText();
 
-        // if there are no movies, then raise an error
         if (!searchResultsDataAccess.existsByName(searchText)) {
             searchResultsPresenter.prepareFailView(searchText + ": Cannot be found.");
         }
         else {
-            // get the info from the API
             final List<CommonMovie> results = APIMovieAccess.formatedSearchedMovies(searchText);
-
-            // get the movies and posters
             final List<String> movieTitles = new ArrayList<>();
             final List<String> posterPaths = new ArrayList<>();
 
-            for (int i = 0; i < results.size(); i++) {
-                final CommonMovie movie = results.get(i);
+            if (!results.isEmpty()) {
+                for (int i = 0; i < results.size(); i++) {
+                    final CommonMovie movie = results.get(i);
+                    movieTitles.add(movie.getTitle());
+                    posterPaths.add(movie.getPoster());
+                }
+                final SearchResultsOutputData searchResultsOutputData = new SearchResultsOutputData(searchText,
+                        movieTitles, posterPaths, results);
+                searchResultsPresenter.prepareSuccessView(searchResultsOutputData);
 
-                movieTitles.add(movie.getTitle());
-                posterPaths.add(movie.getPoster());
+            }
+            else {
+                searchResultsPresenter.prepareFailView(searchText + ": Cannot be found.");
             }
 
-            // store the output data
-            final SearchResultsOutputData searchResultsOutputData = new SearchResultsOutputData(searchText,
-                    movieTitles, posterPaths, results);
-            searchResultsPresenter.prepareSuccessView(searchResultsOutputData);
         }
     }
 

@@ -131,11 +131,10 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         titlePanel.add(titleLabel2);
         this.add(titlePanel, BorderLayout.NORTH);
 
-//        this.add(title, BorderLayout.NORTH);
 
         // create and add info panel
         this.infoPanel = new JPanel();
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50)); // Top, Left, Bottom, Right
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         this.add(infoPanel, BorderLayout.CENTER);
 

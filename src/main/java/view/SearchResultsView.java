@@ -54,9 +54,11 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         this.add(homeButton, BorderLayout.WEST);
 
         // create title on centre top
+        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final JLabel title = new JLabel(searchResultsViewModel.TITLE_LABEL);
         title.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(title, BorderLayout.NORTH);
+        title.setFont(new Font("Georgia", Font.BOLD, 18));
+        titlePanel.add(title, BorderLayout.NORTH);
 
         // creates the enter button, which has its functionality in actionPerformed
         this.enter = new JButton(SearchResultsViewModel.ENTER_LABEL);
@@ -85,7 +87,7 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(homeButton, BorderLayout.WEST);
-        this.add(title, BorderLayout.CENTER);
+        this.add(titlePanel, BorderLayout.NORTH);
         this.add(searchBar);
         this.add(results);
     }
@@ -148,13 +150,33 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         final List<CommonMovie> searchedResults = searchResultsViewModel.getState().getResults();
 
         results.removeAll();
-        for (int i = 0; i < titles.size(); i++) {
-            final JPanel moviePanel = createMoviePanel(searchedResults.get(i), posters.get(i));
-            results.add(moviePanel);
+        if (searchedResults == null) {
+            // Trigger the failure view if no results are found
+            prepareFailView("No movies found for the given search query. Please try again.");
+        } else {
+            // Add the new results to the view
+            for (int i = 0; i < titles.size(); i++) {
+                final JPanel moviePanel = createMoviePanel(searchedResults.get(i), posters.get(i));
+                results.add(moviePanel);
+            }
         }
         results.revalidate();
         results.repaint();
 
+    }
+
+    /**
+     * Display a failure message if no movies are found.
+     * @param errorMessage The error message to display in the pop-up.
+     */
+    public void prepareFailView(String errorMessage) {
+        // Display the error message using a JOptionPane
+        JOptionPane.showMessageDialog(
+                this, // Parent component
+                errorMessage, // Message to display
+                "Search Error", // Title of the pop-up
+                JOptionPane.ERROR_MESSAGE // Type of pop-up (error)
+        );
     }
 
     private void setFields(SearchResultsState state) {
