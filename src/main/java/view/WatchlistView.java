@@ -33,46 +33,63 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
         this.watchlistViewModel = watchlistViewModel;
         this.viewName = watchlistViewModel.getViewName();
         watchlistViewModel.addPropertyChangeListener(this);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.topLine = new JPanel();
-        topLine.setLayout(new BoxLayout(topLine, BoxLayout.X_AXIS));
-        topLine.setPreferredSize(new Dimension(400, 50));
+        // Set the main layout to BorderLayout for flexibility
+        this.setLayout(new BorderLayout());
 
+        // Top panel for back, title, and home buttons
+        this.topLine = new JPanel(new BorderLayout());
+        topLine.setPreferredSize(new Dimension(400, 40));
+
+        // Back button on the left
         final JButton back = new JButton(watchlistViewModel.BACK_LABEL);
-        back.setAlignmentX(Component.LEFT_ALIGNMENT);
-        back.addActionListener(
+        back.addActionListener(evt -> watchlistController.backToWatchlistsView(this.watchlistViewModel.getState().getCurrentUser()));
+        topLine.add(back, BorderLayout.WEST);
 
-                evt -> watchlistController.backToWatchlistsView(this.watchlistViewModel.getState().getCurrentUser())
-        );
-        topLine.add(back);
+        // Title in the center
+        this.title = new JLabel(watchlistViewModel.getState().getWatchlistName(), JLabel.CENTER);
+        title.setFont(new Font("Serif Sans", Font.BOLD, 20));
+        topLine.add(title, BorderLayout.CENTER);
 
-        this.title = new JLabel(watchlistViewModel.getState().getWatchlistName());
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        topLine.add(title);
-        this.add(topLine);
-
+        // Home button on the right
         final JButton home = new JButton(watchlistViewModel.HOME_LABEL);
-        home.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        home.addActionListener(
-                evt -> watchlistController.switchToHomeView()
-        );
-        topLine.add(home);
+        home.addActionListener(evt -> watchlistController.switchToHomeView());
+        topLine.add(home, BorderLayout.EAST);
 
+        // Add the topLine to the top of the main layout
+        this.add(topLine, BorderLayout.NORTH);
+
+        // Center panel for the Add Movie button and movie buttons
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Add Movie button
         this.addMovie = new JButton(watchlistViewModel.ADD_MOVIE_LABEL);
         addMovie.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(addMovie);
-        addMovie.addActionListener(
-                evt -> watchlistController.switchToMovieSearchView(watchlistViewModel.getState().getCurrentUser())
-        );
+        addMovie.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addMovie.setBackground(new Color(173, 216, 230));
+        addMovie.setOpaque(true);
+        addMovie.setBorderPainted(false);
+        addMovie.setForeground(Color.BLACK);
 
+        addMovie.addActionListener(evt -> watchlistController.switchToMovieSearchView(watchlistViewModel.getState().getCurrentUser()));
+        centerPanel.add(Box.createVerticalStrut(20)); // Add some space between topLine and Add Movie button
+        centerPanel.add(addMovie);
+
+        // Panel for movie buttons
         this.movieButtons = new JPanel();
         this.movieButtons.setLayout(new BoxLayout(this.movieButtons, BoxLayout.Y_AXIS));
-        this.add(this.movieButtons);
+        centerPanel.add(Box.createVerticalStrut(10)); // Space between Add Movie button and movie buttons
+        centerPanel.add(this.movieButtons);
+
+        // Add centerPanel to the center of the layout
+        this.add(centerPanel, BorderLayout.CENTER);
+
+        // Set background color
         this.setPreferredSize(new Dimension(400, 300));
         final Color backcolor = new Color(255, 255, 255);
         this.setBackground(backcolor);
-
     }
 
     private void updateWatchlist() {
@@ -86,6 +103,14 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton movie = new JButton(movies.get(i).getTitle());
+            movie.setBackground(new Color(197, 224, 181));
+            movie.setOpaque(true);
+            movie.setBorderPainted(false);
+            movie.setForeground(Color.BLACK);
+
+            movie.setPreferredSize(new Dimension(150, 40));
+            movie.setMinimumSize(new Dimension(150, 40));
+            movie.setMaximumSize(new Dimension(150, 40));
             final int ind = i;
             movie.addActionListener(
                     evt -> {
@@ -96,6 +121,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             );
             buttons.add(movie);
             final JButton remove = new JButton(watchlistViewModel.REMOVE_LABEL);
+            remove.setBackground(new Color(238, 232, 170));
+            remove.setOpaque(true);
+            remove.setBorderPainted(false);
+            remove.setForeground(Color.BLACK);
             remove.addActionListener(
                     evt -> {
                         if (evt.getSource().equals(remove)) {
@@ -115,66 +144,6 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             this.repaint();
         }
     }
-
-    /**
-     * View for Create a New List Pop-Up Window.
-     * @return 0 (yes) or  1 (no) for which button was clicked
-     */
-//    private int createNewListPopUpView() {
-//        // final int maxChar = 75;
-//        final JPanel panel = new JPanel();
-//
-//        // Adjusting panel size
-//        panel.setPreferredSize(new Dimension(500, 200));
-//
-//        final JPanel textPanel = new JPanel(new BorderLayout());
-//        // Text field for naming new list
-//        final JLabel enterNameLabel = new JLabel("Enter List Name:");
-//        // final JTextField listNameField = new JTextField(40);
-//
-//        addListNameListener();
-//        // not functioning currently, not a today problem
-//        final int x = listNameField.getText().length();
-//        final JLabel characterLimitLabel = new JLabel("Character Limit: " + x + "/100");
-//
-//        // Add text field components to panel
-//        textPanel.add(enterNameLabel, BorderLayout.NORTH);
-//        textPanel.add(listNameField, BorderLayout.CENTER);
-//        textPanel.add(characterLimitLabel, BorderLayout.SOUTH);
-//
-//        // Add components to the panel
-//        panel.add(textPanel);
-//
-//        // Create a custom dialog with our panel
-//        return JOptionPane.showOptionDialog(this, panel, "Create a New List",
-//                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-//                null, new Object[]{"Create List", "Cancel"}, null);
-//    }
-
-//    private void addListNameListener() {
-//        listNameField.getDocument().addDocumentListener(new DocumentListener() {
-//            private void documentListenerHelper() {
-//                final WatchlistsState currentState = watchlistsViewModel.getState();
-//                currentState.setListName(listNameField.getText());
-//                watchlistsViewModel.setState(currentState);
-//            }
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//        });
-//    }
 
     @Override
     public void actionPerformed(ActionEvent evt) {

@@ -24,7 +24,14 @@ public class CreateWatchlistInteractor implements CreateWatchlistInputBoundary {
     public void execute(User user, String watchlistName) {
         final UserWatchlist watchlist = commonUserWatchlistFactory.create(watchlistName);
         user.addWatchlist(watchlist);
-        createWatchlistDataAccessInterface.saveWatchlist(user, watchlist);
-        createWatchlistPresenter.prepareSuccessView(user);
+
+        final boolean saveSuccessful = createWatchlistDataAccessInterface.saveWatchlist(user, watchlist);
+
+        if (saveSuccessful) {
+            createWatchlistPresenter.prepareSuccessView(user);
+        }
+        else {
+            createWatchlistPresenter.prepareFailView("Failed to save watchlist.");
+        }
     }
 }

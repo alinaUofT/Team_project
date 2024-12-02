@@ -6,18 +6,13 @@ package use_case.logout;
 public class LogoutOutputData {
 
     private final String username;
-    private final boolean useCaseFailed;
 
-    public LogoutOutputData(String username, boolean useCaseFailed) {
+    public LogoutOutputData(String username) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
-    }
 }

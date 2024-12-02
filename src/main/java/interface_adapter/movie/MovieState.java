@@ -25,6 +25,8 @@ public class MovieState {
 
     private String movieError;
 
+    private String emptyWatchlistsError = "You don't have any watchlists yet!";
+
     public MovieState() {
     }
 
@@ -118,6 +120,14 @@ public class MovieState {
 
     public String getMovieError() {
         return movieError;
+    }
+
+    public void setEmptyWatchlistsError(String emptyWatchlistsError) {
+        this.emptyWatchlistsError = emptyWatchlistsError;
+    }
+
+    public String getEmptyWatchlistsError() {
+        return emptyWatchlistsError;
     }
 
     public void setStarRating(Double starRating) {

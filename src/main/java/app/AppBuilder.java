@@ -322,7 +322,7 @@ public class AppBuilder {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, homeViewModel, survey1ViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                userDataAccessObject, signupOutputBoundary, userFactory);
+                userDataAccessObject, signupOutputBoundary);
 
         final SignupController controller = new SignupController(userSignupInteractor);
         signupView.setSignupController(controller);
@@ -411,7 +411,7 @@ public class AppBuilder {
         final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
                 watchlistsViewModel, homeViewModel, watchlistViewModel, searchResultsViewModel);
         final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
-                userDataAccessObject, watchlistOutputBoundary, userFactory);
+                userDataAccessObject, watchlistOutputBoundary);
 
         final WatchlistController controller = new WatchlistController(watchlistInteractor);
         watchlistView.setWatchlistController(controller);

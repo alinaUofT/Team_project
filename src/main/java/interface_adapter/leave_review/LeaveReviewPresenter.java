@@ -30,7 +30,7 @@ public class LeaveReviewPresenter implements LeaveReviewOutputBoundary {
      */
 
     public void goBack() {
-        viewManagerModel.setState("Movie Screen (I watched this clicked)"); // Update later?
+        viewManagerModel.setState("movie");
         viewManagerModel.firePropertyChanged();
     }
     /**
