@@ -1,10 +1,11 @@
 package data_access;
 
+import org.bson.Document;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 
 public class DataBaseConstructor {
     private static final String URI = "mongodb+srv://andersonwyatt199:oSJAGafbowj9jeFl@cluster0.j9lgn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -16,14 +17,19 @@ public class DataBaseConstructor {
     public DataBaseConstructor() {
     }
 
-    // Method to create or get a collection
+    /**
+     * Method to create or get a collection.
+     * @param collectionName a key String.
+     * @return a collection from our DB.
+     */
     public static MongoCollection<Document> GetCollection(String collectionName) {
         try {
             // Access the specific database
-            MongoDatabase database = mongoClient.getDatabase("Movies4U");
+            final MongoDatabase database = mongoClient.getDatabase("Movies4U");
             // Return the requested collection
             return database.getCollection(collectionName);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Error accessing the collection: " + e.getMessage());
             throw e;
         }

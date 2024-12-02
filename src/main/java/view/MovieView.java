@@ -287,19 +287,6 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         this.addToWatchlistController = addToWatchlistController;
     }
 
-
-    private void setPoster(String posterUrl) {
-//        try {
-//            // Load image from URL
-//            final ImageIcon icon = new ImageIcon(new URL(posterUrl));
-//            // Optionally scale the image to fit the JLabel size
-//            final Image scaledImage = icon.getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH);
-//            this.posterLabel.setIcon(new ImageIcon(scaledImage));
-//        } catch (Exception e) {
-//            // Set a default placeholder if the image fails to load
-//            this.posterLabel.setText("Poster not available");
-//            e.printStackTrace();
-    }
 }
 
 
