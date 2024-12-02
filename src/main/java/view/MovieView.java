@@ -71,15 +71,34 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         title.setHorizontalAlignment(SwingConstants.CENTER);
 
         // create the bottom buttoms and their panel and Functionality
-
         this.watchedButton = new JButton(MovieViewModel.PWL_LABEL);
+        watchedButton.setBackground(new Color(238, 232, 170));
+        watchedButton.setOpaque(true);
+        watchedButton.setBorderPainted(false);
+        watchedButton.setForeground(Color.BLACK);
+
         this.leaveReviewButton = new JButton(MovieViewModel.LEAVE_REVIEW_LABEL);
+        leaveReviewButton.setBackground(new Color(238, 232, 170));
+        leaveReviewButton.setOpaque(true);
+        leaveReviewButton.setBorderPainted(false);
+        leaveReviewButton.setForeground(Color.BLACK);
+
         this.addToListButton = new JButton(MovieViewModel.ADD_TO_LIST_LABEL);
+        addToListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addToListButton.setBackground(new Color(173, 216, 230));
+        addToListButton.setOpaque(true);
+        addToListButton.setBorderPainted(false);
+        addToListButton.setForeground(Color.BLACK);
+
         this.userReviewsButton = new JButton(MovieViewModel.USER_REVIEWS_LABEL);
+        userReviewsButton.setBackground(new Color(200, 210, 250));
+        userReviewsButton.setOpaque(true);
+        userReviewsButton.setBorderPainted(false);
+        userReviewsButton.setForeground(Color.BLACK);
 
         final JPanel bottomButtons = new JPanel();
         bottomButtons.add(watchedButton);
-        bottomButtons.add(leaveReviewButton);
         bottomButtons.add(addToListButton);
         bottomButtons.add(userReviewsButton);
 
@@ -203,6 +222,15 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
             final int ind = i;
             final UserWatchlist watchlist = watchlists.get(i);
             final JButton listButton = new JButton(watchlist.getListName());
+            listButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            listButton.setBackground(new Color(173, 216, 230));
+            listButton.setOpaque(true);
+            listButton.setBorderPainted(false);
+            listButton.setForeground(Color.BLACK);
+            listButton.setPreferredSize(new Dimension(150, 40));
+            listButton.setMinimumSize(new Dimension(150, 40));
+            listButton.setMaximumSize(new Dimension(150, 40));
+
             final Movie currentMovie = currentState.getCurrentMovie();
 
             if (watchlist.contains(currentMovie)) {
@@ -238,11 +266,11 @@ public class MovieView extends JPanel implements ActionListener, PropertyChangeL
         panel.add(buttonPanel, BorderLayout.CENTER);
         panel.add(closeButton, BorderLayout.SOUTH);
 
+        panel.setPreferredSize(new Dimension(300, 500));
+
         JOptionPane.showOptionDialog(this, panel, "My Lists", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
-
     }
-
 
     public void setLeaveReviewController(LeaveReviewController leaveReviewController) {
         this.leaveReviewController = leaveReviewController;

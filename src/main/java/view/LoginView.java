@@ -58,10 +58,19 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 passwordLabel, passwordInputField);
 
         final JPanel buttons = new JPanel();
-        toSignUp = new JButton("Create an account");
 
+        toSignUp = new JButton("Create an account");
+        toSignUp.setBackground(new Color(238, 232, 170));
+        toSignUp.setOpaque(true);
+        toSignUp.setBorderPainted(false);
+        toSignUp.setForeground(Color.BLACK);
         buttons.add(toSignUp);
+
         logIn = new JButton("Log in");
+        logIn.setBackground(new Color(173, 216, 230));
+        logIn.setOpaque(true);
+        logIn.setBorderPainted(false);
+        logIn.setForeground(Color.BLACK);
 
         buttons.add(logIn);
 

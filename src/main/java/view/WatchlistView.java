@@ -103,6 +103,14 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton movie = new JButton(movies.get(i).getTitle());
+            movie.setBackground(new Color(197, 224, 181));
+            movie.setOpaque(true);
+            movie.setBorderPainted(false);
+            movie.setForeground(Color.BLACK);
+
+            movie.setPreferredSize(new Dimension(150, 40));
+            movie.setMinimumSize(new Dimension(150, 40));
+            movie.setMaximumSize(new Dimension(150, 40));
             final int ind = i;
             movie.addActionListener(
                     evt -> {
@@ -113,6 +121,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             );
             buttons.add(movie);
             final JButton remove = new JButton(watchlistViewModel.REMOVE_LABEL);
+            remove.setBackground(new Color(238, 232, 170));
+            remove.setOpaque(true);
+            remove.setBorderPainted(false);
+            remove.setForeground(Color.BLACK);
             remove.addActionListener(
                     evt -> {
                         if (evt.getSource().equals(remove)) {

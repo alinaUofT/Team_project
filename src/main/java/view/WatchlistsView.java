@@ -63,8 +63,16 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
 
         // Title centered
         final JLabel title = new JLabel(watchlistsViewModel.TITLE_LABEL, SwingConstants.CENTER);
-        title.setFont(new Font("Sans Serif", Font.BOLD, 16));
+        title.setFont(new Font("Arial", Font.BOLD, 16));
         topPanel.add(title, BorderLayout.CENTER);
+
+        final JButton blank = new JButton(" ");
+        blank.setOpaque(false);
+        blank.setBorderPainted(false);
+        blank.setBackground(this.getBackground());
+        blank.setEnabled(false);
+
+        topPanel.add(blank, BorderLayout.EAST);
 
         this.add(topPanel, BorderLayout.NORTH);
 
@@ -97,6 +105,10 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
         this.watchlistButtons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.pwl = new JButton(WatchlistsViewModel.PWL_LABEL);
+        pwl.setBackground(new Color(197, 224, 181));
+        pwl.setOpaque(true);
+        pwl.setBorderPainted(false);
+        pwl.setForeground(Color.BLACK);
         pwl.setAlignmentX(Component.RIGHT_ALIGNMENT);
         pwl.addActionListener(evt -> {
             final User currentUser = watchlistsViewModel.getState().getCurrentUser();
@@ -120,7 +132,7 @@ public class WatchlistsView extends JPanel implements ActionListener, PropertyCh
             final JPanel buttons = new JPanel();
             buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
             final JButton watchlist = new JButton(watchlists.get(i).getListName());
-            watchlist.setBackground(new Color(188, 184, 138));
+            watchlist.setBackground(new Color(197, 224, 181));
             watchlist.setOpaque(true);
             watchlist.setBorderPainted(false);
             watchlist.setForeground(Color.BLACK);

@@ -57,6 +57,12 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel("Movies4U");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        searchEnter.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchEnter.setBackground(new Color(173, 216, 230));
+        searchEnter.setOpaque(true);
+        searchEnter.setBorderPainted(false);
+        searchEnter.setForeground(Color.BLACK);
+
         // creates the enter button
         searchEnter.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -84,6 +90,10 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         final JPanel bottomButtons = new JPanel();
 
         myWatchlists = new JButton("My Watchlists");
+        myWatchlists.setBackground(new Color(238, 232, 170));
+        myWatchlists.setOpaque(true);
+        myWatchlists.setBorderPainted(false);
+        myWatchlists.setForeground(Color.BLACK);
         myWatchlists.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
@@ -95,6 +105,11 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         );
 
         myReviewsButton = new JButton("My Reviews");
+        myReviewsButton.setBackground(new Color(230, 230, 250));
+        myReviewsButton.setOpaque(true);
+        myReviewsButton.setBorderPainted(false);
+        myReviewsButton.setForeground(Color.BLACK);
+
         bottomButtons.add(myWatchlists);
         bottomButtons.add(myReviewsButton);
         // Add ActionListener to trigger the controller
