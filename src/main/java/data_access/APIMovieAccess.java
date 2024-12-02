@@ -135,12 +135,13 @@ public class APIMovieAccess {
 
                 final JSONObject movie = resultsArray.getJSONObject(i);
 
-            // Extract movie details
-            final int movieId = movie.getInt("id");
-            final String title = movie.getString("title");
-            final String posterPath = movie.getString("poster_path");
-            final String overview = movie.getString("overview");
-            final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+                // Extract movie details
+                final int movieId = movie.getInt("id");
+                final String title = movie.getString("title");
+                final String posterPath = movie.getString("poster_path");
+                final String overview = movie.getString("overview");
+                final String voteAverage = String.valueOf(movie.getDouble("vote_average"));
+                final int movieID = movie.getInt("id");
 
                 // get the genre IDs in an array
                 final JSONArray genreID = movie.getJSONArray("genre_ids");
@@ -156,7 +157,7 @@ public class APIMovieAccess {
 
                 // create a movie with the title, and update the information
                 final CommonMovie result = new CommonMovie(title);
-                result.setInformation(posterPath, overview, voteAverage, genreList);
+                result.setInformation(posterPath, overview, voteAverage, genreList, movieID);
                 searchResults.add(result);
             }
 
