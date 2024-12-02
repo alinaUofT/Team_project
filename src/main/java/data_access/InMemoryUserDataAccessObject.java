@@ -121,7 +121,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public boolean saveWatchlist(User user, UserWatchlist watchlist) {
         boolean success = true;
-        if (!userWatchlists.containsKey(user.getName())) {
+        if (!users.containsKey(user.getName())) {
             success = false;
             throw new IllegalArgumentException("User not found: " + user.getName());
         }
@@ -135,7 +135,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public boolean saveToWatchlist(User user, String watchlistName, Movie movie) {
         boolean success = true;
         // Check if the user exists
-        if (!userWatchlists.containsKey(user.getName())) {
+        if (!users.containsKey(user.getName())) {
             success = false;
             throw new IllegalArgumentException("User not found: " + user.getName());
         }
