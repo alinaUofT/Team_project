@@ -178,7 +178,7 @@ public class APIMovieAccess {
         final JSONArray resultsArray = jsonObject.getJSONArray("results");
 
         // Iterate through the first 3 three movies
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < resultsArray.length(); i++) {
             final JSONObject movie = resultsArray.getJSONObject(i);
 
             // Extract movie details

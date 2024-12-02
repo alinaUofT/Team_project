@@ -84,9 +84,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     final UserWatchlist watchlist = watchlistFactory.create(watchlistName);
 
                     final List<String> movies = watchlistDoc.getList(MOVIES, String.class);
-                    final List<Integer> movieIds = watchlistDoc.getList(MOVIES, Integer.class);
+
                     if (!movies.isEmpty()) {
+                        final List<Integer> movieIds = watchlistDoc.getList("movieIds", Integer.class);
                         for (int i = 0; i < movies.size(); i++) {
+//                            final Integer id = Integer.parseInt(movieIds.get(i));
                             final Movie movie = apiMovieAccess.searchByID(movies.get(i), movieIds.get(i));
                             try {
                                 watchlist.addMovie(movie);
@@ -107,10 +109,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final String pwlName = pwlDoc.getString(WATCHLIST_NAME);
                 final UserWatchlist pwl = watchlistFactory.create(pwlName);
 
-
                 final List<String> pwlMovies = pwlDoc.getList(MOVIES, String.class);
-                final List<Integer> pwlmovieIds = pwlDoc.getList("movieIds", Integer.class);
                 if (pwlMovies != null && !pwlMovies.isEmpty()) {
+                    final List<Integer> pwlmovieIds = pwlDoc.getList("movieIds", Integer.class);
                     for (int i = 0; i < pwlMovies.size(); i++) {
                         final Movie movie = apiMovieAccess.searchByID(pwlMovies.get(i), pwlmovieIds.get(i));
                         try {
@@ -195,8 +196,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             // Create a document representing the review
             Document watchlistDoc = new Document()
                     .append(WATCHLIST_NAME, watchlist.getListName())
-                    .append("movies", Arrays.asList(movieNames))
-                    .append("movieIds", Arrays.asList(movieIds));
+                    .append("movies", movieNames)
+                    .append("movieIds", movieIds);
 
             collection.updateOne(
                     new Document("userId", user.getName()),
@@ -259,9 +260,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             // Create a document representing the review
             final Document pwlDoc = new Document()
                     .append(WATCHLIST_NAME, user.getPwl().getListName())
-                    .append("movies", Arrays.asList(movieNames))
-                    .append("movieIds", Arrays.asList(movieIds));
-
+                    .append("movies", movieNames)
+                    .append("movieIds", movieIds);
 
             collection.updateOne(
                     new Document("userId", user.getName()),
