@@ -1,5 +1,6 @@
 package use_case.watchlist;
 
+import entity.Movie;
 import entity.User;
 
 /**
@@ -23,4 +24,12 @@ public interface WatchlistOutputBoundary {
      * @param currentUser user that is currently logged in
      */
     void switchToMovieSearchView(String currentUser);
+
+    /**
+     * Executes the "switch to MovieView" Use Case.
+     * @param aCurrentUser logged in user
+     * @param aCurrentMovie current movie
+     * @param watchedData if user watched a movie
+     */
+    void switchToMovieView(User aCurrentUser, Movie aCurrentMovie, boolean watchedData);
 }

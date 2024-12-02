@@ -1,6 +1,6 @@
 package use_case.watchlist;
 
-import entity.User;
+import entity.Movie;
 
 /**
  * Input Boundary for actions which are related to watchlists.
@@ -23,5 +23,13 @@ public interface WatchlistInputBoundary {
      * @param username name of the user that is currently logged in
      */
     void switchToMovieSearchView(String username);
+
+    /**
+     * Executes the "switch to MovieView" Use Case.
+     * @param user logged in user
+     * @param movie movie
+     * @param ind index of the movie in the watchlist
+     */
+    void switchToMovieView(String user, Movie movie, int ind);
 
 }

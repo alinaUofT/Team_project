@@ -1,5 +1,6 @@
 package use_case.watchlist;
 
+import entity.Movie;
 import entity.User;
 
 /**
@@ -34,5 +35,18 @@ public class WatchlistInteractor implements WatchlistInputBoundary {
     @Override
     public void switchToMovieSearchView(String username) {
         userPresenter.switchToMovieSearchView(username);
+    }
+
+    /**
+     * Executes the "switch to MovieView" Use Case.
+     * @param user logged in user
+     * @param movie movie
+     * @param ind index of the movie in the watchlist
+     */
+    @Override
+    public void switchToMovieView(String user, Movie movie, int ind) {
+        final User currentUser = this.userDataAccessObject.get(user);
+        final boolean watched = currentUser.watchedBefore(movie);
+        userPresenter.switchToMovieView(currentUser, movie, watched);
     }
 }

@@ -6,6 +6,7 @@ import entity.User;
 import entity.Watchlist;
 import interface_adapter.watchlist.WatchlistController;
 import interface_adapter.watchlist.WatchlistViewModel;
+import interface_adapter.watchlist.remove.RemoveMovieController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
 
     private final WatchlistViewModel watchlistViewModel;
     private WatchlistController watchlistController;
+    private RemoveMovieController removeMovieController;
 
     private JLabel title;
     private JPanel topLine;
@@ -115,7 +117,9 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             movie.addActionListener(
                     evt -> {
                         if (evt.getSource().equals(movie)) {
-//                            TODO: ask Rhea if she already has controller that can do this
+                            watchlistController.switchToMovieView(watchlistViewModel.getState().getCurrentUser(),
+                                    movies.get(ind), ind);
+
                         }
                     }
             );
@@ -128,11 +132,11 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             remove.addActionListener(
                     evt -> {
                         if (evt.getSource().equals(remove)) {
-//                            TODO: write controller
-//                            final String currentUser = watchlistViewModel.getState().getCurrentUser();
-//                            final int watchlistIndex = watchlistViewModel.getState().getWatchlistIndex();
-//
-//                            removeMovieController.execute(currentUser, watchlistIndex, ind);
+
+                            final String currentUser = watchlistViewModel.getState().getCurrentUser();
+                            final int watchlistIndex = watchlistViewModel.getState().getWatchlistIndex();
+
+                            removeMovieController.execute(currentUser, watchlistIndex, ind);
                         }
                     }
             );
@@ -156,6 +160,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
 
     public void setWatchlistController(WatchlistController controller) {
         this.watchlistController = controller;
+    }
+
+    public void setRemoveMovieController(RemoveMovieController removeMovieController) {
+        this.removeMovieController = removeMovieController;
     }
 
     /**

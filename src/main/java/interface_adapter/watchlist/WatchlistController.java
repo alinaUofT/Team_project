@@ -1,6 +1,6 @@
 package interface_adapter.watchlist;
 
-import entity.User;
+import entity.Movie;
 import use_case.watchlist.WatchlistInputBoundary;
 
 /**
@@ -36,5 +36,15 @@ public class WatchlistController {
      */
     public void switchToMovieSearchView(String currentUser) {
         watchlistInteractor.switchToMovieSearchView(currentUser);
+    }
+
+    /**
+     * Executes the "switch to MovieView" Use Case.
+     * @param user logged in user
+     * @param movie movie
+     * @param ind index of the movie in the watchlist
+     */
+    public void switchToMovieView(String user, Movie movie, int ind) {
+        watchlistInteractor.switchToMovieView(user, movie, ind);
     }
 }

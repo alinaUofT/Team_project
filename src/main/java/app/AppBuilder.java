@@ -20,10 +20,8 @@ import interface_adapter.create_watchlist.CreateWatchlistPresenter;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.leave_review.LeaveReviewPresenter;
-import interface_adapter.leave_review.LeaveReviewState;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 import interface_adapter.movie.MovieState;
-import interface_adapter.movie.MovieViewModel;
 import interface_adapter.my_reviews.MyReviewsController;
 import interface_adapter.my_reviews.MyReviewsPresenter;
 import interface_adapter.my_reviews.MyReviewsViewModel;
@@ -55,6 +53,8 @@ import interface_adapter.survey_second_page.SurveySecondPagePresenter;
 import interface_adapter.survey_second_page.SurveySecondPageViewModel;
 
 import interface_adapter.watchlist.WatchlistViewModel;
+import interface_adapter.watchlist.remove.RemoveMovieController;
+import interface_adapter.watchlist.remove.RemoveMoviePresenter;
 import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.watchlists.WatchlistsPresenter;
 import interface_adapter.watchlists.WatchlistsViewModel;
@@ -106,6 +106,9 @@ import use_case.survey_second_page.SurveySecondPageInputBoundary;
 import use_case.survey_second_page.SurveySecondPageInteractor;
 import use_case.survey_second_page.SurveySecondPageOutputBoundary;
 
+import use_case.watchlist.remove.RemoveMovieInputBoundary;
+import use_case.watchlist.remove.RemoveMovieInteractor;
+import use_case.watchlist.remove.RemoveMovieOutputBoundary;
 import use_case.watchlists.WatchlistsInputBoundary;
 import use_case.watchlists.WatchlistsInteractor;
 import use_case.watchlists.WatchlistsOutputBoundary;
@@ -409,7 +412,7 @@ public class AppBuilder {
      */
     public AppBuilder addWatchlistUseCase() {
         final WatchlistOutputBoundary watchlistOutputBoundary = new WatchlistPresenter(viewManagerModel,
-                watchlistsViewModel, homeViewModel, watchlistViewModel, searchResultsViewModel);
+                watchlistsViewModel, homeViewModel, watchlistViewModel, searchResultsViewModel, movieViewModel);
         final WatchlistInputBoundary watchlistInteractor = new WatchlistInteractor(
                 userDataAccessObject, watchlistOutputBoundary);
 
@@ -561,6 +564,21 @@ public class AppBuilder {
 
         final AddToWatchlistController controller = new AddToWatchlistController(addToWatchlistInteractor);
         movieView.setAddToWatchlistController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Create Watchlist Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRemoveUseCase() {
+        final RemoveMovieOutputBoundary removeOutputBoundary = new RemoveMoviePresenter(
+                viewManagerModel, watchlistViewModel);
+        final RemoveMovieInputBoundary removeInteractor = new RemoveMovieInteractor(
+                userDataAccessObject, removeOutputBoundary);
+
+        final RemoveMovieController controller = new RemoveMovieController(removeInteractor);
+        watchlistView.setRemoveMovieController(controller);
         return this;
     }
 
