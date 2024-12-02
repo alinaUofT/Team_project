@@ -11,9 +11,9 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import data_access.GenreMap;
-import interface_adapter.survey1.SubmitController;
-import interface_adapter.survey1.Survey1State;
-import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.survey_one.SubmitController;
+import interface_adapter.survey_one.Survey1State;
+import interface_adapter.survey_one.Survey1ViewModel;
 
 /**
  * The Survey View for when the user creates an account.

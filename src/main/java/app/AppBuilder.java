@@ -42,9 +42,9 @@ import interface_adapter.search_results.SearchResultsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.survey1.SubmitController;
-import interface_adapter.survey1.Survey1Presenter;
-import interface_adapter.survey1.Survey1ViewModel;
+import interface_adapter.survey_one.SubmitController;
+import interface_adapter.survey_one.Survey1Presenter;
+import interface_adapter.survey_one.Survey1ViewModel;
 import interface_adapter.watchlist.WatchlistController;
 import interface_adapter.watchlist.WatchlistPresenter;
 
@@ -99,9 +99,9 @@ import use_case.watchlist.WatchlistInputBoundary;
 import use_case.watchlist.WatchlistInteractor;
 import use_case.watchlist.WatchlistOutputBoundary;
 
-import use_case.survey1.Survey1InputBoundary;
-import use_case.survey1.Survey1Interactor;
-import use_case.survey1.Survey1OutputBoundary;
+import use_case.survey_one.Survey1InputBoundary;
+import use_case.survey_one.Survey1Interactor;
+import use_case.survey_one.Survey1OutputBoundary;
 import use_case.survey_second_page.SurveySecondPageInputBoundary;
 import use_case.survey_second_page.SurveySecondPageInteractor;
 import use_case.survey_second_page.SurveySecondPageOutputBoundary;

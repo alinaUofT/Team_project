@@ -1,11 +1,10 @@
-package interface_adapter.survey1;
+package interface_adapter.survey_one;
 
-import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.survey_second_page.SurveySecondPageState;
 import interface_adapter.survey_second_page.SurveySecondPageViewModel;
-import use_case.survey1.Survey1OutputBoundary;
-import use_case.survey1.Survey1OutputData;
+import use_case.survey_one.Survey1OutputBoundary;
+import use_case.survey_one.Survey1OutputData;
 
 /**
  * Presenter for Second Survey Page.

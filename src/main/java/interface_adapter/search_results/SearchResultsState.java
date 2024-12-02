@@ -1,8 +1,8 @@
 package interface_adapter.search_results;
 
-import entity.CommonMovie;
-
 import java.util.List;
+
+import entity.CommonMovie;
 
 /**
  * The state for the Search Results View Model.

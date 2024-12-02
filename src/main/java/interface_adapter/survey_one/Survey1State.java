@@ -1,4 +1,4 @@
-package interface_adapter.survey1;
+package interface_adapter.survey_one;
 
 /**
  * The state for the Survey1 View Model.

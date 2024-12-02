@@ -1,6 +1,5 @@
-package use_case.survey1;
+package use_case.survey_one;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

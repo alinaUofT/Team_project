@@ -1,9 +1,9 @@
-package interface_adapter.survey1;
+package interface_adapter.survey_one;
 
 import java.util.List;
 
-import use_case.survey1.Survey1InputBoundary;
-import use_case.survey1.Survey1InputData;
+import use_case.survey_one.Survey1InputBoundary;
+import use_case.survey_one.Survey1InputData;
 
 /**
  * The controller for the Login Use Case.

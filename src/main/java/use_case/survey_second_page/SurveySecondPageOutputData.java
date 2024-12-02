@@ -10,20 +10,14 @@ import entity.CommonMovie;
  */
 public class SurveySecondPageOutputData {
 
-    private final ArrayList<List<String>> favoriteGenres;
     private final ArrayList<String> favoriteMovies;
-
-    private final boolean useCaseFailed;
 
     public SurveySecondPageOutputData(String firstMovie, String secondMovie, String thirdMovie, boolean useCaseFailed) {
 
-        this.favoriteGenres = new ArrayList<>();
         this.favoriteMovies = new ArrayList<>();
         this.favoriteMovies.add(firstMovie);
         this.favoriteMovies.add(secondMovie);
         this.favoriteMovies.add(thirdMovie);
-
-        this.useCaseFailed = useCaseFailed;
     }
 
     public ArrayList<String> getFavoriteMovies() {
