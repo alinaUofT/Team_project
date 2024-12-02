@@ -21,6 +21,9 @@ public interface MovieOutputBoundary {
      */
     void switchToUserReviewsView();
 
+    /**
+     * Switches to the leave review view.
+     */
     void switchToLeaveReviewView();
 
 }

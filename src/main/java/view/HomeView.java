@@ -1,8 +1,7 @@
+
 package view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -21,9 +20,6 @@ import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.search_results.SearchResultsController;
-import interface_adapter.search_results.SearchResultsState;
-import interface_adapter.search_results.SearchResultsViewModel;
-import interface_adapter.watchlists.WatchlistsController;
 import interface_adapter.my_reviews.MyReviewsController;
 
 /**
@@ -117,7 +113,7 @@ public class HomeView extends JPanel implements PropertyChangeListener {
         // Add ActionListener to trigger the controller
         myReviewsButton.addActionListener(evt -> {
           final User user = homeController.getUser(homeViewModel.getState().getUsername());
-            myReviewsController.getReviews(user); // Call the controller with the username
+            myReviewsController.getReviews(user);
         });
 
 

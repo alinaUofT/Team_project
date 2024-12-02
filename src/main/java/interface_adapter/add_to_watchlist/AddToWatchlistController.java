@@ -1,3 +1,4 @@
+
 package interface_adapter.add_to_watchlist;
 
 import entity.Movie;

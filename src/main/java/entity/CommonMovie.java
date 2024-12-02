@@ -30,12 +30,12 @@ public class CommonMovie implements Movie, Comparable {
 
     @Override
     public void setInformation(String posterPaths, String overviews, String voteAverages, List<String> genresList,
-                               int movieId) {
+                               int movieID) {
         this.posterPath = posterPaths;
         this.overview = overviews;
         this.voterAverage = voteAverages;
         this.genres = genresList;
-        this.movieId = movieId;
+        this.movieId = movieID;
     }
 
     @Override

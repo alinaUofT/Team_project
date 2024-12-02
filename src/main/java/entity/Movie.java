@@ -18,6 +18,10 @@ public interface Movie {
      */
     void setInformation(String posterPath, String overview, String voteAverage, List<String> genres, int movieId);
 
+    /**
+     * Return the ID of this movie.
+     * @return an int.
+     */
     int getMovieId();
 
     /**

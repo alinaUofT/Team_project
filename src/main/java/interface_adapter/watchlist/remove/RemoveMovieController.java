@@ -1,7 +1,5 @@
 package interface_adapter.watchlist.remove;
 
-import entity.User;
-import use_case.watchlist.WatchlistInputBoundary;
 import use_case.watchlist.remove.RemoveMovieInputBoundary;
 import use_case.watchlist.remove.RemoveMovieInputData;
 

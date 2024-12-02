@@ -19,6 +19,11 @@ public interface HomeInputBoundary {
      */
     void switchToSearchResultsView(String title);
 
+    /**
+     * Return the user object associated to the given the username.
+     * @param username the username of the user object.
+     * @return
+     */
     User getUser(String username);
 
 }
