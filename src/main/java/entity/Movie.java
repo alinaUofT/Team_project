@@ -13,10 +13,12 @@ public interface Movie {
      * @param overview the overview of the movie.
      * @param voteAverage the voteAverage of the movie.
      * @param genres the genres of the movie.
+     * @param movieId the Id of the movie in the database
      *
      */
-    void setInformation(String posterPath, String overview, String voteAverage, List<String> genres);
+    void setInformation(String posterPath, String overview, String voteAverage, List<String> genres, int movieId);
 
+    int getMovieId();
 
     /**
      * Returns the title of the movie.

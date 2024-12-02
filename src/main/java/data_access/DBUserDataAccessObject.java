@@ -51,6 +51,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private final CommonUserFactory userFactory;
     private final CommonUserWatchlistFactory watchlistFactory;
     private final CommonMovieFactory movieFactory;
+    private final APIMovieAccess apiMovieAccess = new APIMovieAccess();
 
     DataBaseConstructor database = new DataBaseConstructor();
     MongoCollection<Document> collection = database.GetCollection("Users");
@@ -83,9 +84,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     final UserWatchlist watchlist = watchlistFactory.create(watchlistName);
 
                     final List<String> movies = watchlistDoc.getList(MOVIES, String.class);
+                    final List<Integer> movieIds = watchlistDoc.getList(MOVIES, Integer.class);
                     if (!movies.isEmpty()) {
-                        for (String movieName : movies) {
-                            final Movie movie = movieFactory.create(movieName);
+                        for (int i = 0; i < movies.size(); i++) {
+                            final Movie movie = apiMovieAccess.searchByID(movies.get(i), movieIds.get(i));
                             try {
                                 watchlist.addMovie(movie);
                             }
@@ -105,10 +107,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final String pwlName = pwlDoc.getString(WATCHLIST_NAME);
                 final UserWatchlist pwl = watchlistFactory.create(pwlName);
 
+
                 final List<String> pwlMovies = pwlDoc.getList(MOVIES, String.class);
+                final List<Integer> pwlmovieIds = pwlDoc.getList("movieIds", Integer.class);
                 if (pwlMovies != null && !pwlMovies.isEmpty()) {
-                    for (String movieName : pwlMovies) {
-                        final Movie movie = movieFactory.create(movieName);
+                    for (int i = 0; i < pwlMovies.size(); i++) {
+                        final Movie movie = apiMovieAccess.searchByID(pwlMovies.get(i), pwlmovieIds.get(i));
                         try {
                             pwl.addMovie(movie);
                         } catch (Exception e) {
@@ -181,10 +185,18 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     public boolean saveWatchlist(User user, UserWatchlist watchlist) {
         boolean success = false;
         try {
+            List<String> movieNames = new ArrayList<>();
+            List<Integer> movieIds = new ArrayList<>();
+            for (Movie movie : watchlist.getMovies()) {
+                movieNames.add(movie.getTitle());
+                movieIds.add(movie.getMovieId());
+            }
+
             // Create a document representing the review
             Document watchlistDoc = new Document()
                     .append(WATCHLIST_NAME, watchlist.getListName())
-                    .append(MOVIES, watchlist.getMovies());
+                    .append("movies", Arrays.asList(movieNames))
+                    .append("movieIds", Arrays.asList(movieIds));
 
             collection.updateOne(
                     new Document("userId", user.getName()),
@@ -238,10 +250,18 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public void savePwl(User user) {
         try {
+            List<String> movieNames = new ArrayList<>();
+            List<Integer> movieIds = new ArrayList<>();
+            for (Movie movie : user.getPwl().getMovies()) {
+                movieNames.add(movie.getTitle());
+                movieIds.add(movie.getMovieId());
+            }
             // Create a document representing the review
             final Document pwlDoc = new Document()
                     .append(WATCHLIST_NAME, user.getPwl().getListName())
-                    .append(MOVIES, user.getPwl().getMovies());
+                    .append("movies", Arrays.asList(movieNames))
+                    .append("movieIds", Arrays.asList(movieIds));
+
 
             collection.updateOne(
                     new Document("userId", user.getName()),
@@ -263,11 +283,14 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final Document pwlDoc = userDoc.get("previouslyWatched", Document.class);
 
                 if (pwlDoc != null) {
-                    pwlDoc.append(MOVIES, movie.getTitle());
                     // Update the watchlist by adding the new movie
                     collection.updateOne(
                             new Document("userId", user.getName()),
                             new Document("$push", new Document("previouslyWatched.movies", movie.getTitle()))
+                    );
+                    collection.updateOne(
+                            new Document("userId", user.getName()),
+                            new Document("$push", new Document("previouslyWatched.movieIds", movie.getMovieId()))
                     );
                     System.out.println("Movie added to watchlist successfully!");
                     success = true;
@@ -276,7 +299,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                     // If the PWL doesn't exist, create it and add the movie
                     final Document newPwlDoc = new Document()
                             .append("watchlistName", "Previously Watched")
-                            .append("movies", Arrays.asList(movie.getTitle()));
+                            .append("movies", Arrays.asList(movie.getTitle()))
+                            .append("movieIds", Arrays.asList(movie.getMovieId()));
                     collection.updateOne(
                             new Document("userId", user.getName()),
                             new Document("$set", new Document("previouslyWatched", newPwlDoc))
@@ -340,12 +364,17 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             final Document userDoc = collection.find(new Document("userId", user.getName())).first();
 
             if (userDoc != null) {
-                final String path = WATCHLIST + "." + ind + ".movies";
+                final String path1 = WATCHLIST + "." + ind + ".movies";
+                final String path2 = WATCHLIST + "." + ind + ".movieIds";
 
                 // Update the watchlist by adding the new movie
                 collection.updateOne(
                         new Document("userId", user.getName()),
-                        new Document("$push", new Document(path, movie.getTitle()))
+                        new Document("$push", new Document(path1, movie.getTitle()))
+                );
+                collection.updateOne(
+                        new Document("userId", user.getName()),
+                        new Document("$push", new Document(path2, movie.getMovieId()))
                 );
                 System.out.println("Movie added to watchlist successfully!");
                 success = true;
@@ -378,6 +407,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 for (Document watchlistDoc : rawWatchlists) {
                     final String watchlistName = watchlistDoc.getString("watchlistName");
                     final List<Movie> movies = watchlistDoc.getList("movies", Movie.class);
+
 
                     // Use the factory to create the Watchlist
                     final UserWatchlist watchlist;
