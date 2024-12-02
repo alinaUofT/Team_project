@@ -20,6 +20,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 import use_case.survey_one.Survey1UserDataAccessInterface;
 import use_case.survey_second_page.SurveySecondPageDataAccessInterface;
 import use_case.watchlist.WatchlistUserDataAccessInterface;
+import use_case.watchlist.remove.RemoveMovieUserDataAccessInterface;
 import use_case.watchlists.WatchlistsUserDataAccessInterface;
 import use_case.watchlists.delete.DeleteWatchlistUserDataAccessInterface;
 import use_case.watchlists.rename.RenameUserDataAccessInterface;
@@ -32,7 +33,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LogoutUserDataAccessInterface, WatchlistsUserDataAccessInterface, WatchlistUserDataAccessInterface, LeaveReviewDataAccessInterface,
         Survey1UserDataAccessInterface, SurveySecondPageDataAccessInterface,
         CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface,
-        DeleteWatchlistUserDataAccessInterface {
+        DeleteWatchlistUserDataAccessInterface, RemoveMovieUserDataAccessInterface {
 
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -229,6 +230,68 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         catch (Exception exception) {
             System.err.println(WATCHLIST_TO_USER + exception.getMessage());
+        }
+        return success;
+    }
+
+    @Override
+    public boolean deleteFromWatchlist(User user, int watchlistInd, int ind) {
+        boolean success = false;
+        try {
+            final String path1 = WATCHLIST + "." + watchlistInd + ".movies";
+            final String path2 = WATCHLIST + "." + watchlistInd + ".movieIds";
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$unset", new Document(path1  + "." + ind, ind))
+            );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(path1, null))
+            );
+
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$unset", new Document(path2 + "." + ind, ind))
+            );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(path2, null))
+            );
+
+            success = true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
+        }
+        return success;
+    }
+
+    @Override
+    public boolean deleteFromPwl(User user, int ind) {
+        boolean success = false;
+        try {
+            final String path1 = "previouslyWatched" + ".movies";
+            final String path2 = "previouslyWatched" + ".movieIds";
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$unset", new Document(path1 + "." + ind, ind))
+            );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(path1, null))
+            );
+
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$unset", new Document(path2 + "." + ind, ind))
+            );
+            collection.updateOne(
+                    new Document("userId", user.getName()),
+                    new Document("$pull", new Document(path2, null))
+            );
+
+            success = true;
+        } catch (Exception e) {
+            System.err.println("Error adding watchlist to user: " + e.getMessage());
         }
         return success;
     }
