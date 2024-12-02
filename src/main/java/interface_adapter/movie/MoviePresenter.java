@@ -57,7 +57,6 @@ public class MoviePresenter implements MovieOutputBoundary {
     }
 
     public void switchToLeaveReviewView() {
-        System.out.println("Presenter reached");
         leaveReviewViewModel.getState().setUsername(movieViewModel.getState().getCurrentUser().getName());
         leaveReviewViewModel.getState().setMoviename(movieViewModel.getState().getCurrentMovie().getTitle());
         viewManagerModel.setState(leaveReviewViewModel.getViewName());
