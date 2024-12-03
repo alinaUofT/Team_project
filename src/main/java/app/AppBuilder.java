@@ -126,7 +126,6 @@ public class AppBuilder {
     private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-    private final CommonMovieFactory movieFactory = new CommonMovieFactory();
 
 
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
@@ -160,14 +159,12 @@ public class AppBuilder {
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
-    private MovieUserDataAccessInterface movieDataAccessObject;
 
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
     private LeaveReviewView leaveReviewView;
     private LeaveReviewViewModel leaveReviewViewModel;
     private final LoggedInState loggedInState = new LoggedInState();
-    private final MovieState movieState = new MovieState();
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -245,11 +242,6 @@ public class AppBuilder {
         // Step 4: Return the AppBuilder for chaining
         return this;
     }
-
-    /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     */
 
     /**
      * Adds the My_Reviews Use Case to the application.
@@ -504,7 +496,7 @@ public class AppBuilder {
     public AppBuilder addMovieUseCase() {
         final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
                 movieViewModel, homeViewModel, leaveReviewViewModel);
-        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
+        final MovieInputBoundary movieInteractor = new MovieInteractor(movieOutputBoundary);
         final MovieController controller = new MovieController(movieInteractor);
         movieView.setMovieController(controller);
         return this;
