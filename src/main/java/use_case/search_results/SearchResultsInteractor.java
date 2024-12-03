@@ -28,30 +28,24 @@ public class SearchResultsInteractor implements SearchResultsInputBoundary {
     public void execute(SearchResultsInputData searchResultsInputData) {
         final String searchText = searchResultsInputData.getSearchText();
 
-        if (!searchResultsDataAccess.existsByName(searchText)) {
-            searchResultsPresenter.prepareFailView(searchText + ": Cannot be found.");
+        final List<CommonMovie> results = APIMovieAccess.formatedSearchedMovies(searchText);
+        final List<String> movieTitles = new ArrayList<>();
+        final List<String> posterPaths = new ArrayList<>();
+
+        if (!results.isEmpty()) {
+            for (int i = 0; i < results.size(); i++) {
+                final CommonMovie movie = results.get(i);
+                movieTitles.add(movie.getTitle());
+                posterPaths.add(movie.getPoster());
+            }
+            final SearchResultsOutputData searchResultsOutputData = new SearchResultsOutputData(searchText,
+                    movieTitles, posterPaths, results);
+            searchResultsPresenter.prepareSuccessView(searchResultsOutputData);
         }
         else {
-            final List<CommonMovie> results = APIMovieAccess.formatedSearchedMovies(searchText);
-            final List<String> movieTitles = new ArrayList<>();
-            final List<String> posterPaths = new ArrayList<>();
-
-            if (!results.isEmpty()) {
-                for (int i = 0; i < results.size(); i++) {
-                    final CommonMovie movie = results.get(i);
-                    movieTitles.add(movie.getTitle());
-                    posterPaths.add(movie.getPoster());
-                }
-                final SearchResultsOutputData searchResultsOutputData = new SearchResultsOutputData(searchText,
-                        movieTitles, posterPaths, results);
-                searchResultsPresenter.prepareSuccessView(searchResultsOutputData);
-
-            }
-            else {
-                searchResultsPresenter.prepareFailView(searchText + ": Cannot be found.");
-            }
-
+            searchResultsPresenter.prepareFailView(searchText + ": Cannot be found.");
         }
+
     }
 
     /**
