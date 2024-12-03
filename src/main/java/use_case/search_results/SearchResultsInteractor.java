@@ -1,12 +1,12 @@
 package use_case.search_results;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import data_access.APIMovieAccess;
 import data_access.DBUserDataAccessObject;
 import entity.CommonMovie;
 import entity.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Search Results Interactor.

@@ -86,6 +86,10 @@ public class SurveySecondPageState {
                 + '}';
     }
 
+    /**
+     * Set the current user who is using this survey.
+     * @param user the user taking the survey.
+     */
     public void setCurrentUser(User user) {
 
     }

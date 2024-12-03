@@ -4,11 +4,7 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUser;
 import entity.CommonUserFactory;
 import entity.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
-import use_case.watchlist.WatchlistUserDataAccessInterface;
 
 import static org.junit.jupiter.api.Assertions.*;
 class WatchlistsInteractorTest {

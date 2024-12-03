@@ -3,8 +3,6 @@ package interface_adapter.watchlists.delete;
 import entity.User;
 import use_case.watchlists.delete.DeleteWatchlistInputBoundary;
 import use_case.watchlists.delete.DeleteWatchlistInputData;
-import use_case.watchlists.rename.RenameInputBoundary;
-import use_case.watchlists.rename.RenameInputData;
 
 /**
  * Controller for the Change Password Use Case.
