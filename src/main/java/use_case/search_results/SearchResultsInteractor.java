@@ -17,7 +17,8 @@ public class SearchResultsInteractor implements SearchResultsInputBoundary {
     private final DBUserDataAccessObject dbUserDataAccess;
 
     public SearchResultsInteractor(SearchResultsDataAccessInterface searchResultsDataAccess,
-                                   SearchResultsOutputBoundary searchResultsOutputBoundary, DBUserDataAccessObject dbUserDataAccess) {
+                                   SearchResultsOutputBoundary searchResultsOutputBoundary,
+                                   DBUserDataAccessObject dbUserDataAccess) {
         this.searchResultsDataAccess = searchResultsDataAccess;
         this.searchResultsPresenter = searchResultsOutputBoundary;
         this.dbUserDataAccess = dbUserDataAccess;
