@@ -136,7 +136,6 @@ public class APIMovieAccess {
                 final JSONObject movie = resultsArray.getJSONObject(i);
 
                 // Extract movie details
-                final int movieId = movie.getInt("id");
                 final String title = movie.getString("title");
                 final String posterPath = movie.getString("poster_path");
                 final String overview = movie.getString("overview");

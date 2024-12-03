@@ -86,6 +86,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
                     if (!movies.isEmpty()) {
                         final List<Integer> movieIds = watchlistDoc.getList(MOVIE_IDS, Integer.class);
+
                         for (int i = 0; i < movies.size(); i++) {
                             // final Integer id = Integer.parseInt(movieIds.get(i));
                             final Movie movie = apiMovieAccess.searchByID(movies.get(i), movieIds.get(i));

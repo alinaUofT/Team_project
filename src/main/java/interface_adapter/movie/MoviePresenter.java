@@ -50,8 +50,7 @@ public class MoviePresenter implements MovieOutputBoundary {
 
     @Override
     public void switchToUserReviewsView() {
-        // TODO not implemented
-        viewManagerModel.setState(homeViewModel.getViewName());
+//        viewManagerModel.setState(homeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
