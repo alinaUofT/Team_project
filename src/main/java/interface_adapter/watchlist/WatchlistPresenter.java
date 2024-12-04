@@ -53,9 +53,7 @@ public class WatchlistPresenter implements WatchlistOutputBoundary {
 
     @Override
     public void switchToMovieSearchView(String currentUser) {
-        // should switch to watchlist view which is not implemented
         searchResultsViewModel.getState().setUsername(currentUser);
-//        searchResultsViewModel.firePropertyChanged();
         viewManagerModel.setState(searchResultsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

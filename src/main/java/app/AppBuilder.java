@@ -6,36 +6,35 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import data_access.DBSearchResultsDataAccessObject;
-import entity.CommonMovieFactory;
-import interface_adapter.movie.MovieController;
-import interface_adapter.movie.MoviePresenter;
-import interface_adapter.movie.MovieViewModel;
 
+import data_access.DBSearchResultsDataAccessObject;
+import data_access.DBUserDataAccessObject;
+import entity.CommonMovieFactory;
+import entity.CommonUserFactory;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.add_to_watchlist.AddToWatchlistController;
 import interface_adapter.add_to_watchlist.AddToWatchlistPresenter;
-
 import interface_adapter.create_watchlist.CreateWatchlistController;
 import interface_adapter.create_watchlist.CreateWatchlistPresenter;
+import interface_adapter.home.HomeController;
+import interface_adapter.home.HomePresenter;
+import interface_adapter.home.HomeViewModel;
 import interface_adapter.home.LoggedInState;
 import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.leave_review.LeaveReviewPresenter;
 import interface_adapter.leave_review.LeaveReviewViewModel;
-import interface_adapter.movie.MovieState;
-import interface_adapter.my_reviews.MyReviewsController;
-import interface_adapter.my_reviews.MyReviewsPresenter;
-import interface_adapter.my_reviews.MyReviewsViewModel;
-import data_access.DBUserDataAccessObject;
-import entity.CommonUserFactory;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.home.HomeController;
-import interface_adapter.home.HomePresenter;
-import interface_adapter.home.HomeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.movie.MovieController;
+import interface_adapter.movie.MoviePresenter;
+import interface_adapter.movie.MovieState;
+import interface_adapter.movie.MovieViewModel;
+import interface_adapter.my_reviews.MyReviewsController;
+import interface_adapter.my_reviews.MyReviewsPresenter;
+import interface_adapter.my_reviews.MyReviewsViewModel;
 import interface_adapter.search_results.SearchResultsController;
 import interface_adapter.search_results.SearchResultsPresenter;
 import interface_adapter.search_results.SearchResultsViewModel;
@@ -45,13 +44,11 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.survey_one.SubmitController;
 import interface_adapter.survey_one.Survey1Presenter;
 import interface_adapter.survey_one.Survey1ViewModel;
-import interface_adapter.watchlist.WatchlistController;
-import interface_adapter.watchlist.WatchlistPresenter;
-
 import interface_adapter.survey_second_page.SurveySecondPageController;
 import interface_adapter.survey_second_page.SurveySecondPagePresenter;
 import interface_adapter.survey_second_page.SurveySecondPageViewModel;
-
+import interface_adapter.watchlist.WatchlistController;
+import interface_adapter.watchlist.WatchlistPresenter;
 import interface_adapter.watchlist.WatchlistViewModel;
 import interface_adapter.watchlist.remove.RemoveMovieController;
 import interface_adapter.watchlist.remove.RemoveMoviePresenter;
@@ -85,26 +82,21 @@ import use_case.movie.MovieInteractor;
 import use_case.movie.MovieOutputBoundary;
 import use_case.movie.MovieUserDataAccessInterface;
 import use_case.my_reviews.*;
-
 import use_case.search_results.SearchResultsInputBoundary;
 import use_case.search_results.SearchResultsInteractor;
 import use_case.search_results.SearchResultsOutputBoundary;
-
-
-
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import use_case.watchlist.WatchlistInputBoundary;
-import use_case.watchlist.WatchlistInteractor;
-import use_case.watchlist.WatchlistOutputBoundary;
-
 import use_case.survey_one.Survey1InputBoundary;
 import use_case.survey_one.Survey1Interactor;
 import use_case.survey_one.Survey1OutputBoundary;
 import use_case.survey_second_page.SurveySecondPageInputBoundary;
 import use_case.survey_second_page.SurveySecondPageInteractor;
 import use_case.survey_second_page.SurveySecondPageOutputBoundary;
+import use_case.watchlist.WatchlistInputBoundary;
+import use_case.watchlist.WatchlistInteractor;
+import use_case.watchlist.WatchlistOutputBoundary;
 
 import use_case.watchlist.remove.RemoveMovieInputBoundary;
 import use_case.watchlist.remove.RemoveMovieInteractor;
@@ -127,13 +119,13 @@ import view.*;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
+
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final CommonUserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-    private final CommonMovieFactory movieFactory = new CommonMovieFactory();
 
 
     private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
@@ -167,14 +159,12 @@ public class AppBuilder {
 
     private MovieViewModel movieViewModel;
     private MovieView movieView;
-    private MovieUserDataAccessInterface movieDataAccessObject;
 
     private SurveySecondPageViewModel surveySecondPageViewModel;
     private SurveySecondPageView surveySecondPageView;
     private LeaveReviewView leaveReviewView;
     private LeaveReviewViewModel leaveReviewViewModel;
     private final LoggedInState loggedInState = new LoggedInState();
-    private final MovieState movieState = new MovieState();
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -254,11 +244,6 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Survey1 View to the application.
-     * @return this builder
-     */
-
-    /**
      * Adds the My_Reviews Use Case to the application.
      * @return this builder
      */
@@ -332,6 +317,11 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the leave review view.
+     * @return this builder
+     */
+
     public AppBuilder addLeaveReviewView() {
 
         leaveReviewViewModel = new LeaveReviewViewModel();
@@ -342,6 +332,11 @@ public class AppBuilder {
 
         return this;
     }
+
+    /**
+     * Adds the leave review use case.
+     * @return this builder
+     */
 
     public AppBuilder addLeaveReviewUseCase() {
 
@@ -501,7 +496,7 @@ public class AppBuilder {
     public AppBuilder addMovieUseCase() {
         final MovieOutputBoundary movieOutputBoundary = new MoviePresenter(viewManagerModel,
                 movieViewModel, homeViewModel, leaveReviewViewModel);
-        final MovieInputBoundary movieInteractor = new MovieInteractor(movieDataAccessObject, movieOutputBoundary);
+        final MovieInputBoundary movieInteractor = new MovieInteractor(movieOutputBoundary);
         final MovieController controller = new MovieController(movieInteractor);
         movieView.setMovieController(controller);
         return this;

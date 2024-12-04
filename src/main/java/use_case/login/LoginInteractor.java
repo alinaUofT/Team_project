@@ -38,7 +38,6 @@ public class LoginInteractor implements LoginInputBoundary {
         }
     }
 
-
     /**
      * Executes the switch to signup view use case.
      */

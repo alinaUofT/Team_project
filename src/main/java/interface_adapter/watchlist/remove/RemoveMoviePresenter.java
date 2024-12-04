@@ -3,9 +3,7 @@ package interface_adapter.watchlist.remove;
 import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.watchlist.WatchlistViewModel;
-import interface_adapter.watchlists.WatchlistsViewModel;
 import use_case.watchlist.remove.RemoveMovieOutputBoundary;
-import use_case.watchlists.delete.DeleteWatchlistOutputBoundary;
 
 /**
  * The Presenter for the Delete Watchlist Use Case.

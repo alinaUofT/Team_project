@@ -4,6 +4,9 @@ import entity.Movie;
 import entity.User;
 import entity.Watchlist;
 
+/**
+ * The input boundary for our add to watchlist use case.
+ */
 public interface AddToWatchlistInputBoundary {
 
     /**

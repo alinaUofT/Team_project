@@ -1,11 +1,5 @@
 package use_case.search_results;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import data_access.APIMovieAccess;
-import entity.CommonMovie;
-
 /**
  * The Input Data for the Search Results Use Case.
  */

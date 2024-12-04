@@ -56,7 +56,10 @@ public class LeaveReviewInteractor implements LeaveReviewInputBoundary {
         leaveReviewPresenter.goBack();
     }
 
-    public void goHome(){
+    /**
+     * Go to the home screen.
+     */
+    public void goHome() {
         leaveReviewPresenter.goHome();
     }
 }

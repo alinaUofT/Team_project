@@ -1,20 +1,16 @@
 package use_case.movie;
 
-import entity.CommonMovie;
-import entity.Movie;
-
 import java.util.List;
+
+import entity.CommonMovie;
 
 /**
  * The Movie Interactor.
  */
 public class MovieInteractor implements MovieInputBoundary {
-    private final MovieUserDataAccessInterface movieDataAccessObject;
     private final MovieOutputBoundary moviePresenter;
 
-    public MovieInteractor(MovieUserDataAccessInterface movieDataAccessInterface,
-                                MovieOutputBoundary movieOutputBoundary) {
-        this.movieDataAccessObject = movieDataAccessInterface;
+    public MovieInteractor(MovieOutputBoundary movieOutputBoundary) {
         this.moviePresenter = movieOutputBoundary;
     }
 

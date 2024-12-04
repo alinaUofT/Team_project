@@ -1,7 +1,6 @@
 package interface_adapter.leave_review;
 
 import interface_adapter.ViewModel;
-import interface_adapter.watchlists.WatchlistsState;
 
 /**
  * The view model for the leave a review use case.
@@ -25,6 +24,7 @@ public class LeaveReviewViewModel extends ViewModel<LeaveReviewState> {
 
     /**
      * Set the state of the view model to true to indicate success of leaving a review.
+     * @param  success1 was the review was submitted successfully or not.
      */
 
     public void success(boolean success1) {

@@ -1,20 +1,18 @@
 package view;
 
-import entity.CommonMovie;
-import entity.Movie;
-import entity.User;
-import entity.Watchlist;
-import interface_adapter.watchlist.WatchlistController;
-import interface_adapter.watchlist.WatchlistViewModel;
-import interface_adapter.watchlist.remove.RemoveMovieController;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import javax.swing.*;
+
+import entity.Movie;
+import interface_adapter.watchlist.WatchlistController;
+import interface_adapter.watchlist.WatchlistViewModel;
+import interface_adapter.watchlist.remove.RemoveMovieController;
 
 /**
  * The View for the screen showing a content of a watchlist.
@@ -62,7 +60,7 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
         this.add(topLine, BorderLayout.NORTH);
 
         // Center panel for the Add Movie button and movie buttons
-        JPanel centerPanel = new JPanel();
+        final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -76,13 +74,13 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
         addMovie.setForeground(Color.BLACK);
 
         addMovie.addActionListener(evt -> watchlistController.switchToMovieSearchView(watchlistViewModel.getState().getCurrentUser()));
-        centerPanel.add(Box.createVerticalStrut(20)); // Add some space between topLine and Add Movie button
+        centerPanel.add(Box.createVerticalStrut(20));
         centerPanel.add(addMovie);
 
         // Panel for movie buttons
         this.movieButtons = new JPanel();
         this.movieButtons.setLayout(new BoxLayout(this.movieButtons, BoxLayout.Y_AXIS));
-        centerPanel.add(Box.createVerticalStrut(10)); // Space between Add Movie button and movie buttons
+        centerPanel.add(Box.createVerticalStrut(10));
         centerPanel.add(this.movieButtons);
 
         // Add centerPanel to the center of the layout
@@ -97,9 +95,7 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
     private void updateWatchlist() {
         this.title.setText(this.watchlistViewModel.getState().getWatchlistName());
         this.movieButtons.removeAll();
-//        while (this.movieButtons.getComponentCount() > 0) {
-//            this.movieButtons.remove(this.movieButtons.getComponentCount() - 1);
-//        }
+
         final List<Movie> movies = watchlistViewModel.getState().getWatchlist().getMovies();
         for (int i = 0; i < movies.size(); i++) {
             final JPanel buttons = new JPanel();

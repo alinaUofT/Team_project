@@ -2,6 +2,9 @@ package entity;
 
 import java.util.Date;
 
+/**
+ * A common movie review object.
+ */
 public class CommonMovieReview implements MovieReview {
     private final String userID;
     private final Date date;
@@ -47,5 +50,3 @@ public class CommonMovieReview implements MovieReview {
         return this.movieTitle;
     }
 }
-
-

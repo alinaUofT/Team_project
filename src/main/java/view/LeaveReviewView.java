@@ -1,15 +1,21 @@
+
 package view;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import interface_adapter.leave_review.LeaveReviewController;
 import interface_adapter.leave_review.LeaveReviewViewModel;
 
+/**
+ * The view for our leave a review use case.
+ */
 public class LeaveReviewView extends JPanel implements PropertyChangeListener {
     private String viewName;
     private final LeaveReviewViewModel viewModel;
@@ -74,19 +80,22 @@ public class LeaveReviewView extends JPanel implements PropertyChangeListener {
 
         // Submit button listener
         submitButton.addActionListener(e -> {
-            String review = reviewTextArea.getText().trim();
+            final String review = reviewTextArea.getText().trim();
             if (selectedRating != 0) {
                 if (wordCount(review) <= maxWords) {
                     JOptionPane.showMessageDialog(this, "Review submitted!");
                     if (review.isEmpty()) {
                         controller.leaveReview(viewModel.getUsername(), selectedRating, viewModel.getMovieName());
-                    } else {
+                    }
+                    else {
                         controller.leaveReview(viewModel.getUsername(), selectedRating, review, viewModel.getMovieName());
                     }
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(this, "Review exceeds 250 words!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(this, "Please select a star rating!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -156,10 +165,16 @@ public class LeaveReviewView extends JPanel implements PropertyChangeListener {
         submitButton.setEnabled(words <= maxWords && !text.isEmpty());
     }
 
+    /**
+     * Count the word for the written component to make sure they ndont exceed 250.
+     * @param text the content of this written review.
+     * @return the number of words counted.
+     */
     private int wordCount(String text) {
         if (text.isEmpty()) return 0;
         return text.split("\\s+").length;
     }
+
     public String getViewName() {
         return this.viewName;
     }

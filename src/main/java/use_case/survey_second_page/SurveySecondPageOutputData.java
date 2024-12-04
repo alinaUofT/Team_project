@@ -1,9 +1,6 @@
 package use_case.survey_second_page;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import entity.CommonMovie;
 
 /**
  * Output Data for the Survey Use Case.

@@ -7,7 +7,6 @@ import java.util.List;
  * A class representing a user-created watchlist of a User in this app.
  */
 public class CommonUserWatchlist extends CommonWatchlist implements UserWatchlist {
-    // TODO Find or write more specific exceptions to throw
 
     private String listName;
     private List<Movie> movies;
