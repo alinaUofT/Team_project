@@ -31,4 +31,11 @@ public class RemoveMoviePresenter implements RemoveMovieOutputBoundary {
         watchlistViewModel.getState().updateState(currentUser);
         watchlistViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void execute(User currentUser, int watchlistIndex) {
+        watchlistViewModel.getState().updateState(currentUser, watchlistIndex);
+        watchlistViewModel.firePropertyChanged();
+    }
+
 }
