@@ -12,4 +12,11 @@ public interface RemoveMovieOutputBoundary {
      * @param currentUser logged in user
      */
     void execute(User currentUser);
+
+    /**
+     * Updates the watchlists view after the watchlist is renamed.
+     * @param currentUser logged in user
+     * @param watchlistIndex current watchlist
+     */
+    void execute(User currentUser, int watchlistIndex);
 }

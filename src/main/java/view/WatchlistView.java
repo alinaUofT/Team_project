@@ -140,9 +140,10 @@ public class WatchlistView extends JPanel implements ActionListener, PropertyCha
             this.movieButtons.add(buttons);
             this.movieButtons.revalidate();
             this.movieButtons.repaint();
-            this.revalidate();
-            this.repaint();
+
         }
+        this.revalidate();
+        this.repaint();
     }
 
     @Override

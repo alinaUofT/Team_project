@@ -156,7 +156,9 @@ public class APIMovieAccess {
 
                 // create a movie with the title, and update the information
                 final CommonMovie result = new CommonMovie(title);
-                result.setInformation(posterPath, overview, voteAverage, genreList, result.getMovieId());
+
+                result.setInformation(posterPath, overview, voteAverage, genreList, movieId);
+
                 searchResults.add(result);
             }
 

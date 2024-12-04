@@ -1,7 +1,5 @@
 package use_case.watchlists.rename;
 
-import entity.User;
-import entity.UserFactory;
 import entity.UserWatchlist;
 
 /**

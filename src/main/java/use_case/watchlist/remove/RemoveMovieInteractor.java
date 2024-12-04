@@ -27,12 +27,14 @@ public class RemoveMovieInteractor implements RemoveMovieInputBoundary {
             currentUser.getPwl().getMovies().remove(removeInputData.getIndex());
 
             userDataAccessObject.deleteFromPwl(currentUser, removeInputData.getIndex());
+            userPresenter.execute(currentUser);
         } else {
             currentUser.getWatchlists().get(removeInputData.getWatchlistIndex())
                     .getMovies().remove(removeInputData.getIndex());
             userDataAccessObject.deleteFromWatchlist(currentUser,
                     removeInputData.getWatchlistIndex(), removeInputData.getIndex());
+            userPresenter.execute(currentUser, removeInputData.getWatchlistIndex());
         }
-        userPresenter.execute(currentUser);
+
     }
 }

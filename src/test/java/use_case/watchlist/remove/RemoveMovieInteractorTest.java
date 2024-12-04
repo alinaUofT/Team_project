@@ -54,6 +54,10 @@ class RemoveMovieInteractorTest {
             public void execute(User currentUser) {
 
             }
+            @Override
+            public void execute(User currentUser, int ind) {
+
+            }
         };
 
         CommonUser alice = new CommonUser("Alice", "pwd");
