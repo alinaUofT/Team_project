@@ -90,6 +90,7 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
         this.add(titlePanel, BorderLayout.NORTH);
         this.add(searchBar);
         this.add(results);
+        this.setPreferredSize(new Dimension(900, 400));
     }
 
     /**
