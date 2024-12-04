@@ -1,15 +1,11 @@
 package entity;
 
-import data_access.GenreMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mongodb.client.model.Filters.eq;
-
-
+import data_access.GenreMap;
 
 /**
  * A simple implementation of the User interface.

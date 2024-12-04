@@ -163,7 +163,11 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return success;
     }
 
-    // Add a review for a specific user
+    /**
+     * Adds a review to this use object for testing purposes.
+     * @param user A mock user object for testing.
+     * @param review A mock review object for testing.
+     */
     public void addReview(User user, MovieReview review) {
         if (!users.containsKey(user.getName())) {
             throw new IllegalArgumentException("User not found: " + user.getName());
@@ -171,6 +175,11 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         userReviews.computeIfAbsent(user.getName(), k -> new ArrayList<>()).add(review);
     }
 
+    /**
+     * A get reviews method for testing the my reviews use case.
+     * @param user a user of this program.
+     * @return a list of MovieReview objects.
+     */
     public List<MovieReview> getReviews(User user) {
         return userReviews.getOrDefault(user.getName(), new ArrayList<>());
     }

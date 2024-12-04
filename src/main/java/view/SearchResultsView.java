@@ -33,6 +33,10 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
     private final JTextField searchInputField = new JTextField(50);
     private final JLabel searchResultsErrorField = new JLabel();
 
+    /**
+     * The result view of our search query.
+     * @param searchResultsViewModel the view model for our search result.
+     */
     public SearchResultsView(SearchResultsViewModel searchResultsViewModel) {
         this.searchResultsViewModel = searchResultsViewModel;
 
@@ -173,10 +177,10 @@ public class SearchResultsView extends JPanel implements ActionListener, Propert
     public void prepareFailView(String errorMessage) {
         // Display the error message using a JOptionPane
         JOptionPane.showMessageDialog(
-                this, // Parent component
-                errorMessage, // Message to display
-                "Search Error", // Title of the pop-up
-                JOptionPane.ERROR_MESSAGE // Type of pop-up (error)
+                this,
+                errorMessage,
+                "Search Error",
+                JOptionPane.ERROR_MESSAGE
         );
     }
 

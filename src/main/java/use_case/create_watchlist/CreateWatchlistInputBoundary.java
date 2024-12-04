@@ -2,6 +2,9 @@ package use_case.create_watchlist;
 
 import entity.User;
 
+/**
+ * Create watchlist input boundary.
+ */
 public interface CreateWatchlistInputBoundary {
     /**
      * Executes the signup use case.

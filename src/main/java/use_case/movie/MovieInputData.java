@@ -1,8 +1,8 @@
 package use_case.movie;
 
-import entity.CommonMovie;
-
 import java.util.List;
+
+import entity.CommonMovie;
 
 /**
  * The Input Data for the Movie Use Case.

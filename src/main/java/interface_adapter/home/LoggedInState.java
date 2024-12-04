@@ -32,10 +32,6 @@ public class LoggedInState {
         this.password = password;
     }
 
-    public void setPasswordError(String passwordError) {
-        this.passwordError = passwordError;
-    }
-
     public String getPassword() {
         return password;
     }

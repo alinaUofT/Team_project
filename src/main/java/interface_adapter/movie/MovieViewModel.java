@@ -2,7 +2,6 @@ package interface_adapter.movie;
 
 import interface_adapter.ViewModel;
 
-
 /**
  * The View Model for the Movie View.
  */

@@ -1,3 +1,4 @@
+
 package entity;
 
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ public interface User {
      */
     ArrayList<UserWatchlist> getWatchlists();
 
+    /**
+     * Get the watchlist given a watchlist name.
+     * @param watchlistName the name of the watchlist being searched for
+     * @return Userwatchlist object.
+     */
     UserWatchlist getWatchlist(String watchlistName);
 
     /**

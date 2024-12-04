@@ -7,9 +7,6 @@ import java.util.List;
  */
 public interface Watchlist {
 
-
-
-    // TODO Find or write more specific exceptions to throw
     /**
      * Get the name of this watchlist.
      * @return the name of the watchlist

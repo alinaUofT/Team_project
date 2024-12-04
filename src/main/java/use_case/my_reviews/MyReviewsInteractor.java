@@ -5,9 +5,12 @@ import java.util.List;
 import entity.MovieReview;
 import entity.User;
 
+/**
+ * The interactor for the leave a review use case.
+ */
 public class MyReviewsInteractor implements MyReviewsInputBoundary {
-    private final MyReviewsDataAccessInterface myReviewsDataAccessObject; // Handles data access
-    private final MyReviewsOutputBoundary myReviewsPresenter; // Handles presenting the output
+    private final MyReviewsDataAccessInterface myReviewsDataAccessObject;
+    private final MyReviewsOutputBoundary myReviewsPresenter;
 
     public MyReviewsInteractor(MyReviewsDataAccessInterface myReviewsDataAccessObject,
                                MyReviewsOutputBoundary myReviewsPresenter) {
@@ -34,8 +37,10 @@ public class MyReviewsInteractor implements MyReviewsInputBoundary {
         }
     }
 
-    // implement the "go back" use case on the "my_ReviewsView" page
-    public void goBack(){
+    /**
+     * Goes back to the previous screen.
+     */
+    public void goBack() {
         myReviewsPresenter.goBack();
     }
 }

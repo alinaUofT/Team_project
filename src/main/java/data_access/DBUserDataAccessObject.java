@@ -35,14 +35,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         CreateWatchlistDataAccessInterface, RenameUserDataAccessInterface, AddToWatchlistDataAccessInterface,
         DeleteWatchlistUserDataAccessInterface, RemoveMovieUserDataAccessInterface {
 
-    private static final int SUCCESS_CODE = 200;
-    private static final String CONTENT_TYPE_LABEL = "Content-Type";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String STATUS_CODE_LABEL = "status_code";
     private static final String USER_ID = "userId";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
-    private static final String MESSAGE = "message";
     private static final String WATCHLIST = "watchlist";
     private static final String WATCHLIST_NAME = "watchlistName";
     private static final String MOVIES = "movies";
@@ -55,7 +50,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private final APIMovieAccess apiMovieAccess = new APIMovieAccess();
 
     private final DataBaseConstructor database = new DataBaseConstructor();
-    private final MongoCollection<Document> collection = database.GetCollection("Users");
+    private final MongoCollection<Document> collection = database.getCollection("Users");
 
     public DBUserDataAccessObject(CommonUserFactory userFactory) {
         this.userFactory = userFactory;
@@ -87,6 +82,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
                     if (!movies.isEmpty()) {
                         final List<Integer> movieIds = watchlistDoc.getList(MOVIE_IDS, Integer.class);
+
                         for (int i = 0; i < movies.size(); i++) {
                             // final Integer id = Integer.parseInt(movieIds.get(i));
                             final Movie movie = apiMovieAccess.searchByID(movies.get(i), movieIds.get(i));
@@ -163,7 +159,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public boolean existsByName(String username) {
-        final MongoCollection<Document> collection = DataBaseConstructor.GetCollection("Users");
+        final MongoCollection<Document> collection = DataBaseConstructor.getCollection("Users");
         final FindIterable<Document> findIterable = collection.find(eq(USER_ID, username));
 
         return findIterable.first() != null;

@@ -1,10 +1,11 @@
+
 package interface_adapter.movie;
 
 import entity.CommonMovie;
 import use_case.movie.MovieInputBoundary;
 import use_case.movie.MovieInputData;
-
 import java.util.List;
+
 
 /**
  * Controller for the Movie Use Case.
@@ -34,6 +35,9 @@ public class MovieController {
         movieUseCaseInteractor.switchToHomeView();
     }
 
+    /**
+     * Switch to the leaveReviewView.
+     */
     public void switchToLeaveReviewView() {
         movieUseCaseInteractor.switchToLeaveReviewView();
     }
